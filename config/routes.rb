@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   # Commandes et contenus des commandes
   resources :orders, only: [:index, :show, :create]
-  resources :order_items
+  resources :order_items, only: [:show]
 
   # Historique des achats (si utile)
   resources :purchased_items, only: [:index]
