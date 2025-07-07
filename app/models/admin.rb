@@ -1,2 +1,5 @@
-class Admin < ApplicationRecord
+module Admin
+  def self.table_name_prefix
+    "admin_"
+  end
 end
