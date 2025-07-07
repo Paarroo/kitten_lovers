@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   # Authentification utilisateur
   devise_for :users
 
