@@ -5,7 +5,9 @@ class User < ApplicationRecord
   has_one :cart, dependent: :destroy
   has_many :orders, dependent: :destroy
   has_many :purchased_items, dependent: :destroy
-   has_many :purchased_photos, through: :purchased_items, source: :photo
+  has_many :purchased_photos, through: :purchased_items, source: :item
+
+  after_create :create_cart
 
   def admin?
     is_admin
@@ -14,4 +16,13 @@ class User < ApplicationRecord
   def has_purchased?(photo)
      purchased_items.exists?(photo: photo)
    end
+   def full_name
+      "#{first_name} #{last_name}".strip
+    end
+
+    private
+
+    def create_cart
+      Cart.create(user: self) if cart.nil?
+    end
 end
