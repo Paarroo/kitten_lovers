@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   resources :admins
-  devise_for :installs
   devise_for :users
   resources :users
 
