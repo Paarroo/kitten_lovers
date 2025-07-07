@@ -45,6 +45,9 @@ group :development, :test do
   gem "table_print"
 end
 
+gem "devise"
+gem "activeadmin"
+
 group :development do
   gem "web-console"
   gem "letter_opener"

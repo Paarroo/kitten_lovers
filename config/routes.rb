@@ -1,6 +1,22 @@
 Rails.application.routes.draw do
-  resources :admins
+  get "pages/about"
+  get "pages/contact"
+  get "home/index"
+  namespace :admin do
+    resources :categories
+    resources :products
+    resources :user_managements
+    resources :managements
+  end
+  namespace :user do
+    get "dashboard/index"
+    resources :orders
+    resources :profiles
+  end
   devise_for :users
+  devise_for :admins
+  resources :orders
+  resources :admins
   resources :users
   resources :cart_items
   resources :carts
