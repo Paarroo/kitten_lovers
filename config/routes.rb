@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get '/users/signin', to: redirect('/users/sign_in')
 
   get '/users/signout', to: 'devise/sessions#destroy'
-  get '/users/sign_out', to: 'devise/sessions#destroy'
+  get '/users/sign_out', to: 'devise/sessions#destroy'  # devise_version
 
   # Additional user-friendly aliases
   get '/signup', to: redirect('/users/sign_up')
