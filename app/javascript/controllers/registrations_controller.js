@@ -23,7 +23,7 @@ export default class extends Controller {
    * Sets up initial state and event listeners
    */
   connect() {
-    console.log(" Registrations controller connected")
+    console.log("📝 Registrations controller connected")
     this.initializeForm()
     this.createPasswordStrengthIndicator()
   }
@@ -33,7 +33,7 @@ export default class extends Controller {
    * Cleanup any remaining timers or event listeners
    */
   disconnect() {
-    console.log(" Registrations controller disconnected")
+    console.log("📝 Registrations controller disconnected")
     this.clearValidationTimers()
   }
 
@@ -205,7 +205,7 @@ export default class extends Controller {
    * @param {Event} event - Click event from submit button
    */
   submitSignupForm(event) {
-    console.log(" Submitting registration form")
+    console.log("📝 Submitting registration form")
 
     // Prevent double submission
     if (this.submitButtonTarget.disabled) {
@@ -300,6 +300,9 @@ export default class extends Controller {
   setFieldValid(field) {
     field.classList.remove('is-invalid', 'is-warning')
     field.classList.add('is-valid')
+    // Keep original beige color even when valid
+    field.style.borderColor = '#e2e0d6'
+    field.style.backgroundColor = 'rgba(226, 224, 214, 0.8)'
   }
 
   /**
@@ -310,6 +313,8 @@ export default class extends Controller {
   setFieldInvalid(field, message) {
     field.classList.remove('is-valid', 'is-warning')
     field.classList.add('is-invalid')
+    field.style.borderColor = '#fc8181'
+    field.style.backgroundColor = 'rgba(252, 129, 129, 0.1)'
 
     console.warn(`Validation error for ${field.name}: ${message}`)
   }
@@ -322,6 +327,8 @@ export default class extends Controller {
   setFieldWarning(field, message) {
     field.classList.remove('is-valid', 'is-invalid')
     field.classList.add('is-warning')
+    field.style.borderColor = '#f6ad55'
+    field.style.backgroundColor = 'rgba(246, 173, 85, 0.1)'
 
     console.warn(`Validation warning for ${field.name}: ${message}`)
   }
@@ -332,6 +339,8 @@ export default class extends Controller {
    */
   clearFieldValidation(field) {
     field.classList.remove('is-valid', 'is-invalid', 'is-warning')
+    field.style.borderColor = '#e2e0d6'
+    field.style.backgroundColor = 'rgba(226, 224, 214, 0.8)'
   }
 
   /**

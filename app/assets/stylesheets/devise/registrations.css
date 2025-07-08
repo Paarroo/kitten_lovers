@@ -1,7 +1,9 @@
+/* app/assets/stylesheets/devise/registrations.scss */
+
 /* Main container styling */
 .auth-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,9 +78,9 @@
   width: 100%;
   padding: 1rem 1.25rem;
   font-size: 1rem;
-  border: 2px solid #fed7cc;
+  border: 2px solid #e2e0d6;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(226, 224, 214, 0.8);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   margin-bottom: 1.5rem;
   font-weight: 400;
@@ -86,20 +88,21 @@
 }
 
 .auth-input::placeholder {
-  color: #a0aec0;
+  color: #8a8a8a;
   font-weight: 400;
 }
 
 .auth-input:focus {
   outline: none;
-  border-color: #fc8181;
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 0 0 3px rgba(252, 129, 129, 0.1);
+  border-color: #d4d2c7;
+  background: rgba(226, 224, 214, 0.95);
+  box-shadow: 0 0 0 3px rgba(226, 224, 214, 0.3);
   transform: translateY(-1px);
 }
 
 .auth-input:valid {
-  border-color: #68d391;
+  border-color: #e2e0d6;
+  background: rgba(226, 224, 214, 0.8);
 }
 
 .auth-input.is-invalid {
@@ -107,7 +110,8 @@
 }
 
 .auth-input.is-valid {
-  border-color: #68d391;
+  border-color: #e2e0d6;
+  background: rgba(226, 224, 214, 0.8);
 }
 
 /* Button styling */
@@ -117,7 +121,7 @@
   font-size: 1rem;
   font-weight: 600;
   color: white;
-  background: linear-gradient(135deg, #fc8181 0%, #e53e3e 100%);
+  background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
   border: none;
   border-radius: 12px;
   cursor: pointer;
@@ -129,7 +133,7 @@
 
 .auth-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(252, 129, 129, 0.3);
+  box-shadow: 0 8px 25px rgba(237, 137, 54, 0.3);
 }
 
 .auth-button:active {
@@ -196,7 +200,7 @@
 .auth-checkbox {
   width: 18px;
   height: 18px;
-  accent-color: #fc8181;
+  accent-color: #ed8936;
 }
 
 .auth-checkbox-label {
