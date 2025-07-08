@@ -1,0 +1,93 @@
+@import "responsive_base";
+
+
+/* create auto responsive class */
+@each $size in (xs, sm, md, lg, xl) {
+  @if $size == xs {
+    @include small-mobile {
+      .text-#{$size} { font-size: 0.75rem; }
+      .p-#{$size} { padding: 0.25rem; }
+      .m-#{$size} { margin: 0.25rem; }
+    }
+  } @else if $size == sm {
+    @include mobile {
+      .text-#{$size} { font-size: 0.875rem; }
+      .p-#{$size} { padding: 0.5rem; }
+      .m-#{$size} { margin: 0.5rem; }
+    }
+  } @else if $size == md {
+    @include tablet {
+      .text-#{$size} { font-size: 1rem; }
+      .p-#{$size} { padding: 1rem; }
+      .m-#{$size} { margin: 1rem; }
+    }
+  }
+}
+
+/* class responsive display */
+.d-mobile-none {
+  @include mobile {
+    display: none !important;
+  }
+}
+
+.d-tablet-none {
+  @include tablet {
+    display: none !important;
+  }
+}
+
+.d-mobile-block {
+  display: none;
+  @include mobile {
+    display: block !important;
+  }
+}
+
+/* grid responsive */
+.grid-responsive {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+/* Flex responsive */
+.flex-responsive {
+  display: flex;
+  gap: 1rem;
+
+  @include mobile {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* Container padding auto responsive */
+.container-auto {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+
+  @include tablet {
+    padding: 0 1.5rem;
+  }
+
+  @include mobile {
+    padding: 0 1rem;
+  }
+
+  @include small-mobile {
+    padding: 0 0.5rem;
+  }
+}

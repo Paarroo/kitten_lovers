@@ -301,8 +301,8 @@ export default class extends Controller {
     field.classList.remove('is-invalid', 'is-warning')
     field.classList.add('is-valid')
     // Keep original beige color even when valid
-    field.style.borderColor = '#e2e0d6'
-    field.style.backgroundColor = 'rgba(226, 224, 214, 0.8)'
+    field.style.borderColor = '#d4d2c7'
+    field.style.backgroundColor = '#e6e3dd'
   }
 
   /**
@@ -313,8 +313,8 @@ export default class extends Controller {
   setFieldInvalid(field, message) {
     field.classList.remove('is-valid', 'is-warning')
     field.classList.add('is-invalid')
-    field.style.borderColor = '#fc8181'
-    field.style.backgroundColor = 'rgba(252, 129, 129, 0.1)'
+    field.style.borderColor = '#f5c6cb'
+    field.style.backgroundColor = '#f8d7da'
 
     console.warn(`Validation error for ${field.name}: ${message}`)
   }
@@ -339,8 +339,8 @@ export default class extends Controller {
    */
   clearFieldValidation(field) {
     field.classList.remove('is-valid', 'is-invalid', 'is-warning')
-    field.style.borderColor = '#e2e0d6'
-    field.style.backgroundColor = 'rgba(226, 224, 214, 0.8)'
+    field.style.borderColor = '#d4d2c7'
+    field.style.backgroundColor = '#e6e3dd'
   }
 
   /**
