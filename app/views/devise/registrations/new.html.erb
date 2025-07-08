@@ -10,21 +10,24 @@
 
     <!-- Error and notice messages -->
     <% if notice %>
-      <div class="alert alert-success alert-dismissible fade show" role="alert" data-registrations-target="notice">
+      <div class="alert alert-success alert-dismissible fade show" role="alert"
+           data-registrations-target="notice" id="notice-alert">
         <%= notice %>
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
       </div>
     <% end %>
 
     <% if alert %>
-      <div class="alert alert-danger alert-dismissible fade show" role="alert" data-registrations-target="alert">
+      <div class="alert alert-danger alert-dismissible fade show" role="alert"
+           data-registrations-target="alert" id="alert-message">
         <%= alert %>
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
       </div>
     <% end %>
 
     <% if resource.errors.any? %>
-      <div class="alert alert-danger" role="alert" data-registrations-target="errors">
+      <div class="alert alert-danger" role="alert"
+           data-registrations-target="errors" id="form-errors">
         <% resource.errors.full_messages.each do |message| %>
           <p class="mb-0"><%= message %></p>
         <% end %>
@@ -36,8 +39,7 @@
                   as: resource_name,
                   url: registration_path(resource_name),
                   data: {
-                    controller: "registrations",
-                    registrations_target: "signupForm"
+                    controller: "registrations"
                   },
                   local: true,
                   class: "auth-form") do |f| %>
@@ -48,8 +50,8 @@
                        autocomplete: "email",
                        placeholder: "Email",
                        data: {
-                         registrations_target: "emailInput",
-                         action: "input->registrations#validateEmail"
+                         "registrations-target": "emailInput",
+                         "action": "input->registrations#validateEmail"
                        },
                        class: "auth-input" %>
 
@@ -58,8 +60,8 @@
                           autocomplete: "new-password",
                           placeholder: "Password",
                           data: {
-                            registrations_target: "passwordInput",
-                            action: "input->registrations#validatePassword"
+                            "registrations-target": "passwordInput",
+                            "action": "input->registrations#validatePassword"
                           },
                           class: "auth-input" %>
 
@@ -68,16 +70,16 @@
                           autocomplete: "new-password",
                           placeholder: "Password confirmation",
                           data: {
-                            registrations_target: "passwordConfirmationInput",
-                            action: "input->registrations#validatePasswordConfirmation"
+                            "registrations-target": "passwordConfirmationInput",
+                            "action": "input->registrations#validatePasswordConfirmation"
                           },
                           class: "auth-input" %>
 
       <!-- Submit button -->
       <%= f.submit "S'inscrire",
                   data: {
-                    registrations_target: "submitButton",
-                    action: "click->registrations#submitSignupForm"
+                    "registrations-target": "submitButton",
+                    "action": "click->registrations#submitSignupForm"
                   },
                   class: "auth-button" %>
 
@@ -92,7 +94,7 @@
     <div class="auth-checkbox-container">
       <%= check_box_tag :remember_me, "1", true,
                         { class: "auth-checkbox",
-                          data: { registrations_target: "rememberCheck" } } %>
+                          data: { "registrations-target": "rememberCheck" } } %>
       <%= label_tag :remember_me, "Rester connecté",
                     class: "auth-checkbox-label" %>
     </div>
@@ -113,6 +115,5 @@
   </div>
 </div>
 
-<!-- Include external CSS and JS files -->
+<!-- Include external CSS file -->
 <%= stylesheet_link_tag 'devise/registrations', 'data-turbo-track': 'reload' %>
-<%= javascript_include_tag 'stimulus/registrations_controller', 'data-turbo-track': 'reload' %>
