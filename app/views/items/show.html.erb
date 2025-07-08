@@ -9,7 +9,7 @@
   <% if current_user&.already_purchased?(@item) %>
     <p class="text-green-600 font-semibold mb-4">Déjà acheté.</p>
   <% else %>
-    <%= button_to "Ajouter au panier", cart_items_path(item_id: @item.id), method: :post, class: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" %>
+    <%= button_to "Ajouter au panier", cart_cart_items_path(item_id: @item.id), method: :post, class: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" %>
   <% end %>
 
   <p class="mt-6"><%= link_to "retour à l'accueil", items_path, class: "text-blue-500 underline" %></p>
