@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resource :profile  # look before to modif, maybe in conflic with devise
 
     resource :cart, only: [ :show, :update ] do
-      resources :cart_items, only: [ :create, :update, :destroy ]
+      resources :cart_items, only: [ :create, :destroy ]
     end
 
     resources :orders, only: [ :index, :show, :create ] do
