@@ -9,4 +9,10 @@ class Cart < ApplicationRecord
   def includes_item?(item)
     cart_items.exists?(item_id: item.id)
   end
+    def total_price
+    cart_items.includes(:item).map do |cart_item|
+      cart_item.quantity * cart_item.item.price
+    end.sum
+  end
+  
 end

@@ -1,25 +1,21 @@
-<h1>My Cart</h1>
+<h1>Mon Panier</h1>
 
 <% if @cart.cart_items.any? %>
   <ul>
     <% @cart.cart_items.each do |cart_item| %>
       <li>
-        <strong><%= cart_item.item.title %></strong><br>
-        <%= image_tag("photos/#{cart_item.item.image_url}", alt: cart_item.item.title, width: 150) if cart_item.item.image_url.present? %><br>
-        <%= cart_item.item.description.truncate(100) %><br>
-        <%= number_to_currency(cart_item.item.price, unit: "€") %><br>
-        <%= button_to 'Remove', cart_item_path(cart_item), method: :delete %>
+        <p><strong><%= cart_item.item.name %></strong></p>
+        <p>Prix : <%= number_to_currency(cart_item.item.price, unit: "€") %></p>
+        <%= button_to "Supprimer", cart_item_path(cart_item), method: :delete, data: { confirm: "Retirer cet article ?" } %>
       </li>
       <hr>
     <% end %>
   </ul>
 
-  <p><strong>Total:</strong>
-    <%= number_to_currency(@cart.cart_items.sum { |ci| ci.item.price }, unit: "€") %>
-  </p>
+  <p><strong>Total :</strong> <%= number_to_currency(@cart.total_price, unit: "€") %></p>
 
-  <%= button_to 'Checkout', '#', method: :post %>
+  <%= button_to "Procéder au paiement sécurisé", new_order_path, method: :get %>
 
 <% else %>
-  <p>Your cart is currently empty.</p>
+  <p>Ton panier est vide.</p>
 <% end %>
