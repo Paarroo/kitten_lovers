@@ -42,6 +42,7 @@ Rails.application.routes.draw do
       end
     end
 
+
     resources :orders, only: [ :index, :show, :create ] do
       resources :order_items, only: [ :show ]
       member do

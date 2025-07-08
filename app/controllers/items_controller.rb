@@ -1,15 +1,16 @@
 class ItemsController < ApplicationController
+  before_action :set_item, only: [:show]
+
   def index
-    # Only show items the current user hasn't purchased (if logged in)
-    @items = if current_user
-               Item.not_purchased_by(current_user)
-             else
-               Item.all
-             end
+    if current_user
+      purchased_ids = current_user.purchased_items.pluck(:item_id)
+      @items = Item.where.not(id: purchased_ids)
+    else
+      @items = Item.all
+    end
   end
 
   def show
-    set_item()
   end
 
   private

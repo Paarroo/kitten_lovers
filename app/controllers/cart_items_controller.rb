@@ -23,4 +23,5 @@ class CartItemsController < ApplicationController
     else
       redirect_to cart_path, alert: "Action non autorisée."
     end
+  end
 end
