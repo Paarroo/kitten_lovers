@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
  allow_browser versions: :modern
-
  before_action :authenticate_user!, except: [ :index, :show ], if: -> { !devise_controller? && !avo_controller? }
  before_action :configure_permitted_parameters, if: :devise_controller?
 
@@ -10,6 +9,10 @@ class ApplicationController < ActionController::Base
    devise_parameter_sanitizer.permit(:sign_up, keys: [ :first_name, :last_name, :description ])
    devise_parameter_sanitizer.permit(:account_update, keys: [ :first_name, :last_name, :description ])
    devise_parameter_sanitizer.permit(:sign_in, keys: [ :email, :password, :remember_me ])
+ end
+
+ def avo_controller?
+   self.class.name.start_with?('Avo::')
  end
 
  def after_sign_in_path_for(resource)
