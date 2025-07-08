@@ -2,10 +2,23 @@ Rails.application.routes.draw do
   # Authentication routes provided by Devise
   devise_for :users
 
-  # URL aliases for easier access (redirect to proper Devise routes)
+  get '/users/signout', to: proc { |env|
+    [ 302, { 'Location' => '/users/sign_out' }, [ 'Redirecting...' ] ]
+  }
+
+  get '/users/sign_out', to: proc { |env|
+    request = ActionDispatch::Request.new(env)
+    if request.session['warden.user.user.key']
+      request.session.clear
+      [ 302, { 'Location' => '/' }, [ 'Logged out' ] ]
+    else
+      [ 302, { 'Location' => '/' }, [ 'Not logged in' ] ]
+    end
+  }
+
+  # URL aliases for easier access
   get '/users/signup', to: redirect('/users/sign_up')
   get '/users/signin', to: redirect('/users/sign_in')
-  get '/users/signout', to: redirect('/users/sign_out')
 
   # Additional user-friendly aliases
   get '/signup', to: redirect('/users/sign_up')
@@ -44,14 +57,11 @@ Rails.application.routes.draw do
 
     # Shopping cart functionality
     resource :cart, only: [ :show, :update ] do
-
       resources :cart_items, only: [ :create, :update, :destroy ]
       member do
         delete :clear
         get :checkout
       end
-
-
     end
 
     # Order management
