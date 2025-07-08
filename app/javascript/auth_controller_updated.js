@@ -4,7 +4,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = [
     "loginForm",
-    "signupForm", 
+    "signupForm",
     "emailInput",
     "passwordInput",
     "passwordConfirmationInput",
@@ -19,16 +19,10 @@ export default class extends Controller {
   }
 
   connect() {
-    console.log("🎨 Auth controller connected with new design")
+    console.log("🎨 Auth controller connected")
     this.initializeValidation()
-    this.addPageTransition()
   }
 
-  disconnect() {
-    this.cleanup()
-  }
-
-  // Validation Methods
   validateEmail(event) {
     const email = event.target.value
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -88,7 +82,6 @@ export default class extends Controller {
     this.updateSubmitButtonState()
   }
 
-  // Form Submission
   submitLoginForm(event) {
     console.log("🔐 Submitting login form")
     this.setLoadingState()
@@ -99,34 +92,31 @@ export default class extends Controller {
     this.setLoadingState()
   }
 
-  // UI State Management
   setValidState(input) {
-    input.classList.remove("field-invalid", "ring-red-300")
-    input.classList.add("field-valid", "ring-green-300")
+    input.classList.remove("field-invalid")
+    input.classList.add("field-valid")
   }
 
   setInvalidState(input) {
-    input.classList.remove("field-valid", "ring-green-300")
-    input.classList.add("field-invalid", "ring-red-300")
+    input.classList.remove("field-valid")
+    input.classList.add("field-invalid")
   }
 
   clearValidationState(input) {
-    input.classList.remove("field-valid", "field-invalid", "ring-green-300", "ring-red-300")
+    input.classList.remove("field-valid", "field-invalid")
   }
 
   updateSubmitButtonState() {
     if (!this.hasSubmitButtonTarget) return
 
     const isFormValid = this.isFormValid()
-    
+
     if (isFormValid) {
       this.submitButtonTarget.disabled = false
       this.submitButtonTarget.classList.remove("opacity-50", "cursor-not-allowed")
-      this.submitButtonTarget.classList.add("auth-button")
     } else {
       this.submitButtonTarget.disabled = true
       this.submitButtonTarget.classList.add("opacity-50", "cursor-not-allowed")
-      this.submitButtonTarget.classList.remove("auth-button")
     }
   }
 
@@ -154,15 +144,10 @@ export default class extends Controller {
   setLoadingState() {
     if (this.hasSubmitButtonTarget) {
       this.submitButtonTarget.disabled = true
-      this.submitButtonTarget.classList.add("loading")
-      
-      setTimeout(() => {
-        this.submitButtonTarget.closest("form").submit()
-      }, 300)
+      this.submitButtonTarget.innerHTML = "Chargement..."
     }
   }
 
-  // Initialization & Enhancements
   initializeValidation() {
     const inputs = [
       this.emailInputTarget,
@@ -173,23 +158,6 @@ export default class extends Controller {
 
     inputs.forEach(input => {
       input.classList.add("auth-input")
-      
-      input.addEventListener("focus", () => {
-        input.style.transform = "translateY(-1px)"
-      })
-
-      input.addEventListener("blur", () => {
-        input.style.transform = "translateY(0)"
-      })
     })
-  }
-
-  addPageTransition() {
-    const container = this.element
-    container.classList.add("page-transition")
-  }
-
-  cleanup() {
-    console.log("🧹 Cleaning up auth controller")
   }
 }
