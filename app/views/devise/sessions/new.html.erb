@@ -2,82 +2,95 @@
 <div class="auth-container">
   <div class="auth-card">
 
+    <!-- Header section with cat emoji and welcome text -->
     <div class="auth-header">
       <span class="auth-emoji">🐱</span>
       <h1 class="auth-title">Bienvenue</h1>
       <p class="auth-subtitle">Connectez-vous :</p>
     </div>
 
+    <!-- Error and notice messages -->
+    <% if notice %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert"
+           data-sessions-target="notice" id="notice-alert">
+        <%= notice %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    <% end %>
+
+    <% if alert %>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert"
+           data-sessions-target="alert" id="alert-message">
+        <%= alert %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    <% end %>
+
+    <% if resource.errors.any? %>
+      <div class="alert alert-danger" role="alert"
+           data-sessions-target="errors" id="form-errors">
+        <% resource.errors.full_messages.each do |message| %>
+          <p class="mb-0"><%= message %></p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <!-- Login form with Stimulus controller -->
     <%= form_with(model: resource,
                   as: resource_name,
                   url: session_path(resource_name),
                   data: {
-                    controller: "auth",
-                    auth_target: "loginForm"
+                    controller: "sessions"
                   },
                   local: true,
                   class: "auth-form") do |f| %>
 
-      <% if notice %>
-        <div class="auth-notice" data-auth-target="notice">
-          <p><%= notice %></p>
-        </div>
-      <% end %>
-
-      <% if alert %>
-        <div class="auth-errors" data-auth-target="errors">
-          <p><%= alert %></p>
-        </div>
-      <% end %>
-
-      <% if resource.errors.any? %>
-        <div class="auth-errors" data-auth-target="errors">
-          <% resource.errors.full_messages.each do |message| %>
-            <p><%= message %></p>
-          <% end %>
-        </div>
-      <% end %>
-
+      <!-- Email input field -->
       <%= f.email_field :email,
                        autofocus: true,
                        autocomplete: "email",
                        placeholder: "Email",
                        data: {
-                         auth_target: "emailInput",
-                         action: "input->auth#validateEmail"
+                         "sessions-target": "emailInput",
+                         "action": "input->sessions#validateEmail"
                        },
                        class: "auth-input" %>
 
+      <!-- Password input field -->
       <%= f.password_field :password,
                           autocomplete: "current-password",
                           placeholder: "Password",
                           data: {
-                            auth_target: "passwordInput",
-                            action: "input->auth#validatePassword"
+                            "sessions-target": "passwordInput",
+                            "action": "input->sessions#validatePassword"
                           },
                           class: "auth-input" %>
 
+      <!-- Submit button -->
       <%= f.submit "Se connecter",
                   data: {
-                    auth_target: "submitButton",
-                    action: "click->auth#submitLoginForm"
+                    "sessions-target": "submitButton",
+                    "action": "click->sessions#submitLoginForm"
                   },
                   class: "auth-button" %>
 
+      <!-- Forgot password link -->
       <%= link_to "Mot de passe oublié ?",
                  new_password_path(resource_name),
                  class: "auth-link" %>
 
     <% end %>
 
+    <!-- Remember me checkbox -->
     <div class="auth-checkbox-container">
       <%= check_box_tag :remember_me, "1", true,
                         { class: "auth-checkbox",
-                          data: { auth_target: "rememberCheck" } } %>
+                          data: { "sessions-target": "rememberCheck" } } %>
       <%= label_tag :remember_me, "Rester connecté",
                     class: "auth-checkbox-label" %>
     </div>
 
+    <!-- Bottom navigation links -->
     <div class="auth-bottom">
       <p style="margin: 0; font-size: 0.8rem; color: #6b7280;">
         Pas encore de compte ?
@@ -92,3 +105,6 @@
     </div>
   </div>
 </div>
+
+<!-- Include external CSS file -->
+<%= stylesheet_link_tag 'devise/sessions', 'data-turbo-track': 'reload' %>
