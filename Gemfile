@@ -31,7 +31,8 @@ gem "annotate"
 gem "boot"
 
 gem "tzinfo-data", platforms: %i[ windows jruby ]
-
+gem 'avo', '~> 3.0'
+gem 'image_processing', '~> 1.2' # Pics Active Storage
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "brakeman", require: false
@@ -90,5 +91,3 @@ end
 group :production do
   gem "rails_12factor"
 end
-
-gem "activeadmin"
