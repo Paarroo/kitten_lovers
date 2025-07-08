@@ -1,7 +1,9 @@
+/* app/assets/stylesheets/devise/sessions.scss */
+
 /* Main container styling */
 .auth-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: #f8f6f3;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,28 +13,21 @@
 
 /* Central card container */
 .auth-card {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 24px;
-  padding: 3rem 2.5rem;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  border-radius: 0;
+  padding: 2rem 1.5rem;
+  box-shadow: none;
+  backdrop-filter: none;
+  border: none;
   width: 100%;
-  max-width: 420px;
+  max-width: 400px;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
-/* Subtle background pattern */
+/* Remove background pattern */
 .auth-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(0,0,0,0.03)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
-  pointer-events: none;
+  display: none;
 }
 
 /* Header section styling */
@@ -109,33 +104,33 @@
 /* Button styling */
 .auth-button {
   width: 100%;
-  padding: 1rem 1.25rem;
+  padding: 1.2rem 1.5rem;
   font-size: 1rem;
   font-weight: 600;
   color: white;
-  background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+  background: #d2691e;
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  margin-bottom: 1.5rem;
+  transition: all 0.2s ease;
+  margin: 1.5rem 0;
   position: relative;
   overflow: hidden;
 }
 
 .auth-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(237, 137, 54, 0.3);
+  background: #b8601a;
+  transform: none;
+  box-shadow: none;
 }
 
 .auth-button:active {
-  transform: translateY(0);
+  transform: none;
 }
 
 .auth-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  transform: none;
 }
 
 /* Loading state for button */
