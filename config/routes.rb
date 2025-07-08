@@ -2,11 +2,23 @@ Rails.application.routes.draw do
   # Authentication routes provided by Devise
   devise_for :users
 
+  get '/users/signout', to: proc { |env|
+    [ 302, { 'Location' => '/users/sign_out' }, [ 'Redirecting...' ] ]
+  }
+
+  get '/users/sign_out', to: proc { |env|
+    request = ActionDispatch::Request.new(env)
+    if request.session['warden.user.user.key']
+      request.session.clear
+      [ 302, { 'Location' => '/' }, [ 'Logged out' ] ]
+    else
+      [ 302, { 'Location' => '/' }, [ 'Not logged in' ] ]
+    end
+  }
+
+  # URL aliases for easier access
   get '/users/signup', to: redirect('/users/sign_up')
   get '/users/signin', to: redirect('/users/sign_in')
-
-  get '/users/signout', to: 'devise/sessions#destroy'
-  get '/users/sign_out', to: 'devise/sessions#destroy'  # devise_version
 
   # Additional user-friendly aliases
   get '/signup', to: redirect('/users/sign_up')
