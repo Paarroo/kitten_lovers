@@ -102,8 +102,8 @@
 /* Button styling */
 .auth-button {
   width: 100%;
-  padding: 1.2rem 1.5rem;
-  font-size: 1rem;
+  padding: 1rem 1.2rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: white;
   background: #d2691e;
@@ -111,7 +111,7 @@
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
-  margin: 1.5rem 0;
+  margin: 1rem 0;
   position: relative;
   overflow: hidden;
 }
