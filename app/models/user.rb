@@ -9,20 +9,23 @@ class User < ApplicationRecord
 
   after_create :create_cart
 
+  validates :first_name, presence: true, length: { minimum: 2 }
+
   def admin?
     is_admin
   end
 
   def has_purchased?(photo)
-     purchased_items.exists?(photo: photo)
-   end
-   def full_name
-      "#{first_name} #{last_name}".strip
-    end
+    purchased_items.exists?(item: photo)
+  end
 
-    private
+  def full_name
+    "#{first_name} #{last_name}".strip
+  end
 
-    def create_cart
-      Cart.create(user: self) if cart.nil?
-    end
+  private
+
+  def create_cart
+    Cart.create(user: self) if cart.nil?
+  end
 end

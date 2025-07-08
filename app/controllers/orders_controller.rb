@@ -11,7 +11,6 @@ class OrdersController < ApplicationController
 
   def create
     @order = current_user.orders.build(order_params)
-    # Create order logic...
   end
 
   private

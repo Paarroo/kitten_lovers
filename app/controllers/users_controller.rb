@@ -24,6 +24,5 @@ class UsersController < ApplicationController
 
   def ensure_correct_user
     @user = current_user
-    # Users can only access their own profile
   end
 end
