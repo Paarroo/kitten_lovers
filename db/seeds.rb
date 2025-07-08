@@ -12,13 +12,13 @@
 require 'faker'
 
 puts "🧹 Cleaning database..."
-User.destroy_all
-Item.destroy_all
-Cart.destroy_all
-CartItem.destroy_all
-Order.destroy_all
-OrderItem.destroy_all
 PurchasedItem.destroy_all
+OrderItem.destroy_all
+Order.destroy_all
+CartItem.destroy_all
+Cart.destroy_all
+Item.destroy_all
+User.destroy_all
 
 puts " Database cleaned."
 
@@ -88,7 +88,7 @@ users.each do |user|
     OrderItem.create!(
       order: order,
       item: item,
-      unit_price: item.price
+      price: item.price
     )
 
     PurchasedItem.create!(
