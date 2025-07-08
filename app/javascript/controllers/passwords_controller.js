@@ -285,6 +285,8 @@ export default class extends Controller {
   setFieldValid(field) {
     field.classList.remove('is-invalid')
     field.classList.add('is-valid')
+    // Keep original beige color even when valid
+    field.style.backgroundColor = '#e6e3dd'
 
     // Add success animation
     field.style.transform = 'scale(1.02)'
@@ -301,6 +303,8 @@ export default class extends Controller {
   setFieldInvalid(field, message) {
     field.classList.remove('is-valid')
     field.classList.add('is-invalid')
+    field.style.backgroundColor = '#f8d7da'
+    field.style.color = '#721c24'
 
     // Add shake animation
     field.style.animation = 'shake 0.4s ease-in-out'
@@ -317,6 +321,8 @@ export default class extends Controller {
    */
   clearFieldValidation(field) {
     field.classList.remove('is-valid', 'is-invalid')
+    field.style.backgroundColor = '#e6e3dd'
+    field.style.color = '#333'
   }
 
   /**

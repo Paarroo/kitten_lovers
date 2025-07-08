@@ -18,7 +18,7 @@ application.register("hello", HelloController)
 
 import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
 eagerLoadControllersFrom("controllers", application)
-console.log("📦 Stimulus controllers registered:", {
+console.log("vvvvvvvv Stimulus controllers registered:", {
   sessions: SessionsController,
   registrations: RegistrationsController,
   passwords: PasswordsController,
