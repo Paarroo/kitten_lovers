@@ -1,112 +1,82 @@
 <!-- app/views/devise/sessions/new.html.erb -->
-<div class="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center px-4">
-  <div class="w-full max-w-sm space-y-8">
+<div class="auth-container">
+  <div class="auth-card">
 
-    <!-- Header Section -->
-    <div class="text-center space-y-4">
-      <div class="mx-auto w-16 h-16 flex items-center justify-center">
-        <span class="text-5xl">🐱</span>
-      </div>
-      <h1 class="text-2xl font-light tracking-[0.3em] text-gray-800">
-        Bienvenue
-      </h1>
-      <p class="text-sm font-light tracking-[0.2em] text-gray-700">
-        Connectez-vous :
-      </p>
+    <div class="auth-header">
+      <span class="auth-emoji">🐱</span>
+      <h1 class="auth-title">Bienvenue</h1>
+      <p class="auth-subtitle">Connectez-vous :</p>
     </div>
 
-    <!-- Form Container -->
-    <div class="space-y-4">
-      <%= form_with(model: resource,
-                    as: resource_name,
-                    url: session_path(resource_name),
-                    data: {
-                      controller: "auth",
-                      auth_target: "loginForm"
-                    },
-                    local: true,
-                    class: "space-y-4") do |f| %>
+    <%= form_with(model: resource,
+                  as: resource_name,
+                  url: session_path(resource_name),
+                  data: {
+                    controller: "auth",
+                    auth_target: "loginForm"
+                  },
+                  local: true,
+                  class: "auth-form") do |f| %>
 
-        <!-- Error Messages -->
-        <% if resource.errors.any? %>
-          <div class="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700" data-auth-target="errors">
-            <% resource.errors.full_messages.each do |message| %>
-              <p><%= message %></p>
-            <% end %>
-          </div>
-        <% end %>
-
-        <!-- Email Field -->
-        <div>
-          <%= f.email_field :email,
-                           autofocus: true,
-                           autocomplete: "email",
-                           placeholder: "Email",
-                           data: {
-                             auth_target: "emailInput",
-                             action: "input->auth#validateEmail"
-                           },
-                           class: "w-full px-4 py-4 bg-orange-100 border-0 rounded-lg text-center text-gray-800 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-300 transition-all duration-200" %>
-        </div>
-
-        <!-- Password Field -->
-        <div>
-          <%= f.password_field :password,
-                              autocomplete: "current-password",
-                              placeholder: "Password",
-                              data: {
-                                auth_target: "passwordInput",
-                                action: "input->auth#validatePassword"
-                              },
-                              class: "w-full px-4 py-4 bg-orange-100 border-0 rounded-lg text-center text-gray-800 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-300 transition-all duration-200" %>
-        </div>
-
-        <!-- Submit Button -->
-        <div class="pt-2">
-          <%= f.submit "Se connecter",
-                      data: {
-                        auth_target: "submitButton",
-                        action: "click->auth#submitLoginForm"
-                      },
-                      class: "w-full px-6 py-3 bg-orange-400 hover:bg-orange-500 text-white font-medium rounded-lg transition-all duration-200 border-0 cursor-pointer" %>
-        </div>
-
-        <!-- Forgot Password Link -->
-        <div class="text-center pt-2">
-          <%= link_to "Mot de passe oublié ?",
-                     new_password_path(resource_name),
-                     class: "text-sm text-gray-700 hover:text-gray-900 transition-colors duration-200" %>
+      <% if resource.errors.any? %>
+        <div class="auth-errors" data-auth-target="errors">
+          <% resource.errors.full_messages.each do |message| %>
+            <p><%= message %></p>
+          <% end %>
         </div>
       <% end %>
 
-      <!-- Remember Me Checkbox -->
-      <div class="flex items-center justify-end space-x-2 pr-2">
-        <%= form_with url: "#", local: true, class: "flex items-center space-x-2" do |f| %>
-          <%= f.check_box :remember_me,
-                         { class: "w-4 h-4 text-orange-400 border-gray-300 rounded focus:ring-orange-300" },
-                         checked: true %>
-          <%= f.label :remember_me, "Rester connecté",
-                     class: "text-sm text-gray-700" %>
-        <% end %>
-      </div>
+      <%= f.email_field :email,
+                       autofocus: true,
+                       autocomplete: "email",
+                       placeholder: "Email",
+                       data: {
+                         auth_target: "emailInput",
+                         action: "input->auth#validateEmail"
+                       },
+                       class: "auth-input" %>
 
-      <!-- Bottom Navigation -->
-      <div class="space-y-3 pt-4">
-        <!-- Sign Up Link -->
-        <div class="text-center">
-          <span class="text-sm text-gray-600">Pas encore de compte ? </span>
-          <%= link_to "S'inscrire",
-                     new_registration_path(resource_name),
-                     class: "text-sm text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200" %>
-        </div>
+      <%= f.password_field :password,
+                          autocomplete: "current-password",
+                          placeholder: "Password",
+                          data: {
+                            auth_target: "passwordInput",
+                            action: "input->auth#validatePassword"
+                          },
+                          class: "auth-input" %>
 
-        <!-- Back to Home -->
-        <div class="text-center">
-          <%= link_to "Retour à l'accueil",
-                     root_path,
-                     class: "inline-block px-4 py-2 bg-orange-200 hover:bg-orange-300 text-gray-700 text-sm rounded-lg transition-all duration-200" %>
-        </div>
-      </div>
+      <%= f.submit "Se connecter",
+                  data: {
+                    auth_target: "submitButton",
+                    action: "click->auth#submitLoginForm"
+                  },
+                  class: "auth-button" %>
+
+      <%= link_to "Mot de passe oublié ?",
+                 new_password_path(resource_name),
+                 class: "auth-link" %>
+
+    <% end %>
+
+    <div class="auth-checkbox-container">
+      <%= check_box_tag :remember_me, "1", true,
+                        { class: "auth-checkbox",
+                          data: { auth_target: "rememberCheck" } } %>
+      <%= label_tag :remember_me, "Rester connecté",
+                    class: "auth-checkbox-label" %>
+    </div>
+
+    <div class="auth-bottom">
+      <p style="margin: 0; font-size: 0.8rem; color: #6b7280;">
+        Pas encore de compte ?
+        <%= link_to "S'inscrire",
+                   new_registration_path(resource_name),
+                   class: "auth-secondary-link" %>
+      </p>
+
+      <%= link_to "Retour à l'accueil",
+                 root_path,
+                 class: "auth-back-button" %>
     </div>
   </div>
 </div>
