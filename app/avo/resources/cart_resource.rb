@@ -5,11 +5,16 @@ class Avo::Resources::CartResource < Avo::BaseResource
   def fields
     field :id, as: :id
     field :user, as: :belongs_to
+    field :cart_items, as: :has_many
     field :created_at, as: :date_time
     field :updated_at, as: :date_time
+  end
 
+  def filters
+    # add filters if need
+  end
 
-    field :cart_items, as: :has_many
-    field :items, as: :has_many, through: :cart_items
+  def actions
+    # add action if need
   end
 end
