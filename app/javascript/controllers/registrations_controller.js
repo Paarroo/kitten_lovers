@@ -1,15 +1,17 @@
 import { Controller } from "@hotwired/stimulus"
 
 /**
- * Stimulus controller for handling login form interactions
- * Manages form validation, loading states, and user feedback
+ * Stimulus controller for handling registration form interactions
+ * Manages form validation, password strength, and user feedback
  */
 export default class extends Controller {
   // Define targets that can be accessed from the HTML
   static targets = [
     "emailInput",
     "passwordInput",
+    "passwordConfirmationInput",
     "submitButton",
+    "signupForm",
     "rememberCheck",
     "notice",
     "alert",
@@ -21,27 +23,9 @@ export default class extends Controller {
    * Sets up initial state and event listeners
    */
   connect() {
-    console.log("🔐 Sessions controller connected")
+    console.log("📝 Registrations controller connected")
     this.initializeForm()
-    this.setupAutoHideAlerts()
-  }
-
-  /**
-   * Setup auto-hide functionality for server alerts
-   */
-  setupAutoHideAlerts() {
-    // Auto-hide alerts after 5 seconds if they exist
-    const alerts = document.querySelectorAll('.alert-danger, .alert-success')
-    alerts.forEach(alert => {
-      setTimeout(() => {
-        if (alert && alert.style.display !== 'none') {
-          alert.classList.add('fade-out')
-          setTimeout(() => {
-            alert.style.display = 'none'
-          }, 300)
-        }
-      }, 5000) // Hide after 5 seconds
-    })
+    this.createPasswordStrengthIndicator()
   }
 
   /**
@@ -49,7 +33,7 @@ export default class extends Controller {
    * Cleanup any remaining timers or event listeners
    */
   disconnect() {
-    console.log("🔐 Sessions controller disconnected")
+    console.log("📝 Registrations controller disconnected")
     this.clearValidationTimers()
   }
 
@@ -67,57 +51,22 @@ export default class extends Controller {
     if (this.hasEmailInputTarget && !this.emailInputTarget.value) {
       this.emailInputTarget.focus()
     }
-
-    // Add event listeners to hide server errors when user starts typing
-    this.addErrorClearingListeners()
   }
 
   /**
-   * Add event listeners to clear server error messages when user interacts with form
+   * Create password strength indicator
    */
-  addErrorClearingListeners() {
-    const inputs = [this.emailInputTarget, this.passwordInputTarget]
+  createPasswordStrengthIndicator() {
+    if (this.hasPasswordInputTarget && !this.passwordInputTarget.nextElementSibling?.classList.contains('password-strength')) {
+      const strengthIndicator = document.createElement('div')
+      strengthIndicator.className = 'password-strength'
+      strengthIndicator.innerHTML = '<div class="password-strength-bar"></div>'
 
-    inputs.forEach(input => {
-      if (input) {
-        input.addEventListener('input', () => this.clearServerErrors())
-        input.addEventListener('focus', () => this.clearServerErrors())
-      }
-    })
-  }
-
-  /**
-   * Clear server error messages (from Devise)
-   */
-  clearServerErrors() {
-    // Clear alert messages
-    if (this.hasAlertTarget) {
-      this.alertTarget.style.opacity = '0'
-      setTimeout(() => {
-        if (this.hasAlertTarget) {
-          this.alertTarget.style.display = 'none'
-        }
-      }, 300)
+      this.passwordInputTarget.parentNode.insertBefore(
+        strengthIndicator,
+        this.passwordInputTarget.nextSibling
+      )
     }
-
-    // Clear errors div
-    if (this.hasErrorsTarget) {
-      this.errorsTarget.style.opacity = '0'
-      setTimeout(() => {
-        if (this.hasErrorsTarget) {
-          this.errorsTarget.style.display = 'none'
-        }
-      }, 300)
-    }
-
-    // Also clear any error alerts in the DOM
-    const errorAlerts = document.querySelectorAll('.alert-danger')
-    errorAlerts.forEach(alert => {
-      alert.style.opacity = '0'
-      setTimeout(() => {
-        alert.style.display = 'none'
-      }, 300)
-    })
   }
 
   /**
@@ -125,7 +74,6 @@ export default class extends Controller {
    * @param {Event} event - Input event from email field
    */
   validateEmail(event) {
-    console.log("📧 Validating email:", event.target.value)
     const email = event.target.value.trim()
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -148,11 +96,10 @@ export default class extends Controller {
   }
 
   /**
-   * Validate password field in real-time
+   * Validate password field and show strength indicator
    * @param {Event} event - Input event from password field
    */
   validatePassword(event) {
-    console.log("🔒 Validating password")
     const password = event.target.value
 
     // Clear existing validation timer
@@ -160,25 +107,105 @@ export default class extends Controller {
       clearTimeout(this.passwordValidationTimer)
     }
 
+    // Update password strength immediately
+    this.updatePasswordStrength(password)
+
     // Debounce validation
     this.passwordValidationTimer = setTimeout(() => {
       if (password.length === 0) {
         this.clearFieldValidation(event.target)
-      } else if (password.length >= 1) {
+      } else if (password.length >= 8 && this.getPasswordStrength(password) >= 2) {
+        this.setFieldValid(event.target)
+      } else if (password.length >= 6) {
+        this.setFieldWarning(event.target, "Mot de passe faible")
+      } else {
+        this.setFieldInvalid(event.target, "Mot de passe trop court (6 caractères minimum)")
+      }
+
+      // Also validate password confirmation if it has a value
+      if (this.hasPasswordConfirmationInputTarget && this.passwordConfirmationInputTarget.value) {
+        this.validatePasswordConfirmation({ target: this.passwordConfirmationInputTarget })
+      }
+
+      this.updateSubmitButtonState()
+    }, 300)
+  }
+
+  /**
+   * Validate password confirmation field
+   * @param {Event} event - Input event from password confirmation field
+   */
+  validatePasswordConfirmation(event) {
+    const password = this.passwordInputTarget.value
+    const passwordConfirmation = event.target.value
+
+    // Clear existing validation timer
+    if (this.passwordConfirmationValidationTimer) {
+      clearTimeout(this.passwordConfirmationValidationTimer)
+    }
+
+    // Debounce validation
+    this.passwordConfirmationValidationTimer = setTimeout(() => {
+      if (passwordConfirmation.length === 0) {
+        this.clearFieldValidation(event.target)
+      } else if (password === passwordConfirmation) {
         this.setFieldValid(event.target)
       } else {
-        this.setFieldInvalid(event.target, "Mot de passe requis")
+        this.setFieldInvalid(event.target, "Les mots de passe ne correspondent pas")
       }
       this.updateSubmitButtonState()
     }, 300)
   }
 
   /**
+   * Calculate password strength score
+   * @param {string} password - Password to analyze
+   * @returns {number} Strength score (0-3)
+   */
+  getPasswordStrength(password) {
+    let score = 0
+
+    // Length check
+    if (password.length >= 8) score++
+
+    // Complexity checks
+    if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score++
+    if (/\d/.test(password)) score++
+    if (/[^A-Za-z0-9]/.test(password)) score++
+
+    return Math.min(score, 3)
+  }
+
+  /**
+   * Update password strength indicator
+   * @param {string} password - Current password value
+   */
+  updatePasswordStrength(password) {
+    const strengthBar = document.querySelector('.password-strength-bar')
+    if (!strengthBar) return
+
+    const strength = this.getPasswordStrength(password)
+
+    // Remove existing strength classes
+    strengthBar.classList.remove('password-strength-weak', 'password-strength-medium', 'password-strength-strong')
+
+    if (password.length === 0) {
+      strengthBar.style.width = '0%'
+    } else if (strength === 1) {
+      strengthBar.classList.add('password-strength-weak')
+    } else if (strength === 2) {
+      strengthBar.classList.add('password-strength-medium')
+    } else if (strength >= 3) {
+      strengthBar.classList.add('password-strength-strong')
+    }
+  }
+
+  /**
    * Handle form submission
    * @param {Event} event - Click event from submit button
    */
-  submitLoginForm(event) {
-    console.log("📝 Submitting login form")
+  submitSignupForm(event) {
+    console.log("📝 Submitting registration form")
 
     // Prevent double submission
     if (this.submitButtonTarget.disabled) {
@@ -212,9 +239,12 @@ export default class extends Controller {
   isFormValid() {
     const email = this.emailInputTarget.value.trim()
     const password = this.passwordInputTarget.value
+    const passwordConfirmation = this.passwordConfirmationInputTarget.value
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-    return emailRegex.test(email) && password.length >= 1
+    return emailRegex.test(email) &&
+           password.length >= 6 &&
+           password === passwordConfirmation
   }
 
   /**
@@ -227,9 +257,9 @@ export default class extends Controller {
 
       // Update button appearance
       if (isValid) {
-        this.submitButtonTarget.style.opacity = "1"
+        this.submitButtonTarget.classList.remove('opacity-50')
       } else {
-        this.submitButtonTarget.style.opacity = "0.6"
+        this.submitButtonTarget.classList.add('opacity-50')
       }
     }
   }
@@ -243,11 +273,11 @@ export default class extends Controller {
       if (loading) {
         this.submitButtonTarget.disabled = true
         this.submitButtonTarget.classList.add('loading')
-        this.submitButtonTarget.textContent = 'Connexion...'
+        this.submitButtonTarget.textContent = 'Inscription...'
       } else {
         this.submitButtonTarget.disabled = false
         this.submitButtonTarget.classList.remove('loading')
-        this.submitButtonTarget.textContent = 'Se connecter'
+        this.submitButtonTarget.textContent = "S'inscrire"
       }
     }
 
@@ -258,6 +288,9 @@ export default class extends Controller {
     if (this.hasPasswordInputTarget) {
       this.passwordInputTarget.disabled = loading
     }
+    if (this.hasPasswordConfirmationInputTarget) {
+      this.passwordConfirmationInputTarget.disabled = loading
+    }
   }
 
   /**
@@ -265,7 +298,7 @@ export default class extends Controller {
    * @param {HTMLElement} field - Input field element
    */
   setFieldValid(field) {
-    field.classList.remove('is-invalid')
+    field.classList.remove('is-invalid', 'is-warning')
     field.classList.add('is-valid')
     // Keep original beige color even when valid
     field.style.borderColor = '#e2e0d6'
@@ -278,13 +311,26 @@ export default class extends Controller {
    * @param {string} message - Error message to display
    */
   setFieldInvalid(field, message) {
-    field.classList.remove('is-valid')
+    field.classList.remove('is-valid', 'is-warning')
     field.classList.add('is-invalid')
     field.style.borderColor = '#fc8181'
     field.style.backgroundColor = 'rgba(252, 129, 129, 0.1)'
 
-    // You could add error message display logic here
     console.warn(`Validation error for ${field.name}: ${message}`)
+  }
+
+  /**
+   * Set field as warning (weak password)
+   * @param {HTMLElement} field - Input field element
+   * @param {string} message - Warning message to display
+   */
+  setFieldWarning(field, message) {
+    field.classList.remove('is-valid', 'is-invalid')
+    field.classList.add('is-warning')
+    field.style.borderColor = '#f6ad55'
+    field.style.backgroundColor = 'rgba(246, 173, 85, 0.1)'
+
+    console.warn(`Validation warning for ${field.name}: ${message}`)
   }
 
   /**
@@ -292,7 +338,7 @@ export default class extends Controller {
    * @param {HTMLElement} field - Input field element
    */
   clearFieldValidation(field) {
-    field.classList.remove('is-valid', 'is-invalid')
+    field.classList.remove('is-valid', 'is-invalid', 'is-warning')
     field.style.borderColor = '#e2e0d6'
     field.style.backgroundColor = 'rgba(226, 224, 214, 0.8)'
   }
@@ -307,6 +353,9 @@ export default class extends Controller {
     if (this.hasPasswordInputTarget) {
       this.clearFieldValidation(this.passwordInputTarget)
     }
+    if (this.hasPasswordConfirmationInputTarget) {
+      this.clearFieldValidation(this.passwordConfirmationInputTarget)
+    }
   }
 
   /**
@@ -314,12 +363,6 @@ export default class extends Controller {
    */
   showFormErrors() {
     console.warn("Form validation failed - please check all fields")
-
-    // Clear any existing server errors first
-    this.clearServerErrors()
-
-    // Create a custom validation error message
-    this.showCustomAlert("Veuillez vérifier tous les champs du formulaire", "danger")
 
     // Validate each field and show errors
     if (this.hasEmailInputTarget) {
@@ -334,44 +377,19 @@ export default class extends Controller {
     if (this.hasPasswordInputTarget) {
       const password = this.passwordInputTarget.value
 
-      if (password.length < 1) {
-        this.setFieldInvalid(this.passwordInputTarget, "Mot de passe requis")
+      if (password.length < 6) {
+        this.setFieldInvalid(this.passwordInputTarget, "Mot de passe requis (6 caractères minimum)")
       }
     }
-  }
 
-  /**
-   * Show custom alert message
-   * @param {string} message - Message to display
-   * @param {string} type - Alert type (success, danger, warning, info)
-   */
-  showCustomAlert(message, type = "info") {
-    // Remove any existing custom alerts
-    const existingAlerts = document.querySelectorAll('.custom-alert')
-    existingAlerts.forEach(alert => alert.remove())
+    if (this.hasPasswordConfirmationInputTarget) {
+      const password = this.passwordInputTarget.value
+      const passwordConfirmation = this.passwordConfirmationInputTarget.value
 
-    // Create new alert
-    const alertDiv = document.createElement('div')
-    alertDiv.className = `alert alert-${type} custom-alert`
-    alertDiv.innerHTML = `
-      <p class="mb-0">${message}</p>
-      <button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>
-    `
-
-    // Insert at the top of the form
-    const authCard = document.querySelector('.auth-card')
-    const authHeader = document.querySelector('.auth-header')
-    if (authCard && authHeader) {
-      authCard.insertBefore(alertDiv, authHeader.nextSibling)
-    }
-
-    // Auto-hide after 4 seconds
-    setTimeout(() => {
-      if (alertDiv) {
-        alertDiv.classList.add('fade-out')
-        setTimeout(() => alertDiv.remove(), 300)
+      if (password !== passwordConfirmation) {
+        this.setFieldInvalid(this.passwordConfirmationInputTarget, "Les mots de passe doivent correspondre")
       }
-    }, 4000)
+    }
   }
 
   /**
@@ -384,16 +402,8 @@ export default class extends Controller {
     if (this.passwordValidationTimer) {
       clearTimeout(this.passwordValidationTimer)
     }
-  }
-
-  /**
-   * Handle keyboard shortcuts
-   * @param {KeyboardEvent} event - Keyboard event
-   */
-  handleKeydown(event) {
-    // Submit form on Enter key
-    if (event.key === 'Enter' && this.isFormValid()) {
-      this.submitLoginForm(event)
+    if (this.passwordConfirmationValidationTimer) {
+      clearTimeout(this.passwordConfirmationValidationTimer)
     }
   }
 }

@@ -1,4 +1,4 @@
-/* app/assets/stylesheets/devise/sessions.scss */
+/* app/assets/stylesheets/devise/registrations.scss */
 
 /* Main container styling */
 .auth-container {
@@ -69,68 +69,101 @@
 /* Input field styling */
 .auth-input {
   width: 100%;
-  padding: 1rem 1.25rem;
+  padding: 1.2rem 1.5rem;
   font-size: 1rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.8);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  margin-bottom: 1.5rem;
+  border: none;
+  border-radius: 8px;
+  background: #e6e3dd;
+  transition: all 0.2s ease;
+  margin-bottom: 1rem;
   font-weight: 400;
-  color: #2d3748;
+  color: #333;
+  text-align: center;
 }
 
 .auth-input::placeholder {
-  color: #a0aec0;
+  color: #666;
+  font-weight: 400;
+  text-align: center;
+}
+
+.auth-input:focus {
+  outline: none;
+  background: #ddd8d1;
+  transform: none;
+  box-shadow: none;
+}
+
+.auth-input:valid {
+  background: #e6e3dd;
+}
+
+.auth-input.is-invalid {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.auth-input.is-valid {
+  background: #e6e3dd;
+}
+
+.auth-input::placeholder {
+  color: #8a8a8a;
   font-weight: 400;
 }
 
 .auth-input:focus {
   outline: none;
-  border-color: #ed8936;
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 0 0 3px rgba(237, 137, 54, 0.1);
+  border-color: #d4d2c7;
+  background: rgba(226, 224, 214, 0.95);
+  box-shadow: 0 0 0 3px rgba(226, 224, 214, 0.3);
   transform: translateY(-1px);
 }
 
 .auth-input:valid {
-  border-color: #48bb78;
+  border-color: #e2e0d6;
+  background: rgba(226, 224, 214, 0.8);
 }
 
 .auth-input.is-invalid {
-  border-color: #f56565;
+  border-color: #fc8181;
+}
+
+.auth-input.is-valid {
+  border-color: #e2e0d6;
+  background: rgba(226, 224, 214, 0.8);
 }
 
 /* Button styling */
 .auth-button {
   width: 100%;
-  padding: 1.2rem 1.5rem;
+  padding: 1rem 1.25rem;
   font-size: 1rem;
   font-weight: 600;
   color: white;
-  background: #d2691e;
+  background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  margin: 1.5rem 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 1.5rem;
   position: relative;
   overflow: hidden;
 }
 
 .auth-button:hover {
-  background: #b8601a;
-  transform: none;
-  box-shadow: none;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(237, 137, 54, 0.3);
 }
 
 .auth-button:active {
-  transform: none;
+  transform: translateY(0);
 }
 
 .auth-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  transform: none;
 }
 
 /* Loading state for button */
@@ -171,7 +204,7 @@
 }
 
 .auth-link:hover {
-  color: #ed8936;
+  color: #fc8181;
   text-decoration: underline;
 }
 
@@ -180,14 +213,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 2rem;
+  margin: 1rem 0;
   gap: 0.5rem;
 }
 
 .auth-checkbox {
   width: 18px;
   height: 18px;
-  accent-color: #ed8936;
+  accent-color: #d2691e;
 }
 
 .auth-checkbox-label {
@@ -200,21 +233,21 @@
 /* Bottom section styling */
 .auth-bottom {
   text-align: center;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid #fed7cc;
   padding-top: 1.5rem;
   position: relative;
   z-index: 1;
 }
 
 .auth-secondary-link {
-  color: #ed8936;
+  color: #dd6b20;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
 }
 
 .auth-secondary-link:hover {
-  color: #dd6b20;
+  color: #e53e3e;
   text-decoration: underline;
 }
 
@@ -224,7 +257,7 @@
   gap: 0.5rem;
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
-  background: rgba(113, 128, 150, 0.1);
+  background: rgba(252, 129, 129, 0.1);
   color: #4a5568;
   text-decoration: none;
   border-radius: 8px;
@@ -233,56 +266,62 @@
 }
 
 .auth-back-button:hover {
-  background: rgba(113, 128, 150, 0.2);
+  background: rgba(252, 129, 129, 0.2);
   color: #2d3748;
   transform: translateY(-1px);
 }
 
-/* Alert styling with smooth transitions */
+/* Alert styling */
 .alert {
   margin-bottom: 1.5rem;
   border-radius: 8px;
   border: none;
   position: relative;
   z-index: 1;
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
 }
 
 .alert-success {
-  background: rgba(72, 187, 120, 0.1);
+  background: rgba(104, 211, 145, 0.1);
   color: #22543d;
-  border-left: 4px solid #48bb78;
+  border-left: 4px solid #68d391;
 }
 
 .alert-danger {
-  background: rgba(245, 101, 101, 0.1);
+  background: rgba(252, 129, 129, 0.1);
   color: #742a2a;
-  border-left: 4px solid #f56565;
+  border-left: 4px solid #fc8181;
 }
 
-/* Alert dismissal animation */
-.alert.fade-out {
-  opacity: 0;
-  transform: translateY(-10px);
+/* Password strength indicator */
+.password-strength {
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 2px;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
 }
 
-/* Auto-hide alerts after interaction */
-.alert.auto-dismiss {
-  animation: autoHide 3s ease-in-out forwards;
+.password-strength-bar {
+  height: 100%;
+  width: 0%;
+  transition: all 0.3s ease;
+  border-radius: 2px;
 }
 
-@keyframes autoHide {
-  0%,
-  80% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
+.password-strength-weak {
+  background: #fc8181;
+  width: 33%;
+}
+
+.password-strength-medium {
+  background: #f6ad55;
+  width: 66%;
+}
+
+.password-strength-strong {
+  background: #68d391;
+  width: 100%;
 }
 
 /* Responsive design */
