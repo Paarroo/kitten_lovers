@@ -1,14 +1,16 @@
-<h1><%= @item.title %></h1>
+<div class="max-w-2xl mx-auto">
+  <h1 class="text-3xl font-bold mb-4"><%= @item.title %></h1>
 
-<%= image_tag @item.image_url %>
+  <%= image_tag @item.image_url, class: "w-full h-auto mb-6 rounded" %>
 
-<p><strong>Description:</strong> <%= @item.description %></p>
-<p><strong>Price:</strong> <%= number_to_currency(@item.price) %></p>
+  <p class="mb-2"><strong>Description:</strong> <%= @item.description %></p>
+  <p class="mb-4 text-lg"><strong>Prix:</strong> <%= number_to_currency(@item.price) %></p>
 
-<% if current_user&.already_purchased?(@item) %>
-  <p>You already purchased this item.</p>
-<% else %>
-  <%= button_to "Add to cart", cart_items_path(item_id: @item.id), method: :post %>
-<% end %>
+  <% if current_user&.already_purchased?(@item) %>
+    <p class="text-green-600 font-semibold mb-4">Déjà acheté.</p>
+  <% else %>
+    <%= button_to "Ajouter au panier", cart_items_path(item_id: @item.id), method: :post, class: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" %>
+  <% end %>
 
-<p><%= link_to "Back to shop", items_path %></p>
+  <p class="mt-6"><%= link_to "retour à l'accueil", items_path, class: "text-blue-500 underline" %></p>
+</div>
