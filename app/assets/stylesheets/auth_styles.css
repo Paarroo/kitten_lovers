@@ -1,0 +1,145 @@
+/* app/assets/stylesheets/auth.css */
+
+/* Custom focus states for inputs */
+.auth-input {
+  transition: all 0.2s ease-in-out;
+}
+
+.auth-input:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(251, 146, 60, 0.15);
+}
+
+/* Button hover effects */
+.auth-button {
+  transition: all 0.2s ease-in-out;
+}
+
+.auth-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(251, 146, 60, 0.3);
+}
+
+.auth-button:active {
+  transform: translateY(0);
+}
+
+/* Loading state for submit button */
+.auth-button.loading {
+  position: relative;
+  color: transparent;
+}
+
+.auth-button.loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  left: 50%;
+  margin-left: -8px;
+  margin-top: -8px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: button-loading-spinner 1s ease infinite;
+}
+
+@keyframes button-loading-spinner {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* Validation states */
+.field-valid {
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.field-invalid {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* Smooth page transitions */
+.page-transition {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom checkbox styling */
+input[type="checkbox"]:checked {
+  background-color: #fb923c;
+  border-color: #fb923c;
+}
+
+/* Error messages styling */
+.error-message {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .auth-container {
+    padding: 1rem;
+  }
+  
+  .auth-form {
+    margin-top: 2rem;
+  }
+}
+
+/* Link hover effects */
+.auth-link {
+  position: relative;
+  transition: color 0.2s ease-in-out;
+}
+
+.auth-link::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transition: transform 0.2s ease-in-out;
+}
+
+.auth-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Background pattern overlay */
+.bg-pattern {
+  background-image: 
+    radial-gradient(circle at 25px 25px, rgba(251, 146, 60, 0.1) 2px, transparent 0),
+    radial-gradient(circle at 75px 75px, rgba(251, 146, 60, 0.05) 2px, transparent 0);
+  background-size: 100px 100px;
+}

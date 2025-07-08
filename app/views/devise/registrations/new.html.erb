@@ -1,22 +1,22 @@
-<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-  <div class="sm:mx-auto sm:w-full sm:max-w-md">
-    <!-- Logo and welcome section -->
-    <div class="text-center">
-      <div class="mx-auto h-20 w-20 flex items-center justify-center text-6xl mb-4">
-        🐱
+<!-- app/views/devise/registrations/new.html.erb -->
+<div class="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center px-4">
+  <div class="w-full max-w-sm space-y-8">
+
+    <!-- Header Section -->
+    <div class="text-center space-y-4">
+      <div class="mx-auto w-16 h-16 flex items-center justify-center">
+        <span class="text-5xl">🐱</span>
       </div>
-      <h1 class="text-3xl font-light tracking-[0.2em] text-gray-800 mb-2">
+      <h1 class="text-2xl font-light tracking-[0.3em] text-gray-800">
         Bienvenue
       </h1>
-      <p class="text-sm font-light tracking-[0.15em] text-gray-600">
+      <p class="text-sm font-light tracking-[0.2em] text-gray-700">
         Connectez-vous :
       </p>
     </div>
-  </div>
 
-  <!-- Main form container -->
-  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-    <div class="bg-white py-10 px-8 shadow-xl rounded-lg border border-gray-100">
+    <!-- Form Container -->
+    <div class="space-y-4">
       <%= form_with(model: resource,
                     as: resource_name,
                     url: registration_path(resource_name),
@@ -25,50 +25,19 @@
                       auth_target: "signupForm"
                     },
                     local: true,
-                    class: "space-y-6") do |f| %>
+                    class: "space-y-4") do |f| %>
 
-        <!-- Error messages display -->
+        <!-- Error Messages -->
         <% if resource.errors.any? %>
-          <div class="rounded-lg bg-red-50 border border-red-200 p-4" data-auth-target="errors">
-            <div class="flex">
-              <div class="flex-shrink-0">
-                <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-                </svg>
-              </div>
-              <div class="ml-3">
-                <h3 class="text-sm font-medium text-red-800">
-                  <%= pluralize(resource.errors.count, "erreur") %> empêche l'inscription :
-                </h3>
-                <div class="mt-2 text-sm text-red-700">
-                  <ul class="list-disc space-y-1 pl-5">
-                    <% resource.errors.full_messages.each do |message| %>
-                      <li><%= message %></li>
-                    <% end %>
-                  </ul>
-                </div>
-              </div>
-            </div>
+          <div class="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700" data-auth-target="errors">
+            <% resource.errors.full_messages.each do |message| %>
+              <p><%= message %></p>
+            <% end %>
           </div>
         <% end %>
 
-        <!-- First name field (Pseudo) -->
+        <!-- Email Field -->
         <div>
-          <%= f.label :first_name, class: "sr-only" %>
-          <%= f.text_field :first_name,
-                          autofocus: true,
-                          autocomplete: "given-name",
-                          placeholder: "Pseudo",
-                          data: {
-                            auth_target: "firstNameInput",
-                            action: "input->auth#validateFirstName"
-                          },
-                          class: "block w-full rounded-lg border-0 py-4 px-4 text-gray-900 bg-yellow-50 placeholder-gray-500 text-center focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-200 ease-in-out shadow-sm" %>
-        </div>
-
-        <!-- Email input field -->
-        <div>
-          <%= f.label :email, class: "sr-only" %>
           <%= f.email_field :email,
                            autocomplete: "email",
                            placeholder: "Email",
@@ -76,12 +45,11 @@
                              auth_target: "emailInput",
                              action: "input->auth#validateEmail"
                            },
-                           class: "block w-full rounded-lg border-0 py-4 px-4 text-gray-900 bg-yellow-50 placeholder-gray-500 text-center focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-200 ease-in-out shadow-sm" %>
+                           class: "w-full px-4 py-4 bg-orange-100 border-0 rounded-lg text-center text-gray-800 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-300 transition-all duration-200" %>
         </div>
 
-        <!-- Password input field -->
+        <!-- Password Field -->
         <div>
-          <%= f.label :password, class: "sr-only" %>
           <%= f.password_field :password,
                               autocomplete: "new-password",
                               placeholder: "Password",
@@ -89,12 +57,11 @@
                                 auth_target: "passwordInput",
                                 action: "input->auth#validatePassword"
                               },
-                              class: "block w-full rounded-lg border-0 py-4 px-4 text-gray-900 bg-yellow-50 placeholder-gray-500 text-center focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-200 ease-in-out shadow-sm" %>
+                              class: "w-full px-4 py-4 bg-orange-100 border-0 rounded-lg text-center text-gray-800 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-300 transition-all duration-200" %>
         </div>
 
-        <!-- Password confirmation field -->
+        <!-- Password Confirmation Field -->
         <div>
-          <%= f.label :password_confirmation, class: "sr-only" %>
           <%= f.password_field :password_confirmation,
                               autocomplete: "new-password",
                               placeholder: "Password confirmation",
@@ -102,49 +69,54 @@
                                 auth_target: "passwordConfirmationInput",
                                 action: "input->auth#validatePasswordConfirmation"
                               },
-                              class: "block w-full rounded-lg border-0 py-4 px-4 text-gray-900 bg-yellow-50 placeholder-gray-500 text-center focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-200 ease-in-out shadow-sm" %>
+                              class: "w-full px-4 py-4 bg-orange-100 border-0 rounded-lg text-center text-gray-800 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-300 transition-all duration-200" %>
         </div>
 
-        <!-- Remember me checkbox -->
-        <div class="flex items-center">
-          <%= f.check_box :remember_me,
-                         class: "h-4 w-4 rounded border-gray-300 text-orange-400 focus:ring-orange-400 focus:ring-offset-0",
-                         data: { auth_target: "rememberCheck" } %>
-          <%= f.label :remember_me, "Rester connecté",
-                     class: "ml-2 block text-sm text-gray-700" %>
-        </div>
-
-        <!-- Signup submit button -->
-        <div>
+        <!-- Submit Button -->
+        <div class="pt-2">
           <%= f.submit "S'inscrire",
                       data: {
                         auth_target: "submitButton",
                         action: "click->auth#submitSignupForm"
                       },
-                      class: "w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-orange-400 hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 ease-in-out transform hover:scale-105" %>
+                      class: "w-full px-6 py-3 bg-orange-400 hover:bg-orange-500 text-white font-medium rounded-lg transition-all duration-200 border-0 cursor-pointer" %>
         </div>
 
-        <!-- Forgot password link -->
-        <div class="text-center">
+        <!-- Forgot Password Link -->
+        <div class="text-center pt-2">
           <%= link_to "Mot de passe oublié ?",
                      new_password_path(resource_name),
-                     class: "text-sm font-medium text-gray-600 hover:text-gray-800 transition-colors duration-200" %>
+                     class: "text-sm text-gray-700 hover:text-gray-900 transition-colors duration-200" %>
         </div>
+      <% end %>
 
-        <!-- Login link -->
+      <!-- Remember Me Checkbox -->
+      <div class="flex items-center justify-end space-x-2 pr-2">
+        <%= form_with url: "#", local: true, class: "flex items-center space-x-2" do |f| %>
+          <%= f.check_box :remember_me,
+                         { class: "w-4 h-4 text-orange-400 border-gray-300 rounded focus:ring-orange-300" },
+                         checked: true %>
+          <%= f.label :remember_me, "Rester connecté",
+                     class: "text-sm text-gray-700" %>
+        <% end %>
+      </div>
+
+      <!-- Bottom Navigation -->
+      <div class="space-y-3 pt-4">
+        <!-- Login Link -->
         <div class="text-center">
           <span class="text-sm text-gray-600">Déjà un compte ? </span>
           <%= link_to "Se connecter",
                      new_session_path(resource_name),
-                     class: "font-medium text-orange-400 hover:text-orange-500 transition-colors duration-200" %>
+                     class: "text-sm text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200" %>
         </div>
-      <% end %>
 
-      <!-- Back to home link -->
-      <div class="mt-8 text-center">
-        <%= link_to "Retour à l'accueil",
-                   root_path,
-                   class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 transition-all duration-200" %>
+        <!-- Back to Home -->
+        <div class="text-center">
+          <%= link_to "Retour à l'accueil",
+                     root_path,
+                     class: "inline-block px-4 py-2 bg-orange-200 hover:bg-orange-300 text-gray-700 text-sm rounded-lg transition-all duration-200" %>
+        </div>
       </div>
     </div>
   </div>
