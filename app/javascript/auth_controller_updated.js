@@ -8,7 +8,6 @@ export default class extends Controller {
     "emailInput",
     "passwordInput",
     "passwordConfirmationInput",
-    "firstNameInput",
     "submitButton",
     "rememberCheck",
     "errors"
@@ -62,19 +61,6 @@ export default class extends Controller {
     if (confirmation.length === 0) {
       this.clearValidationState(event.target)
     } else if (confirmation === password && password.length > 0) {
-      this.setValidState(event.target)
-    } else {
-      this.setInvalidState(event.target)
-    }
-    this.updateSubmitButtonState()
-  }
-
-  validateFirstName(event) {
-    const firstName = event.target.value.trim()
-
-    if (firstName.length === 0) {
-      this.clearValidationState(event.target)
-    } else if (firstName.length >= 2) {
       this.setValidState(event.target)
     } else {
       this.setInvalidState(event.target)
@@ -152,8 +138,7 @@ export default class extends Controller {
     const inputs = [
       this.emailInputTarget,
       this.passwordInputTarget,
-      this.passwordConfirmationInputTarget,
-      this.firstNameInputTarget
+      this.passwordConfirmationInputTarget
     ].filter(input => input)
 
     inputs.forEach(input => {

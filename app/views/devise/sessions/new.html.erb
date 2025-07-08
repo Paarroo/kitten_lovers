@@ -18,6 +18,18 @@
                   local: true,
                   class: "auth-form") do |f| %>
 
+      <% if notice %>
+        <div class="auth-notice" data-auth-target="notice">
+          <p><%= notice %></p>
+        </div>
+      <% end %>
+
+      <% if alert %>
+        <div class="auth-errors" data-auth-target="errors">
+          <p><%= alert %></p>
+        </div>
+      <% end %>
+
       <% if resource.errors.any? %>
         <div class="auth-errors" data-auth-target="errors">
           <% resource.errors.full_messages.each do |message| %>

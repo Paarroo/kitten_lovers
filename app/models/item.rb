@@ -9,4 +9,7 @@ class Item < ApplicationRecord
   validates :image_url, presence: true
 
   scope :purchased_by, ->(user) { joins(:purchased_items).where(purchased_items: { user: user }) }
+  scope :not_purchased_by, ->(user) {
+     where.not(id: PurchasedItem.where(user: user).select(:item_id))
+   }
 end
