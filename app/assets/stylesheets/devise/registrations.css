@@ -1,7 +1,7 @@
 /* Main container styling */
 .auth-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,7 +31,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(0,0,0,0.03)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="hearts" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1.5" fill="rgba(252,182,159,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23hearts)"/></svg>');
   pointer-events: none;
 }
 
@@ -76,9 +76,9 @@
   width: 100%;
   padding: 1rem 1.25rem;
   font-size: 1rem;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #fed7cc;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   margin-bottom: 1.5rem;
   font-weight: 400;
@@ -92,18 +92,22 @@
 
 .auth-input:focus {
   outline: none;
-  border-color: #ed8936;
+  border-color: #fc8181;
   background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 0 0 3px rgba(237, 137, 54, 0.1);
+  box-shadow: 0 0 0 3px rgba(252, 129, 129, 0.1);
   transform: translateY(-1px);
 }
 
 .auth-input:valid {
-  border-color: #48bb78;
+  border-color: #68d391;
 }
 
 .auth-input.is-invalid {
-  border-color: #f56565;
+  border-color: #fc8181;
+}
+
+.auth-input.is-valid {
+  border-color: #68d391;
 }
 
 /* Button styling */
@@ -113,7 +117,7 @@
   font-size: 1rem;
   font-weight: 600;
   color: white;
-  background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+  background: linear-gradient(135deg, #fc8181 0%, #e53e3e 100%);
   border: none;
   border-radius: 12px;
   cursor: pointer;
@@ -125,7 +129,7 @@
 
 .auth-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(237, 137, 54, 0.3);
+  box-shadow: 0 8px 25px rgba(252, 129, 129, 0.3);
 }
 
 .auth-button:active {
@@ -176,7 +180,7 @@
 }
 
 .auth-link:hover {
-  color: #ed8936;
+  color: #fc8181;
   text-decoration: underline;
 }
 
@@ -192,7 +196,7 @@
 .auth-checkbox {
   width: 18px;
   height: 18px;
-  accent-color: #ed8936;
+  accent-color: #fc8181;
 }
 
 .auth-checkbox-label {
@@ -205,21 +209,21 @@
 /* Bottom section styling */
 .auth-bottom {
   text-align: center;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid #fed7cc;
   padding-top: 1.5rem;
   position: relative;
   z-index: 1;
 }
 
 .auth-secondary-link {
-  color: #ed8936;
+  color: #fc8181;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
 }
 
 .auth-secondary-link:hover {
-  color: #dd6b20;
+  color: #e53e3e;
   text-decoration: underline;
 }
 
@@ -229,7 +233,7 @@
   gap: 0.5rem;
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
-  background: rgba(113, 128, 150, 0.1);
+  background: rgba(252, 129, 129, 0.1);
   color: #4a5568;
   text-decoration: none;
   border-radius: 8px;
@@ -238,56 +242,62 @@
 }
 
 .auth-back-button:hover {
-  background: rgba(113, 128, 150, 0.2);
+  background: rgba(252, 129, 129, 0.2);
   color: #2d3748;
   transform: translateY(-1px);
 }
 
-/* Alert styling with smooth transitions */
+/* Alert styling */
 .alert {
   margin-bottom: 1.5rem;
   border-radius: 8px;
   border: none;
   position: relative;
   z-index: 1;
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
 }
 
 .alert-success {
-  background: rgba(72, 187, 120, 0.1);
+  background: rgba(104, 211, 145, 0.1);
   color: #22543d;
-  border-left: 4px solid #48bb78;
+  border-left: 4px solid #68d391;
 }
 
 .alert-danger {
-  background: rgba(245, 101, 101, 0.1);
+  background: rgba(252, 129, 129, 0.1);
   color: #742a2a;
-  border-left: 4px solid #f56565;
+  border-left: 4px solid #fc8181;
 }
 
-/* Alert dismissal animation */
-.alert.fade-out {
-  opacity: 0;
-  transform: translateY(-10px);
+/* Password strength indicator */
+.password-strength {
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 2px;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
 }
 
-/* Auto-hide alerts after interaction */
-.alert.auto-dismiss {
-  animation: autoHide 3s ease-in-out forwards;
+.password-strength-bar {
+  height: 100%;
+  width: 0%;
+  transition: all 0.3s ease;
+  border-radius: 2px;
 }
 
-@keyframes autoHide {
-  0%,
-  80% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
+.password-strength-weak {
+  background: #fc8181;
+  width: 33%;
+}
+
+.password-strength-medium {
+  background: #f6ad55;
+  width: 66%;
+}
+
+.password-strength-strong {
+  background: #68d391;
+  width: 100%;
 }
 
 /* Responsive design */

@@ -1,5 +1,3 @@
-// app/javascript/controllers/index.js
-
 // Import and register all of your controllers from the importmap under controllers/*
 
 import { application } from "./application"

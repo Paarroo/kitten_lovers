@@ -1,5 +1,3 @@
-// app/javascript/controllers/sessions_controller.js
-
 import { Controller } from "@hotwired/stimulus"
 
 /**
