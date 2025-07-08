@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   authenticate :user do
     # User profile management
     resource :profile, controller: 'users', only: [ :show, :edit, :update ]
-
+    end
     # Shopping cart functionality
     resource :cart, only: [ :show, :update ] do
       resources :cart_items, only: [ :create, :update, :destroy ]
