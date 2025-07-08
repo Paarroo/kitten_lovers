@@ -5,7 +5,7 @@
  <% @cart.cart_items.each do |cart_item| %>
   <li>
   <strong><%= cart_item.item.title %></strong><br>
-  <%= image_tag cart_item.item.image_url %>
+  <%= image_tag("photos/#{cart_item.item.image_url}", alt: cart_item.item.title, width: 150) %>
   <%= cart_item.item.description.truncate(100) %><br>
   <%= number_to_currency(cart_item.item.price, unit:  "€") %>
   </li>
