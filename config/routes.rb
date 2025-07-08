@@ -2,10 +2,11 @@ Rails.application.routes.draw do
   # Authentication routes provided by Devise
   devise_for :users
 
-  # URL aliases for easier access (redirect to proper Devise routes)
   get '/users/signup', to: redirect('/users/sign_up')
   get '/users/signin', to: redirect('/users/sign_in')
-  get '/users/signout', to: redirect('/users/sign_out')
+
+  get '/users/signout', to: 'devise/sessions#destroy'
+  get '/users/sign_out', to: 'devise/sessions#destroy'
 
   # Additional user-friendly aliases
   get '/signup', to: redirect('/users/sign_up')
@@ -44,14 +45,11 @@ Rails.application.routes.draw do
 
     # Shopping cart functionality
     resource :cart, only: [ :show, :update ] do
-
       resources :cart_items, only: [ :create, :update, :destroy ]
       member do
         delete :clear
         get :checkout
       end
-
-
     end
 
     # Order management

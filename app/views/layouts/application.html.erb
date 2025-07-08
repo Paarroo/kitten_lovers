@@ -25,6 +25,13 @@
   <body>
     <main class="container mx-auto mt-28 px-5 flex">
       <%= yield %>
+      <% if user_signed_in? %>
+        <p>Connecté en tant que : <%= current_user.email %></p>
+        <%= link_to "Se déconnecter", destroy_user_session_path, method: :delete %>
+      <% else %>
+        <p>Pas connecté</p>
+        <%= link_to "Se connecter", new_user_session_path %>
+      <% end %>
     </main>
   </body>
 </html>
