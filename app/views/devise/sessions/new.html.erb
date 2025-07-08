@@ -1,3 +1,4 @@
+<!-- app/views/devise/sessions/new.html.erb -->
 <div class="auth-container">
   <div class="auth-card">
 
@@ -10,21 +11,24 @@
 
     <!-- Error and notice messages -->
     <% if notice %>
-      <div class="alert alert-success alert-dismissible fade show" role="alert" data-sessions-target="notice">
+      <div class="alert alert-success alert-dismissible fade show" role="alert"
+           data-sessions-target="notice" id="notice-alert">
         <%= notice %>
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
       </div>
     <% end %>
 
     <% if alert %>
-      <div class="alert alert-danger alert-dismissible fade show" role="alert" data-sessions-target="alert">
+      <div class="alert alert-danger alert-dismissible fade show" role="alert"
+           data-sessions-target="alert" id="alert-message">
         <%= alert %>
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
       </div>
     <% end %>
 
     <% if resource.errors.any? %>
-      <div class="alert alert-danger" role="alert" data-sessions-target="errors">
+      <div class="alert alert-danger" role="alert"
+           data-sessions-target="errors" id="form-errors">
         <% resource.errors.full_messages.each do |message| %>
           <p class="mb-0"><%= message %></p>
         <% end %>
@@ -36,8 +40,7 @@
                   as: resource_name,
                   url: session_path(resource_name),
                   data: {
-                    controller: "sessions",
-                    sessions_target: "loginForm"
+                    controller: "sessions"
                   },
                   local: true,
                   class: "auth-form") do |f| %>
@@ -48,8 +51,8 @@
                        autocomplete: "email",
                        placeholder: "Email",
                        data: {
-                         sessions_target: "emailInput",
-                         action: "input->sessions#validateEmail"
+                         "sessions-target": "emailInput",
+                         "action": "input->sessions#validateEmail"
                        },
                        class: "auth-input" %>
 
@@ -58,16 +61,16 @@
                           autocomplete: "current-password",
                           placeholder: "Password",
                           data: {
-                            sessions_target: "passwordInput",
-                            action: "input->sessions#validatePassword"
+                            "sessions-target": "passwordInput",
+                            "action": "input->sessions#validatePassword"
                           },
                           class: "auth-input" %>
 
       <!-- Submit button -->
       <%= f.submit "Se connecter",
                   data: {
-                    sessions_target: "submitButton",
-                    action: "click->sessions#submitLoginForm"
+                    "sessions-target": "submitButton",
+                    "action": "click->sessions#submitLoginForm"
                   },
                   class: "auth-button" %>
 
@@ -82,7 +85,7 @@
     <div class="auth-checkbox-container">
       <%= check_box_tag :remember_me, "1", true,
                         { class: "auth-checkbox",
-                          data: { sessions_target: "rememberCheck" } } %>
+                          data: { "sessions-target": "rememberCheck" } } %>
       <%= label_tag :remember_me, "Rester connecté",
                     class: "auth-checkbox-label" %>
     </div>

@@ -1,3 +1,5 @@
+// app/javascript/controllers/sessions_controller.js
+
 import { Controller } from "@hotwired/stimulus"
 
 /**
@@ -10,7 +12,6 @@ export default class extends Controller {
     "emailInput",
     "passwordInput",
     "submitButton",
-    "loginForm",
     "rememberCheck",
     "notice",
     "alert",
@@ -24,6 +25,25 @@ export default class extends Controller {
   connect() {
     console.log("🔐 Sessions controller connected")
     this.initializeForm()
+    this.setupAutoHideAlerts()
+  }
+
+  /**
+   * Setup auto-hide functionality for server alerts
+   */
+  setupAutoHideAlerts() {
+    // Auto-hide alerts after 5 seconds if they exist
+    const alerts = document.querySelectorAll('.alert-danger, .alert-success')
+    alerts.forEach(alert => {
+      setTimeout(() => {
+        if (alert && alert.style.display !== 'none') {
+          alert.classList.add('fade-out')
+          setTimeout(() => {
+            alert.style.display = 'none'
+          }, 300)
+        }
+      }, 5000) // Hide after 5 seconds
+    })
   }
 
   /**
@@ -49,6 +69,57 @@ export default class extends Controller {
     if (this.hasEmailInputTarget && !this.emailInputTarget.value) {
       this.emailInputTarget.focus()
     }
+
+    // Add event listeners to hide server errors when user starts typing
+    this.addErrorClearingListeners()
+  }
+
+  /**
+   * Add event listeners to clear server error messages when user interacts with form
+   */
+  addErrorClearingListeners() {
+    const inputs = [this.emailInputTarget, this.passwordInputTarget]
+
+    inputs.forEach(input => {
+      if (input) {
+        input.addEventListener('input', () => this.clearServerErrors())
+        input.addEventListener('focus', () => this.clearServerErrors())
+      }
+    })
+  }
+
+  /**
+   * Clear server error messages (from Devise)
+   */
+  clearServerErrors() {
+    // Clear alert messages
+    if (this.hasAlertTarget) {
+      this.alertTarget.style.opacity = '0'
+      setTimeout(() => {
+        if (this.hasAlertTarget) {
+          this.alertTarget.style.display = 'none'
+        }
+      }, 300)
+    }
+
+    // Clear errors div
+    if (this.hasErrorsTarget) {
+      this.errorsTarget.style.opacity = '0'
+      setTimeout(() => {
+        if (this.hasErrorsTarget) {
+          this.errorsTarget.style.display = 'none'
+        }
+      }, 300)
+    }
+
+    // Also clear any error alerts in the DOM
+    const errorAlerts = document.querySelectorAll('.alert-danger')
+    errorAlerts.forEach(alert => {
+      alert.style.opacity = '0'
+      setTimeout(() => {
+        alert.style.display = 'none'
+      }, 300)
+    })
   }
 
   /**
@@ -56,6 +127,7 @@ export default class extends Controller {
    * @param {Event} event - Input event from email field
    */
   validateEmail(event) {
+    console.log("📧 Validating email:", event.target.value)
     const email = event.target.value.trim()
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -82,6 +154,7 @@ export default class extends Controller {
    * @param {Event} event - Input event from password field
    */
   validatePassword(event) {
+    console.log("🔒 Validating password")
     const password = event.target.value
 
     // Clear existing validation timer
@@ -93,10 +166,10 @@ export default class extends Controller {
     this.passwordValidationTimer = setTimeout(() => {
       if (password.length === 0) {
         this.clearFieldValidation(event.target)
-      } else if (password.length >= 6) {
+      } else if (password.length >= 1) {
         this.setFieldValid(event.target)
       } else {
-        this.setFieldInvalid(event.target, "Mot de passe trop court")
+        this.setFieldInvalid(event.target, "Mot de passe requis")
       }
       this.updateSubmitButtonState()
     }, 300)
@@ -143,7 +216,7 @@ export default class extends Controller {
     const password = this.passwordInputTarget.value
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-    return emailRegex.test(email) && password.length >= 6
+    return emailRegex.test(email) && password.length >= 1
   }
 
   /**
@@ -156,9 +229,9 @@ export default class extends Controller {
 
       // Update button appearance
       if (isValid) {
-        this.submitButtonTarget.classList.remove('opacity-50')
+        this.submitButtonTarget.style.opacity = "1"
       } else {
-        this.submitButtonTarget.classList.add('opacity-50')
+        this.submitButtonTarget.style.opacity = "0.6"
       }
     }
   }
@@ -196,6 +269,7 @@ export default class extends Controller {
   setFieldValid(field) {
     field.classList.remove('is-invalid')
     field.classList.add('is-valid')
+    field.style.borderColor = '#48bb78'
   }
 
   /**
@@ -206,6 +280,7 @@ export default class extends Controller {
   setFieldInvalid(field, message) {
     field.classList.remove('is-valid')
     field.classList.add('is-invalid')
+    field.style.borderColor = '#f56565'
 
     // You could add error message display logic here
     console.warn(`Validation error for ${field.name}: ${message}`)
@@ -217,6 +292,7 @@ export default class extends Controller {
    */
   clearFieldValidation(field) {
     field.classList.remove('is-valid', 'is-invalid')
+    field.style.borderColor = ''
   }
 
   /**
@@ -237,6 +313,12 @@ export default class extends Controller {
   showFormErrors() {
     console.warn("Form validation failed - please check all fields")
 
+    // Clear any existing server errors first
+    this.clearServerErrors()
+
+    // Create a custom validation error message
+    this.showCustomAlert("Veuillez vérifier tous les champs du formulaire", "danger")
+
     // Validate each field and show errors
     if (this.hasEmailInputTarget) {
       const email = this.emailInputTarget.value.trim()
@@ -250,10 +332,44 @@ export default class extends Controller {
     if (this.hasPasswordInputTarget) {
       const password = this.passwordInputTarget.value
 
-      if (password.length < 6) {
-        this.setFieldInvalid(this.passwordInputTarget, "Mot de passe requis (6 caractères minimum)")
+      if (password.length < 1) {
+        this.setFieldInvalid(this.passwordInputTarget, "Mot de passe requis")
       }
     }
+  }
+
+  /**
+   * Show custom alert message
+   * @param {string} message - Message to display
+   * @param {string} type - Alert type (success, danger, warning, info)
+   */
+  showCustomAlert(message, type = "info") {
+    // Remove any existing custom alerts
+    const existingAlerts = document.querySelectorAll('.custom-alert')
+    existingAlerts.forEach(alert => alert.remove())
+
+    // Create new alert
+    const alertDiv = document.createElement('div')
+    alertDiv.className = `alert alert-${type} custom-alert`
+    alertDiv.innerHTML = `
+      <p class="mb-0">${message}</p>
+      <button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>
+    `
+
+    // Insert at the top of the form
+    const authCard = document.querySelector('.auth-card')
+    const authHeader = document.querySelector('.auth-header')
+    if (authCard && authHeader) {
+      authCard.insertBefore(alertDiv, authHeader.nextSibling)
+    }
+
+    // Auto-hide after 4 seconds
+    setTimeout(() => {
+      if (alertDiv) {
+        alertDiv.classList.add('fade-out')
+        setTimeout(() => alertDiv.remove(), 300)
+      }
+    }, 4000)
   }
 
   /**

@@ -245,13 +245,16 @@
   transform: translateY(-1px);
 }
 
-/* Alert styling */
+/* Alert styling with smooth transitions */
 .alert {
   margin-bottom: 1.5rem;
   border-radius: 8px;
   border: none;
   position: relative;
   z-index: 1;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 .alert-success {
@@ -264,6 +267,29 @@
   background: rgba(245, 101, 101, 0.1);
   color: #742a2a;
   border-left: 4px solid #f56565;
+}
+
+/* Alert dismissal animation */
+.alert.fade-out {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* Auto-hide alerts after interaction */
+.alert.auto-dismiss {
+  animation: autoHide 3s ease-in-out forwards;
+}
+
+@keyframes autoHide {
+  0%,
+  80% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
 }
 
 /* Responsive design */
