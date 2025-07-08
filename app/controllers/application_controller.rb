@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
  allow_browser versions: :modern
 
- before_action :authenticate_user!, except: [ :index, :show ]
+ before_action :authenticate_user!, except: [ :index, :show ], if: -> { !devise_controller? && !avo_controller? }
  before_action :configure_permitted_parameters, if: :devise_controller?
 
  protected
