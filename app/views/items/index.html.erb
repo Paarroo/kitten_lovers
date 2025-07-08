@@ -1,0 +1,11 @@
+<h1>Available Cat Photos</h1>
+
+<% @items.each do |item| %>
+  <div>
+    <%= image_tag item.image_url %>
+    <h2><%= item.title %></h2>
+    <p><%= number_to_currency(item.price) %></p>
+    <p><%= link_to "View details", item_path(item) %></p>
+    <hr>
+  </div>
+<% end %>

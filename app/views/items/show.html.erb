@@ -1,0 +1,14 @@
+<h1><%= @item.title %></h1>
+
+<%= image_tag @item.image_url %>
+
+<p><strong>Description:</strong> <%= @item.description %></p>
+<p><strong>Price:</strong> <%= number_to_currency(@item.price) %></p>
+
+<% if current_user&.already_purchased?(@item) %>
+  <p>You already purchased this item.</p>
+<% else %>
+  <%= button_to "Add to cart", cart_items_path(item_id: @item.id), method: :post %>
+<% end %>
+
+<p><%= link_to "Back to shop", items_path %></p>
