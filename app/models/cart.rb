@@ -5,14 +5,23 @@ class Cart < ApplicationRecord
 
   validates :user_id, presence: true
 
-
+  # Vérifie si un item est déjà présent dans le panier
   def includes_item?(item)
     cart_items.exists?(item_id: item.id)
   end
-    def total_price
-    cart_items.includes(:item).map do |cart_item|
-      cart_item.quantity * cart_item.item.price
-    end.sum
+
+  # Ajoute un item s'il n'est pas déjà présent
+  def add_item(item)
+    cart_items.create(item: item) unless includes_item?(item)
   end
-  
+
+  # Supprime un item du panier
+  def remove_item(item)
+    cart_items.find_by(item_id: item.id)&.destroy
+  end
+
+  # Calcule le prix total
+  def total_price
+    cart_items.includes(:item).sum { |cart_item| cart_item.item.price }
+  end
 end
