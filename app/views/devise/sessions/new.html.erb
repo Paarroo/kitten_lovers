@@ -1,94 +1,369 @@
-<!-- app/views/devise/sessions/new.html.erb -->
-<div class="auth-container">
-  <div class="auth-card">
+<div class="auth-page">
+  <div class="container-fluid vh-100">
+    <div class="row h-100">
 
-    <div class="auth-header">
-      <span class="auth-emoji">🐱</span>
-      <h1 class="auth-title">Bienvenue</h1>
-      <p class="auth-subtitle">Connectez-vous :</p>
-    </div>
+      <!-- Left Side - Form -->
+      <div class="col-lg-6 d-flex align-items-center justify-content-center bg-light">
+        <div class="auth-form-container">
 
-    <%= form_with(model: resource,
-                  as: resource_name,
-                  url: session_path(resource_name),
-                  data: {
-                    controller: "auth",
-                    auth_target: "loginForm"
-                  },
-                  local: true,
-                  class: "auth-form") do |f| %>
+          <!-- Header -->
+          <div class="text-center mb-4">
+            <div class="auth-icon mb-3">🐱</div>
+            <h2 class="auth-title">Bienvenue</h2>
+            <p class="auth-subtitle text-muted">Connectez-vous à votre compte</p>
+          </div>
 
-      <% if notice %>
-        <div class="auth-notice" data-auth-target="notice">
-          <p><%= notice %></p>
-        </div>
-      <% end %>
-
-      <% if alert %>
-        <div class="auth-errors" data-auth-target="errors">
-          <p><%= alert %></p>
-        </div>
-      <% end %>
-
-      <% if resource.errors.any? %>
-        <div class="auth-errors" data-auth-target="errors">
-          <% resource.errors.full_messages.each do |message| %>
-            <p><%= message %></p>
+          <!-- Error Messages -->
+          <% if notice %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <%= notice %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
           <% end %>
+
+          <% if alert %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <%= alert %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+          <% end %>
+
+          <% if resource.errors.any? %>
+            <div class="alert alert-danger" role="alert">
+              <h6 class="alert-heading">Erreurs :</h6>
+              <ul class="mb-0">
+                <% resource.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <!-- Login Form -->
+          <%= form_with(model: resource,
+                        as: resource_name,
+                        url: session_path(resource_name),
+                        local: true,
+                        class: "auth-form",
+                        data: { controller: "auth-form" }) do |f| %>
+
+            <!-- Email Field -->
+            <div class="mb-3">
+              <%= f.label :email, "Email", class: "form-label" %>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fas fa-envelope text-muted"></i>
+                </span>
+                <%= f.email_field :email,
+                                 autofocus: true,
+                                 autocomplete: "email",
+                                 placeholder: "votre@email.com",
+                                 class: "form-control form-control-lg",
+                                 data: {
+                                   "auth-form-target": "emailInput",
+                                   "action": "input->auth-form#validateEmail"
+                                 } %>
+              </div>
+              <div class="invalid-feedback" data-auth-form-target="emailError"></div>
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-3">
+              <%= f.label :password, "Mot de passe", class: "form-label" %>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fas fa-lock text-muted"></i>
+                </span>
+                <%= f.password_field :password,
+                                    autocomplete: "current-password",
+                                    placeholder: "••••••••",
+                                    class: "form-control form-control-lg",
+                                    data: {
+                                      "auth-form-target": "passwordInput",
+                                      "action": "input->auth-form#validatePassword"
+                                    } %>
+                <button class="btn btn-outline-secondary" type="button" data-action="click->auth-form#togglePassword">
+                  <i class="fas fa-eye" data-auth-form-target="passwordToggleIcon"></i>
+                </button>
+              </div>
+              <div class="invalid-feedback" data-auth-form-target="passwordError"></div>
+            </div>
+
+            <!-- Remember Me & Forgot Password -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <div class="form-check">
+                <%= f.check_box :remember_me, class: "form-check-input" %>
+                <%= f.label :remember_me, "Se souvenir de moi", class: "form-check-label" %>
+              </div>
+              <%= link_to "Mot de passe oublié ?",
+                         new_password_path(resource_name),
+                         class: "text-decoration-none" %>
+            </div>
+
+            <!-- Submit Button -->
+            <%= f.submit "Se connecter",
+                        class: "btn btn-primary btn-lg w-100 mb-3",
+                        data: {
+                          "auth-form-target": "submitButton",
+                          "action": "click->auth-form#submitForm"
+                        } %>
+
+            <!-- Sign Up Link -->
+            <div class="text-center">
+              <p class="mb-0">
+                Pas encore de compte ?
+                <%= link_to "S'inscrire",
+                           new_registration_path(resource_name),
+                           class: "text-decoration-none fw-bold" %>
+              </p>
+            </div>
+
+          <% end %>
+
+          <!-- Back to Home -->
+          <div class="text-center mt-4">
+            <%= link_to root_path, class: "btn btn-outline-secondary" do %>
+              <i class="fas fa-arrow-left me-2"></i>Retour à l'accueil
+            <% end %>
+          </div>
+
         </div>
-      <% end %>
+      </div>
 
-      <%= f.email_field :email,
-                       autofocus: true,
-                       autocomplete: "email",
-                       placeholder: "Email",
-                       data: {
-                         auth_target: "emailInput",
-                         action: "input->auth#validateEmail"
-                       },
-                       class: "auth-input" %>
+      <!-- Right Side - Decorative -->
+      <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center auth-decoration">
+        <div class="text-center text-white">
+          <div class="display-1 mb-4">🐾</div>
+          <h3 class="mb-3">Bienvenue chez Kitten Lovers</h3>
+          <p class="lead">Découvrez notre collection exclusive de photos de chats adorables</p>
+        </div>
+      </div>
 
-      <%= f.password_field :password,
-                          autocomplete: "current-password",
-                          placeholder: "Password",
-                          data: {
-                            auth_target: "passwordInput",
-                            action: "input->auth#validatePassword"
-                          },
-                          class: "auth-input" %>
-
-      <%= f.submit "Se connecter",
-                  data: {
-                    auth_target: "submitButton",
-                    action: "click->auth#submitLoginForm"
-                  },
-                  class: "auth-button" %>
-
-      <%= link_to "Mot de passe oublié ?",
-                 new_password_path(resource_name),
-                 class: "auth-link" %>
-
-    <% end %>
-
-    <div class="auth-checkbox-container">
-      <%= check_box_tag :remember_me, "1", true,
-                        { class: "auth-checkbox",
-                          data: { auth_target: "rememberCheck" } } %>
-      <%= label_tag :remember_me, "Rester connecté",
-                    class: "auth-checkbox-label" %>
-    </div>
-
-    <div class="auth-bottom">
-      <p style="margin: 0; font-size: 0.8rem; color: #6b7280;">
-        Pas encore de compte ?
-        <%= link_to "S'inscrire",
-                   new_registration_path(resource_name),
-                   class: "auth-secondary-link" %>
-      </p>
-
-      <%= link_to "Retour à l'accueil",
-                 root_path,
-                 class: "auth-back-button" %>
     </div>
   </div>
 </div>
+
+<style>
+.auth-page {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.auth-form-container {
+  max-width: 400px;
+  width: 100%;
+  padding: 2rem;
+}
+
+.auth-icon {
+  font-size: 4rem;
+  line-height: 1;
+}
+
+.auth-title {
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  color: #2c3e50;
+}
+
+.auth-subtitle {
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+}
+
+.auth-form .form-control {
+  border-radius: 0.5rem;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.auth-form .form-control:focus {
+  border-color: #fd7e14;
+  box-shadow: 0 0 0 0.2rem rgba(253, 126, 20, 0.25);
+  transform: translateY(-1px);
+}
+
+.auth-form .form-control.is-valid {
+  border-color: #198754;
+}
+
+.auth-form .form-control.is-invalid {
+  border-color: #dc3545;
+}
+
+.input-group-text {
+  border: 2px solid #e9ecef;
+  border-right: none;
+  background-color: #f8f9fa;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #fd7e14 0%, #e85d04 100%);
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(253, 126, 20, 0.4);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  transform: none;
+}
+
+.auth-decoration {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-decoration::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="white" opacity="0.1"/><circle cx="80" cy="40" r="1" fill="white" opacity="0.1"/><circle cx="40" cy="80" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+}
+
+.form-check-input:checked {
+  background-color: #fd7e14;
+  border-color: #fd7e14;
+}
+
+.alert {
+  border-radius: 0.5rem;
+  border: none;
+}
+
+@media (max-width: 991.98px) {
+  .auth-form-container {
+    padding: 1rem;
+  }
+
+  .auth-icon {
+    font-size: 3rem;
+  }
+}
+
+/* Loading animation */
+.btn-loading {
+  position: relative;
+  color: transparent !important;
+}
+
+.btn-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1rem;
+  height: 1rem;
+  margin-top: -0.5rem;
+  margin-left: -0.5rem;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+</style>
+
+<script>
+// Stimulus Controller for Login Form
+class AuthFormController extends Controller {
+  static targets = ["emailInput", "passwordInput", "submitButton", "emailError", "passwordError", "passwordToggleIcon"]
+
+  connect() {
+    console.log("🔐 Login form controller connected")
+  }
+
+  validateEmail(event) {
+    const email = event.target.value
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+    if (email.length === 0) {
+      this.clearValidation(event.target)
+    } else if (emailRegex.test(email)) {
+      this.setValid(event.target)
+    } else {
+      this.setInvalid(event.target, "Format d'email invalide")
+    }
+    this.updateSubmitButton()
+  }
+
+  validatePassword(event) {
+    const password = event.target.value
+
+    if (password.length === 0) {
+      this.clearValidation(event.target)
+    } else if (password.length >= 6) {
+      this.setValid(event.target)
+    } else {
+      this.setInvalid(event.target, "Le mot de passe doit contenir au moins 6 caractères")
+    }
+    this.updateSubmitButton()
+  }
+
+  togglePassword(event) {
+    const passwordInput = this.passwordInputTarget
+    const icon = this.passwordToggleIconTarget
+
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text"
+      icon.className = "fas fa-eye-slash"
+    } else {
+      passwordInput.type = "password"
+      icon.className = "fas fa-eye"
+    }
+  }
+
+  submitForm(event) {
+    console.log("📝 Submitting login form")
+    this.setLoading(true)
+  }
+
+  setValid(input) {
+    input.classList.remove("is-invalid")
+    input.classList.add("is-valid")
+  }
+
+  setInvalid(input, message) {
+    input.classList.remove("is-valid")
+    input.classList.add("is-invalid")
+  }
+
+  clearValidation(input) {
+    input.classList.remove("is-valid", "is-invalid")
+  }
+
+  updateSubmitButton() {
+    const email = this.emailInputTarget.value
+    const password = this.passwordInputTarget.value
+    const isValid = email.length > 0 && password.length >= 6
+
+    this.submitButtonTarget.disabled = !isValid
+  }
+
+  setLoading(loading) {
+    if (loading) {
+      this.submitButtonTarget.disabled = true
+      this.submitButtonTarget.classList.add("btn-loading")
+      this.submitButtonTarget.textContent = "Connexion..."
+    }
+  }
+}
+
+// Register the controller
+if (window.Stimulus) {
+  window.Stimulus.register("auth-form", AuthFormController)
+}
+</script>

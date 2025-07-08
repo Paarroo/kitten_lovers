@@ -91,3 +91,4 @@ end
 group :production do
   gem "rails_12factor"
 end
+gem 'bootstrap', '~> 5.3.7'
