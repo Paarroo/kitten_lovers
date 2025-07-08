@@ -4,4 +4,9 @@ class Cart < ApplicationRecord
   has_many :items, through: :cart_items
 
   validates :user_id, presence: true
+
+
+  def includes_item?(item)
+    cart_items.exists?(item_id: item.id)
+  end
 end
