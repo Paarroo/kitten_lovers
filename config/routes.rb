@@ -1,30 +1,27 @@
 Rails.application.routes.draw do
-  devise_for :users
+ devise_for :users
 
+ authenticate :user, ->(user) { user.admin? } do
+   mount Avo::Engine, at: Avo.configuration.root_path
+ end
 
-  authenticate :user, ->(user) { user.admin? } do
-    mount Avo::Engine, at: Avo.configuration.root_path
-  end
+ resources :items, only: [ :index, :show ]
 
+ authenticate :user do
+   resource :profile, controller: 'users', only: [ :show, :edit, :update ]
 
-  resources :users
-  resources :items
-  resources :carts
-  resources :cart_items
-  resources :orders, only: [ :index, :show, :create ]
-  resources :order_items, only: [ :show ]
-  resources :purchased_items, only: [ :index ]
+   resource :cart, only: [ :show, :update ] do
+     resources :cart_items, only: [ :create, :update, :destroy ]
+   end
 
+   resources :orders, only: [ :index, :show, :create ] do
+     resources :order_items, only: [ :show ]
+   end
 
-  # optionnal for Avo
-  namespace :admin do
-    resources :items
-    resources :users
-    resources :orders
-  end
+   resources :purchased_items, only: [ :index ]
+ end
 
-  # survey
-  get "up" => "rails/health#show", as: :rails_health_check
+ get "up" => "rails/health#show", as: :rails_health_check
 
-  root "items#index"
+ root "items#index"
 end
