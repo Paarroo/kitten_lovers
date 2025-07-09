@@ -181,6 +181,12 @@ GEM
       railties (>= 6.1.0)
     faker (3.5.2)
       i18n (>= 1.8.11, < 2)
+    faraday (2.13.2)
+      faraday-net_http (>= 2.0, < 3.5)
+      json
+      logger
+    faraday-net_http (3.4.1)
+      net-http (>= 0.5.0)
     ffi (1.17.2-aarch64-linux-gnu)
     ffi (1.17.2-aarch64-linux-musl)
     ffi (1.17.2-arm-linux-gnu)
@@ -293,6 +299,11 @@ GEM
       net-imap
       net-pop
       net-smtp
+    mailjet (1.8.1)
+      activesupport (>= 5.0.0)
+      faraday (~> 2.1)
+      rack (>= 1.4.0)
+      yajl-ruby
     marcel (1.0.4)
     matrix (0.4.3)
     meta-tags (2.22.1)
@@ -309,6 +320,8 @@ GEM
     msgpack (1.8.0)
     multi_json (1.15.0)
     nenv (0.3.0)
+    net-http (0.6.0)
+      uri
     net-imap (0.5.9)
       date
       net-protocol
@@ -610,6 +623,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    yajl-ruby (1.4.3)
     zeitwerk (2.7.3)
 
 PLATFORMS
@@ -657,6 +671,7 @@ DEPENDENCIES
   listen
   localhost
   lograge
+  mailjet (~> 1.7)
   meta_request
   pg (~> 1.1)
   propshaft
