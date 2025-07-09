@@ -19,13 +19,8 @@ class UsersController < ApplicationController
   end
 
   def sign_out
-    # Clear the session to log out the user
-    if session['warden.user.user.key']
-      session.clear
-      redirect_to root_path, notice: 'Déconnecté avec succès.'
-    else
-      redirect_to root_path, alert: 'Vous n\'êtes pas connecté.'
-    end
+    sign_out(current_user) if current_user
+    redirect_to root_path, notice: 'Déconnecté avec succès.'
   end
 
   def delete_account
