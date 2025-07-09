@@ -11,7 +11,7 @@
 
 require 'faker'
 
-puts "🧹 Cleaning database..."
+puts " Cleaning database..."
 
 PurchasedItem.destroy_all
 OrderItem.destroy_all
@@ -104,7 +104,7 @@ users.each do |user|
     OrderItem.create!(
       order: order,
       item: item,
-      price: item.price
+      unit_price: item.price
     )
 
     PurchasedItem.create!(
