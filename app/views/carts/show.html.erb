@@ -1,30 +1,46 @@
-<h1>Mon Panier</h1>
+<div class="page-wrapper d-flex flex-column min-vh-100">
 
-<% if @cart_items.any? %>
-  <% @cart_items.each do |cart_item| %>
-    <div style="border: 1px solid #ddd; padding: 1rem; margin-bottom: 1rem; border-radius: 8px;">
-      <h2><%= cart_item.item.title %></h2>
+  
+  <div class="beige-section py-5 w-100" style="margin-top: 15rem;">
+    <div class="container">
+      <h1 class="text-center mb-5 fw-bold">Mon Panier</h1>
 
-      <% if cart_item.item.image_url.present? %>
-        <img src="<%= cart_item.item.image_url %>" alt="<%= cart_item.item.title %>" style="max-width: 200px; height: auto; margin-bottom: 0.5rem;">
+      <% if @cart_items.any? %>
+        <div class="d-flex justify-content-center">
+          <div class="grid-responsive">
+            <% @cart_items.each do |cart_item| %>
+              <div class="card shadow-sm p-3 rounded text-center" style="width: 300px;">
+                <% if cart_item.item.image_url.present? %>
+                  <%= image_tag(cart_item.item.image_url, alt: cart_item.item.title, class: "card-img-top mb-3", style: "object-fit: cover; height: 200px;") %>
+                <% end %>
+
+                <div class="card-body p-0">
+                  <h5 class="card-title mb-2"><%= cart_item.item.title %></h5>
+                  <p class="card-text mb-2"><%= cart_item.item.description %></p>
+                  <p class="fw-semibold">Prix : <%= number_to_currency(cart_item.item.price, unit: "€") %></p>
+
+                  <%= button_to "Retirer cet article", cart_cart_item_path(cart_item), method: :delete,
+                      data: { confirm: "Supprimer cet article du panier ?" },
+                      class: "btn btn-outline-danger mt-2" %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="mt-5 text-center">
+          <h4 class="fw-bold mb-3">Total : <%= number_to_currency(@cart.total_price, unit: "€") %></h4>
+
+          <div class="d-flex flex-wrap justify-content-center gap-3">
+            <%= button_to "Procéder au paiement sécurisé", checkout_path, method: :post, class: "btn btn-primary" %>
+            <%= button_to "Vider le panier", clear_cart_path, method: :delete,
+                data: { confirm: "Êtes-vous sûr ?" },
+                class: "btn btn-secondary" %>
+          </div>
+        </div>
+      <% else %>
+        <p class="text-muted text-center">Ton panier est vide.</p>
       <% end %>
-
-      <p><%= cart_item.item.description %></p>
-      <p><strong>Prix :</strong> <%= number_to_currency(cart_item.item.price, unit: "€") %></p>
-
-     <%= button_to "Retirer cet article", cart_cart_item_path(cart_item), method: :delete, data: { confirm: "Supprimer cet article du panier ?" }, style: "background-color: #e76f51; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px;" %>
-
     </div>
-  <% end %>
-
-  <div style="margin-top: 2rem;">
-    <p><strong>Total :</strong> <%= number_to_currency(@cart.total_price, unit: "€") %></p>
-
-    <%= button_to "Procéder au paiement sécurisé", checkout_path, method: :post, style: "background-color: #2a9d8f; color: white; border: none; padding: 0.7rem 1.2rem; border-radius: 6px; margin-top: 1rem;" %>
-
-    <%= button_to "Vider le panier", clear_cart_path, method: :delete, data: { confirm: "Êtes-vous sûr de vouloir vider votre panier ?" }, style: "background-color: #f4a261; color: white; border: none; padding: 0.6rem 1rem; border-radius: 6px; margin-left: 1rem;" %>
   </div>
-
-<% else %>
-  <p>Ton panier est vide.</p>
-<% end %>
+</div>
