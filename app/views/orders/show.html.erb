@@ -1,16 +1,21 @@
-<!-- app/views/orders/show.html.erb -->
+<h1 class="text-xl font-bold mb-4">Commande confirmée !</h1>
 
-<h1>Commande confirmée !</h1>
+<div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
+  <p>Merci pour votre achat.</p>
+</div>
 
-<p>Merci pour votre achat.</p>
-
+<p><strong>Commande n°</strong><%= @order.id %></p>
 <p><strong>Total :</strong> <%= number_to_currency(@order.total_price, unit: "€") %></p>
+<p><strong>Status :</strong> <%= @order.status.capitalize %></p>
+<p><strong>Passée le :</strong> <%= @order.created_at.strftime("%d/%m/%Y à %H:%M") %></p>
 
-<h2>Contenu de la commande :</h2>
-<ul>
+<h2 class="text-lg font-semibold mt-6 mb-2">Contenu de la commande :</h2>
+<ul class="list-disc list-inside">
   <% @order.order_items.each do |order_item| %>
     <li>
       <%= order_item.item.title %> — <%= number_to_currency(order_item.unit_price, unit: "€") %>
     </li>
   <% end %>
 </ul>
+
+<%= link_to "Retour à mes commandes", orders_path, class: "inline-block mt-4 text-blue-600 hover:underline" %>
