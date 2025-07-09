@@ -1,36 +1,3 @@
-<style>
-  .banner-wrapper {
-    background-image: url('<%= asset_path("banner_bg.png") %>');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 420px;
-    position: relative;
-    color: #000;
-  }
-
-  .banner-content {
-    position: absolute;
-    bottom: 40px; /* distance from the bottom */
-    left: 160px;   /* distance from the left */
-    max-width: 500px;
-    text-align: left;
-  }
-
-  .navbar-right {
-    padding-right: 300px;
-  }
-
-  .navbar-center {
-    padding-left: 300px
-  }
-
-  .nav-link:hover {
-    color: #f4a261;
-  }
-</style>
-
-
 <!-- Background banner -->
 <div class="banner-wrapper" style="background-image: url('<%= asset_path("banner_bg.png") %>');">
   
@@ -45,9 +12,9 @@
 
       <!-- Centered Links -->
       <div class="d-none d-lg-flex mx-auto gap-4 navbar-center">
-        <%= link_to "Accueil", root_path, class: "nav-link fw-semibold text-dark" %>
-        <%= link_to "Index", items_path, class: "nav-link fw-semibold text-dark" %>
-        <%= link_to "Faq", "#", class: "nav-link fw-semibold text-dark" %>
+        <%= link_to "Accueil", root_path, class: "nav-link fw-semibold text-dark links" %>
+        <%= link_to "Faq", "#", class: "nav-link fw-semibold text-dark links" %>
+        <%= link_to "Nous contacter", items_path, class: "nav-link fw-semibold text-dark links" %>
       </div>
 
       <!-- Right icons -->
