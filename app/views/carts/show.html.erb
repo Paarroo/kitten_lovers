@@ -20,7 +20,7 @@
   <div style="margin-top: 2rem;">
     <p><strong>Total :</strong> <%= number_to_currency(@cart.total_price, unit: "€") %></p>
 
-    <%= button_to "Procéder au paiement sécurisé", new_order_path, method: :get, style: "background-color: #2a9d8f; color: white; border: none; padding: 0.7rem 1.2rem; border-radius: 6px; margin-top: 1rem;" %>
+    <%= button_to "Procéder au paiement sécurisé", checkout_path, method: :post, style: "background-color: #2a9d8f; color: white; border: none; padding: 0.7rem 1.2rem; border-radius: 6px; margin-top: 1rem;" %>
 
     <%= button_to "Vider le panier", clear_cart_path, method: :delete, data: { confirm: "Êtes-vous sûr de vouloir vider votre panier ?" }, style: "background-color: #f4a261; color: white; border: none; padding: 0.6rem 1rem; border-radius: 6px; margin-left: 1rem;" %>
   </div>

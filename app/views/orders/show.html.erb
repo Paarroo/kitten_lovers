@@ -1,0 +1,16 @@
+<!-- app/views/orders/show.html.erb -->
+
+<h1>Commande confirmée !</h1>
+
+<p>Merci pour votre achat.</p>
+
+<p><strong>Total :</strong> <%= number_to_currency(@order.total_price, unit: "€") %></p>
+
+<h2>Contenu de la commande :</h2>
+<ul>
+  <% @order.order_items.each do |order_item| %>
+    <li>
+      <%= order_item.item.title %> — <%= number_to_currency(order_item.unit_price, unit: "€") %>
+    </li>
+  <% end %>
+</ul>
