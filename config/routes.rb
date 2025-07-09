@@ -43,7 +43,7 @@ Rails.application.routes.draw do
     end
 
 
-    resources :orders, only: [ :index, :show, :create ] do
+    resources :orders, only: [ :index, :show, :create, :new ] do
       resources :order_items, only: [ :show ]
       member do
         get :invoice
