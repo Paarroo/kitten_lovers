@@ -24,6 +24,10 @@
   .navbar-center {
     padding-left: 300px
   }
+
+  .nav-link:hover {
+    color: #f4a261;
+  }
 </style>
 
 
@@ -47,9 +51,9 @@
       </div>
 
       <!-- Right icons -->
-      <% if user_signed_in? %>
       <div class="d-flex align-items-center gap-3 navbar-right">
         <!-- Cart -->
+        <% if user_signed_in? %>
         <%= link_to cart_path, class: "position-relative" do %>
           <%= image_tag "cart_icon.png", alt: "Panier", height: 24 %>
           <% if current_user&.cart&.cart_items&.any? %>
