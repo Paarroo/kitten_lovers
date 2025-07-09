@@ -24,5 +24,9 @@
 
   <body>
     <%= yield %>
+
+    <% unless content_for?(:no_footer) %>
+      <%= render "shared/footer" %>
+    <% end %>
   </body>
 </html>
