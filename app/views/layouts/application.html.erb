@@ -23,6 +23,10 @@
   </head>
 
   <body>
+    <% unless content_for?(:no_navbar) %>
+      <%= render "shared/navbar" %>
+    <% end %>
+
     <%= yield %>
 
     <% unless content_for?(:no_footer) %>
