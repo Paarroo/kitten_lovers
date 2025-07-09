@@ -47,6 +47,7 @@
       </div>
 
       <!-- Right icons -->
+      <% if user_signed_in? %>
       <div class="d-flex align-items-center gap-3 navbar-right">
         <!-- Cart -->
         <%= link_to cart_path, class: "position-relative" do %>
@@ -59,28 +60,29 @@
         <% end %>
 
         <!-- Authentification -->
-        <%= link_to new_user_registration_path, class: "nav-link small fw-semibold text-dark" do %>
-          S’inscrire
-        <% end %>
-
-        <%= link_to new_user_session_path, class: "nav-link small fw-semibold text-dark" do %>
-          Connexion
-        <% end %>
-
-        <!-- Profile -->
-        <%= link_to profile_path(current_user), class: "d-inline-block" do %>
-          <%= image_tag "user_icon.png", alt: "Profil", height: 40, class: "rounded-circle" %>
-        <% end %>
-
-        <%= link_to destroy_user_session_path, class: "nav-link small fw-semibold text-dark" do %>
-          déconnexion
+        
+          <!-- user not connected -->
+          <%= link_to profile_path(current_user), class: "d-inline-block" do %>
+            <%= image_tag "user_icon.png", alt: "Profil", height: 40, class: "rounded-circle" %>
+          <% end %>
+          <%= link_to destroy_user_session_path, method: :delete, class: "nav-link small fw-semibold text-dark", data: { turbo: false } do %>
+            Déconnexion
+          <% end %>
+        <% else %>
+          <!-- User connected -->
+          <%= link_to new_user_registration_path, class: "nav-link small fw-semibold text-dark" do %>
+            S'inscrire
+          <% end %>
+          <%= link_to new_user_session_path, class: "nav-link small fw-semibold text-dark" do %>
+            Connexion
+          <% end %>
         <% end %>
       </div>
 
     </div>
   </nav>
 
-  <!-- Contenu centré optionnel (comme un titre) -->
+  <!-- Centered  -->
   <div class="banner-content text-center text-dark">
     <h1 class="display-4 fw-bold">Bienvenue du côté chat</h1>
     <p class="lead">Entrez dans un monde de moustaches douces et de ronrons apaisants.</p>
