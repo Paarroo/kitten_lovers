@@ -57,7 +57,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_09_124059) do
     t.string "status", default: "pending"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "stripe_session_id"
     t.index ["status"], name: "index_orders_on_status"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
@@ -75,6 +74,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_09_124059) do
     t.index ["user_id"], name: "index_purchased_items_on_user_id"
   end
 
+<<<<<<< Updated upstream
   create_table "solid_cable_messages", force: :cascade do |t|
     t.binary "channel", null: false
     t.binary "payload", null: false
@@ -217,6 +217,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_09_124059) do
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
   end
 
+=======
+>>>>>>> Stashed changes
   create_table "users", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"

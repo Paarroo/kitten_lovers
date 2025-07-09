@@ -1,12 +1,16 @@
 Rails.application.routes.draw do
   # Authentication routes provided by Devise
   devise_for :users
+  devise_scope :user do
+       get '/users/sign_out', to: 'devise/sessions#destroy'
+     end
 
-  # User-friendly URL aliases
-  get '/signup', to: redirect('/users/sign_up')
-  get '/signin', to: redirect('/users/sign_in')
-  get '/login', to: redirect('/users/sign_in')
-  get '/logout', to: 'sessions#destroy'
+    get '/signup', to: redirect('/users/sign_up')
+    get '/signin', to: redirect('/users/sign_in')
+    get '/login', to: redirect('/users/sign_in')
+    get '/logout', to: 'users#sign_out'
+    delete '/logout', to: 'users#sign_out'
+
 
   # Admin panel access (admin users only) - Avo Engine
   authenticate :user, ->(user) { user.admin? } do
@@ -41,12 +45,12 @@ Rails.application.routes.draw do
         get :checkout
       end
     end
-  #  Routes Stripe 
+    #  Routes Stripe
     post "/checkout", to: "orders#checkout", as: :checkout
     get "/orders/success", to: "orders#success", as: :order_success
     get "/orders/cancel", to: "orders#cancel", as: :order_cancel
 
-    resources :orders, only: [ :index, :show, :create] do
+    resources :orders, only: [ :index, :show, :create ] do
       resources :order_items, only: [ :show ]
       member do
         get :invoice
@@ -57,7 +61,7 @@ Rails.application.routes.draw do
       end
     end
 
-     
+
     resources :purchased_items, only: [ :index, :show ] do
       collection do
         get :recent
