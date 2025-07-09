@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_09_082736) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_09_090015) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -78,6 +78,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_09_082736) do
     t.string "key"
     t.text "value"
     t.datetime "expires_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "solid_queue_processes", force: :cascade do |t|
+    t.string "name"
+    t.integer "pid"
+    t.datetime "started_at", precision: nil
+    t.datetime "heartbeat_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
