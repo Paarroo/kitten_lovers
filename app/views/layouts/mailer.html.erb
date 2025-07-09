@@ -1,13 +1,40 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <style>
-      /* Email styles need to be inline */
-    </style>
-  </head>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>KittenLovers</title>
 
-  <body>
-    <%= yield %>
-  </body>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <%= stylesheet_link_tag "layout_mailer", "data-turbo-track": "reload" %>
+</head>
+
+<body>
+  <div class="email-container">
+    <!-- Header with branding -->
+    <div class="email-header">
+      <div class="email-logo">🐱</div>
+      <h1 class="email-title">KittenLovers</h1>
+    </div>
+
+    <!-- Main content area -->
+    <div class="email-content">
+      <%= yield %>
+    </div>
+
+    <!-- Footer -->
+    <div class="email-footer">
+      <p style="margin: 0 0 10px 0;">
+        Cet email a été envoyé par
+        <a href="<%= root_url %>" style="color: #f4a261;">KittenLovers</a>
+      </p>
+      <p style="margin: 0; font-size: 0.8rem;">
+        Si vous avez des questions, contactez-nous à
+        <a href="mailto:support@kitten-lovers.com" style="color: #f4a261;">support@kitten-lovers.com</a>
+      </p>
+    </div>
+  </div>
+</body>
 </html>
