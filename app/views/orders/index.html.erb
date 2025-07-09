@@ -1,0 +1,12 @@
+<h1 class="text-xl font-bold mb-4">Mes commandes</h1>
+
+<% @orders.each do |order| %>
+  <div class="bg-white p-4 rounded-lg shadow mb-4 border">
+    <p><strong>Commande n°</strong><%= order.id %></p>
+    <p><strong>Montant :</strong> <%= number_to_currency(order.total_price, unit: "€") %></p>
+    <p><strong>Status :</strong> <%= order.status.capitalize %></p>
+    <p><strong>Passée le :</strong> <%= order.created_at.strftime("%d/%m/%Y à %H:%M") %></p>
+    
+    <%= link_to "Voir le détail", order_path(order), class: "inline-block mt-2 text-blue-600 hover:underline" %>
+  </div>
+<% end %>
