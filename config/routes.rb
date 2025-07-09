@@ -2,14 +2,14 @@ Rails.application.routes.draw do
   # Authentication routes provided by Devise
   devise_for :users
   devise_scope :user do
-     get '/users/sign_out', to: 'devise/sessions#destroy'
-   end
-  # User-friendly URL aliases
-  get '/signup', to: redirect('/users/sign_up')
-  get '/signin', to: redirect('/users/sign_in')
-  get '/login', to: redirect('/users/sign_in')
-  get '/logout', to: 'users#sign_out'
-  delete '/logout', to: 'users#sign_out'
+       get '/users/sign_out', to: 'devise/sessions#destroy'
+     end
+
+    get '/signup', to: redirect('/users/sign_up')
+    get '/signin', to: redirect('/users/sign_in')
+    get '/login', to: redirect('/users/sign_in')
+    get '/logout', to: 'users#sign_out'
+    delete '/logout', to: 'users#sign_out'
 
 
   # Admin panel access (admin users only) - Avo Engine
