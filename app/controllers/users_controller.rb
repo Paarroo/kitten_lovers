@@ -24,7 +24,6 @@ class UsersController < ApplicationController
   end
 
   def delete_account
-    # Delete the user account
     if current_user == @user
       @user.destroy
       redirect_to root_path, notice: 'Compte supprimé avec succès.'
