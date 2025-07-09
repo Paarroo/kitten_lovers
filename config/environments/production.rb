@@ -42,11 +42,12 @@ Rails.application.configure do
 
   # CORRECTION: Cache store plus simple pour Heroku
   # Utiliser memory store au lieu de solid_cache pour éviter les problèmes de migration
-  config.cache_store = :memory_store
+  config.cache_store = :solid_cache_store
 
 
   # Utiliser async au lieu de solid_queue pour éviter les problèmes de migration
-  config.active_job.queue_adapter = :async
+  config.active_job.queue_adapter = :solid_queue
+  config.solid_queue.connects_to = { database: { writing: :queue } }
 
   # Set host to be used by links generated in mailer templates.
   # CORRECTION: Utiliser une variable d'environnement Heroku
