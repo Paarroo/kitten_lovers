@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bienvenue chez <%= @app_name %></title>
+   <%= stylesheet_link_tag "user_mailer", media: "all" %>
+</head>
+<body>
+  <div class="email-wrapper">
+    <div class="email-container">
+
+      <!-- Header with cat theme -->
+      <div class="email-header">
+        <div class="email-logo">🐱</div>
+        <h1>Bienvenue chez <%= @app_name %> !</h1>
+        <p>Votre aventure féline commence maintenant</p>
+      </div>
+
+      <!-- Main content -->
+      <div class="email-content">
+        <h2>Salut <%= @user.first_name || @user.email.split('@').first %> !</h2>
+
+        <p class="lead">
+          Nous sommes ravis de vous accueillir dans notre communauté d'amoureux des chats ! 🎉
+        </p>
+
+        <p>
+          Votre compte a été créé avec succès. Vous pouvez maintenant :
+        </p>
+
+        <ul style="color: #4a5568; font-size: 16px; line-height: 1.6; margin: 20px 0; padding-left: 20px;">
+          <li>Explorer notre galerie de photos de chats adorables</li>
+          <li>Ajouter vos photos préférées à votre panier</li>
+          <li>Effectuer des achats sécurisés</li>
+          <li>Gérer votre profil et vos commandes</li>
+        </ul>
+
+        <!-- Call to action button -->
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="<%= @login_url %>" class="email-button">
+            Commencer l'exploration 🐾
+          </a>
+        </div>
+
+        <!-- Welcome bonus info -->
+        <div class="email-info-box">
+          <h4 style="margin: 0 0 10px 0; font-size: 18px; color: #155724;">
+            🎁 Bonus de bienvenue
+          </h4>
+          <p style="margin: 0; color: #155724;">
+            En tant que nouveau membre, profitez de notre sélection spéciale de photos gratuites !
+            Connectez-vous pour découvrir votre cadeau de bienvenue.
+          </p>
+        </div>
+
+        <p>
+          Si vous avez des questions, notre équipe support est là pour vous aider à
+          <a href="mailto:support@kittenlovers.com" style="color: #f4a261; text-decoration: none;">support@kittenlovers.com</a>
+        </p>
+
+        <p>
+          Miaulement vôtre,<br>
+          <strong>L'équipe <%= @app_name %></strong> 🐱
+        </p>
+      </div>
+
+      <!-- Footer -->
+      <div class="email-footer">
+        <p><strong><%= @app_name %></strong> - La plus belle collection de photos de chats</p>
+        <p>
+          <a href="<%= root_url %>">Accueil</a> |
+          <a href="<%= root_url %>about">À propos</a> |
+          <a href="<%= root_url %>contact">Contact</a> |
+          <a href="<%= root_url %>privacy">Confidentialité</a>
+        </p>
+        <p style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">
+          Cet email a été envoyé à <%= @user.email %>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
