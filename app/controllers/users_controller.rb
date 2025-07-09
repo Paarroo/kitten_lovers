@@ -2,6 +2,9 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_correct_user, only: [ :show, :edit, :update, :delete_account ]
 
+  devise :database_authenticatable, :registerable,
+           :recoverable, :rememberable, :validatable
+
   def show
     # Display the user's profile
   end
