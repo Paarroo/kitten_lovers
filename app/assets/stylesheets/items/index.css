@@ -1,0 +1,74 @@
+/*  */
+body {
+  background-color: #ffffff;
+  margin: 0;
+}
+
+.page-wrapper {
+  background-color: #fff;
+  min-height: 100vh;
+}
+
+/* color Band */
+.beige-section {
+  background-color: #fbf5ec;
+  width: 100%;
+}
+
+/* Filters btn */
+.filter-btn {
+  border: none;
+  font-weight: bold;
+  padding: 0.5rem 1.5rem;
+  border-radius: 30px;
+}
+
+.btn-primary.filter-btn {
+  background-color: #f4a261;
+  color: #000;
+}
+
+.btn-primary.filter-btn:hover {
+  background-color: #e8963d;
+  color: #000;
+}
+
+.btn-secondary.filter-btn {
+  background-color: #eedebf;
+  color: #000;
+}
+
+.btn-secondary.filter-btn:hover {
+  background-color: #e1ceb0;
+  color: #000;
+}
+
+/* Cards */
+.cat-card {
+  height: 240px;
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.cat-card img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.cat-card:hover img {
+  transform: scale(1.05);
+}
+
+.cat-overlay {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #fff;
+}
+
+.cat-title {
+  background-color: #f4a261;
+  color: #000;
+  font-size: 0.9rem;
+}
