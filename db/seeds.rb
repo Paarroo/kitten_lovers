@@ -12,6 +12,7 @@
 require 'faker'
 
 puts "🧹 Cleaning database..."
+
 PurchasedItem.destroy_all
 OrderItem.destroy_all
 Order.destroy_all
@@ -20,10 +21,24 @@ Cart.destroy_all
 Item.destroy_all
 User.destroy_all
 
-puts " Database cleaned."
+# Reset primary key sequences
+%w[
+  users
+  items
+  carts
+  cart_items
+  orders
+  order_items
+  purchased_items
+].each do |table_name|
+  ActiveRecord::Base.connection.reset_pk_sequence!(table_name)
+end
+
+puts " Database cleaned and primary keys reset."
+
 
 # --- 1. Users ---
-puts " Creating users..."
+puts "Creating users..."
 
 admin = User.create!(
   email: "admin@chatpic.com",
@@ -31,17 +46,18 @@ admin = User.create!(
   is_admin: true
 )
 
-users = 5.times.map do
-  User.create!(
-    email: Faker::Internet.unique.email,
+users = []
+5.times do |i|
+  users << User.create!(
+    email: "user#{i + 1}@chatpic.com",  
     password: "password"
   )
 end
 
-puts " #{User.count} users created (1 admin, 5 regular)"
+puts "#{User.count} users created (1 admin, 5 regular users)"
 
-# --- 2. Items (from local image files) ---
-puts " Creating items from local images..."
+# --- 2. Items ---
+puts "Creating items from local images..."
 
 image_paths = Dir.glob(Rails.root.join("app/assets/images/photos/*.{jpg,jpeg,png}"))
 
@@ -56,10 +72,10 @@ image_paths.each do |path|
   )
 end
 
-puts " #{Item.count} items created using local image files"
+puts "#{Item.count} items created"
 
 # --- 3. Carts ---
-puts " Creating carts and adding items..."
+puts "Creating carts and adding items..."
 
 users.each do |user|
   cart = Cart.create!(user: user)
@@ -69,10 +85,10 @@ users.each do |user|
   end
 end
 
-puts " Carts created with 3 items per user"
+puts "Carts created with 3 items per user"
 
-# --- 4. Orders & Purchase history ---
-puts " Creating orders and purchase records..."
+# --- 4. Orders & Purchased Items ---
+puts "Creating orders and purchase records..."
 
 users.each do |user|
   items = Item.order("RANDOM()").limit(2)
@@ -98,6 +114,6 @@ users.each do |user|
   end
 end
 
-puts " Orders and purchased items created"
+puts "Orders and purchase history created"
+puts "Seed completed successfully!"
 
-puts " Seed completed successfully!"
