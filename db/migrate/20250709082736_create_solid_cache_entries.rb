@@ -4,7 +4,7 @@ class CreateSolidCacheEntries < ActiveRecord::Migration[6.1]
       t.string :key
       t.text :value
       t.datetime :expires_at
-      # Ajoutez d'autres colonnes nécessaires ici
+
       t.timestamps
     end
   end
