@@ -16,7 +16,6 @@ gem "solid_cable"
 gem "bootsnap", require: false
 gem "kamal", require: false
 gem "thruster", require: false
-gem "image_processing", "~> 1.2"
 
 gem "devise"
 gem "stripe"
