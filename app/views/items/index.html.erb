@@ -1,14 +1,39 @@
+<!-- global white background -->
+<div class="page-wrapper d-flex justify-content-center align-items-center min-vh-100">
 
+  <!-- Background band color -->
+  <div class="beige-section w-100 py-5">
+    <div class="container">
 
-<h1 class="text-2xl font-bold mb-6">Nos offres miaougnifiques</h1>
+      <!-- Title -->
+      <h2 class="text-center display-5 fw-bold mb-3">Nos offres miaougnifiques</h2>
+      <p class="text-center text-muted mb-5">
+        Découvrez nos collections exclusives de chats irrésistibles, prêts à réchauffer le cœur.<br>
+        Souhaitez-vous plusieurs variantes (plus fun, plus posées, plus prestigieuses) ?
+      </p>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-  <% @items.each do |item| %>
-    <div class="border rounded-lg shadow p-4">
-      <%= image_tag item.image_url, class: "w-full h-auto mb-4 rounded" %>
-      <h2 class="text-lg font-semibold"><%= item.title %></h2>
-      <p class="text-gray-700 mb-2"><%= number_to_currency(item.price) %></p>
-      <%= link_to "voir en détails", item_path(item), class: "btn-primary btn-outline-primary text-blue-500 underline" %>
+      <!-- Filters -->
+      <div class="d-flex justify-content-center gap-3 mb-5">
+        <%= button_tag "Race", class: "btn btn-secondary filter-btn" %>
+        <%= button_tag "Prix", class: "btn btn-primary filter-btn" %>
+      </div>
+
+      <!-- cards grid -->
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-5">
+        <% @items.each do |item| %>
+          <div class="col">
+            <%= link_to item_path(item), class: "text-decoration-none" do %>
+              <div class="cat-card position-relative overflow-hidden shadow-sm rounded-4">
+                <%= image_tag item.image_url, class: "w-100 h-100 object-fit-cover" %>
+                <div class="cat-overlay position-absolute bottom-0 start-0 w-100 text-center p-3">
+                  <span class="badge rounded-pill px-3 py-2 d-inline-block fw-semibold cat-title"><%= item.title %></span>
+                  <p class="small mt-2 mb-1 text-white"><%= item.description %></p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
     </div>
-  <% end %>
+  </div>
 </div>
