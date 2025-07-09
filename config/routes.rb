@@ -41,9 +41,12 @@ Rails.application.routes.draw do
         get :checkout
       end
     end
+  #  Routes Stripe 
+    post "/checkout", to: "orders#checkout", as: :checkout
+    get "/orders/success", to: "orders#success", as: :order_success
+    get "/orders/cancel", to: "orders#cancel", as: :order_cancel
 
-
-    resources :orders, only: [ :index, :show, :create, :new ] do
+    resources :orders, only: [ :index, :show, :create] do
       resources :order_items, only: [ :show ]
       member do
         get :invoice
@@ -54,6 +57,7 @@ Rails.application.routes.draw do
       end
     end
 
+     
     resources :purchased_items, only: [ :index, :show ] do
       collection do
         get :recent
