@@ -57,7 +57,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_09_095028) do
     t.string "status", default: "pending"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "stripe_session_id"
     t.index ["status"], name: "index_orders_on_status"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
@@ -73,23 +72,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_09_095028) do
     t.index ["purchased_at"], name: "index_purchased_items_on_purchased_at"
     t.index ["user_id", "item_id"], name: "index_purchased_items_on_user_id_and_item_id"
     t.index ["user_id"], name: "index_purchased_items_on_user_id"
-  end
-
-  create_table "solid_cache_entries", force: :cascade do |t|
-    t.string "key"
-    t.text "value"
-    t.datetime "expires_at", precision: nil
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "solid_queue_processes", force: :cascade do |t|
-    t.string "name"
-    t.integer "pid"
-    t.datetime "started_at", precision: nil
-    t.datetime "heartbeat_at", precision: nil
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
