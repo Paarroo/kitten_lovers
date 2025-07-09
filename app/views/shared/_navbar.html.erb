@@ -68,8 +68,12 @@
         <% end %>
 
         <!-- Profile -->
-        <%= link_to profile_path, class: "d-inline-block" do %>
+        <%= link_to profile_path(current_user), class: "d-inline-block" do %>
           <%= image_tag "user_icon.png", alt: "Profil", height: 40, class: "rounded-circle" %>
+        <% end %>
+
+        <%= link_to destroy_user_session_path, class: "nav-link small fw-semibold text-dark" do %>
+          déconnexion
         <% end %>
       </div>
 
