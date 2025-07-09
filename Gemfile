@@ -89,4 +89,3 @@ group :production do
   gem "pg", "~> 1.1"
   gem "rails_12factor"
 end
-gem 'mailjet', '~> 1.7'

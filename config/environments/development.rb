@@ -76,14 +76,6 @@ Rails.application.configure do
     config.action_mailer.raise_delivery_errors = true
     config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
-    # Mailjet configuration for development
-    config.action_mailer.delivery_method = :mailjet_api
-    config.action_mailer.mailjet_api_settings = {
-      api_key: Rails.application.credentials.mailjet[:api_key],
-      secret_key: Rails.application.credentials.mailjet[:secret_key],
-      default_from: 'dev@kittenlovers.com'
-    }
-
   use_real_smtp = ENV.fetch("USE_REAL_SMTP", "false").downcase == "true"
 
   if use_real_smtp
