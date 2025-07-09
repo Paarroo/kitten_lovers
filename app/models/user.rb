@@ -13,16 +13,16 @@ class User < ApplicationRecord
     is_admin
   end
 
-  def has_purchased?(photo)
-     purchased_items.exists?(photo: photo)
-   end
-   def full_name
-      "#{first_name} #{last_name}".strip
-    end
+  def has_purchased?(item)
+    purchased_items.exists?(item: item)
+  end
+  def full_name
+    "#{first_name} #{last_name}".strip
+  end
 
-    private
+  private
 
-    def create_cart
-      Cart.create(user: self) if cart.nil?
-    end
+  def create_cart
+    Cart.create(user: self) if cart.nil?
+  end
 end

@@ -26,3 +26,7 @@
   background-color: #e4d2aa;
   color: #000;
 }
+
+.bg-item {
+  background-color: #fbf5ec !important;
+}
