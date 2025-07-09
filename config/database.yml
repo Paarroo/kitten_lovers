@@ -11,6 +11,7 @@ test:
   <<: *default
   database: kitten_lovers_test
 
+# Rails 8 - Configuration simple pour Heroku avec Solid Cache/Queue/Cable
 production:
   <<: *default
   url: <%= ENV['DATABASE_URL'] %>

@@ -40,17 +40,20 @@ Rails.application.configure do
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
 
-  # CORRECTION: Cache store plus simple pour Heroku
-  # Utiliser memory store au lieu de solid_cache pour éviter les problèmes de migration
+
   config.cache_store = :solid_cache_store
 
+  config.solid_cache.store_options = {
+    max_age: 60.days.to_i,
+    namespace: Rails.env,
+    size_estimate_samples: 1000
+  }
 
-  # Utiliser async au lieu de solid_queue pour éviter les problèmes de migration
+
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :queue } }
 
   # Set host to be used by links generated in mailer templates.
-  # CORRECTION: Utiliser une variable d'environnement Heroku
   config.action_mailer.default_url_options = {
     host: ENV.fetch("APP_HOST", "your-app.herokuapp.com"),
     protocol: 'https'
@@ -66,7 +69,7 @@ Rails.application.configure do
   # Only use :id for inspections in production.
   config.active_record.attributes_for_inspect = [ :id ]
 
-
+  # CORRECTION: Hosts autorisés pour Heroku
   config.hosts = [
     ENV.fetch("APP_HOST", "your-app.herokuapp.com"),
     /.*\.herokuapp\.com/
