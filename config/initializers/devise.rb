@@ -58,12 +58,12 @@ Devise.setup do |config|
   # Configure which authentication keys should be case-insensitive.
   # These keys will be downcased upon creating or modifying a user and when used
   # to authenticate or find a user. Default is :email.
-  config.case_insensitive_keys = [:email]
+  config.case_insensitive_keys = [ :email ]
 
   # Configure which authentication keys should have whitespace stripped.
   # These keys will have whitespace before and after removed upon creating or
   # modifying a user and when used to authenticate or find a user. Default is :email.
-  config.strip_whitespace_keys = [:email]
+  config.strip_whitespace_keys = [ :email ]
 
   # Tell if authentication through request.params is enabled. True by default.
   # It can be set to an array that will enable params authentication only for the
@@ -97,7 +97,7 @@ Devise.setup do |config|
   # Notice that if you are skipping storage for all authentication paths, you
   # may want to disable generating routes to Devise's sessions controller by
   # passing skip: :sessions to `devise_for` in your config/routes.rb
-  config.skip_session_storage = [:http_auth]
+  config.skip_session_storage = [ :http_auth ]
 
   # By default, Devise cleans up the CSRF token on authentication to
   # avoid CSRF token fixation attacks. This means that, when using AJAX
@@ -311,4 +311,107 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
+  # config/initializers/devise.rb - Configuration pour utiliser nos mailers
+
+  Devise.setup do |config|
+    # Configuration Mailjet pour Devise
+    config.mailer_sender = 'noreply@kittenlovers.com'
+
+    # Utilisation de notre UserMailer personnalisé
+    config.mailer = 'UserMailer'
+
+    # Configuration des emails
+    config.send_email_changed_notification = true
+    config.send_password_change_notification = true
+
+    # Autres configurations Devise existantes...
+    config.authentication_keys = [ :email ]
+    config.case_insensitive_keys = [ :email ]
+    config.strip_whitespace_keys = [ :email ]
+    config.skip_session_storage = [ :http_auth ]
+    config.stretches = Rails.env.test? ? 1 : 12
+    config.reconfirmable = true
+    config.expire_all_remember_me_on_sign_out = true
+    config.password_length = 6..128
+    config.email_regexp = /\A[^@\s]+@[^@\s]+\z/
+    config.reset_password_within = 2.hours
+    config.sign_out_via = :delete
+    config.responder.error_status = :unprocessable_entity
+    config.responder.redirect_status = :see_other
+  end
+
+  # Custom Devise Mailer pour override les méthodes par défaut
+  class UserMailer < Devise::Mailer
+    helper MailerStylesHelper
+    include Devise::Controllers::UrlHelpers
+    default template_path: 'user_mailer'
+    default from: 'noreply@kittenlovers.com'
+
+    # Override welcome email method
+    def confirmation_instructions(record, token, opts = {})
+      @user = record
+      @token = token
+      @confirmation_url = user_confirmation_url(confirmation_token: @token)
+      @app_name = 'KittenLovers'
+
+      mail(
+        to: @user.email,
+        subject: "📧 Confirmez votre compte #{@app_name}",
+        template_name: 'confirmation_instructions'
+      )
+    end
+
+    # Override reset password method
+    def reset_password_instructions(record, token, opts = {})
+      @user = record
+      @token = token
+      @reset_url = edit_user_password_url(reset_password_token: @token)
+      @app_name = 'KittenLovers'
+
+      mail(
+        to: @user.email,
+        subject: "🔐 Réinitialisation de votre mot de passe",
+        template_name: 'reset_password_instructions'
+      )
+    end
+
+    # Override password change notification
+    def password_change(record, opts = {})
+      @user = record
+      @app_name = 'KittenLovers'
+      @support_email = 'support@kittenlovers.com'
+
+      mail(
+        to: @user.email,
+        subject: "✅ Mot de passe modifié avec succès",
+        template_name: 'password_changed_notification'
+      )
+    end
+
+    # Override email change notification
+    def email_changed(record, opts = {})
+      @user = record
+      @app_name = 'KittenLovers'
+
+      mail(
+        to: @user.email,
+        subject: "📧 Adresse email modifiée",
+        template_name: 'email_changed_notification'
+      )
+    end
+
+    # Override unlock instructions
+    def unlock_instructions(record, token, opts = {})
+      @user = record
+      @token = token
+      @unlock_url = user_unlock_url(unlock_token: @token)
+      @app_name = 'KittenLovers'
+
+      mail(
+        to: @user.email,
+        subject: "🔒 Débloquez votre compte",
+        template_name: 'unlock_instructions'
+      )
+    end
+  end
 end
