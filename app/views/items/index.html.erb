@@ -1,16 +1,20 @@
 <!-- global white background -->
-<div class="page-wrapper d-flex justify-content-center align-items-center min-vh-100">
+<div class="page-wrapper d-flex flex-column align-items-center min-vh-100">
+
+  <!-- Title -->
+  <div class="container-fluid text-center">
+    <div class="index-title ms-5">
+      <h2 class="display-5 fw-bold mb-3">Nos offres miaougnifiques</h2>
+      <p class="text-muted mb-5">
+        Découvrez nos collections exclusives de chats irrésistibles, prêts à réchauffer le cœur.<br>
+        Souhaitez-vous plusieurs variantes (plus fun, plus posées, plus prestigieuses) ?
+      </p>
+    </div>
+  </div>
 
   <!-- Background band color -->
   <div class="beige-section w-100 py-5">
     <div class="container">
-
-      <!-- Title -->
-      <h2 class="text-center display-5 fw-bold mb-3">Nos offres miaougnifiques</h2>
-      <p class="text-center text-muted mb-5">
-        Découvrez nos collections exclusives de chats irrésistibles, prêts à réchauffer le cœur.<br>
-        Souhaitez-vous plusieurs variantes (plus fun, plus posées, plus prestigieuses) ?
-      </p>
 
       <!-- Filters -->
       <div class="d-flex justify-content-center gap-3 mb-5">
@@ -18,19 +22,42 @@
         <%= button_tag "Prix", class: "btn btn-primary filter-btn" %>
       </div>
 
-      <!-- cards grid -->
+      <!-- Cards grid -->
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-5">
         <% @items.each do |item| %>
           <div class="col">
-            <%= link_to item_path(item), class: "text-decoration-none" do %>
-              <div class="cat-card position-relative overflow-hidden shadow-sm rounded-4">
+            <div class="cat-card position-relative overflow-hidden shadow-sm rounded-4">
+
+              <!-- Image (lien vers item) -->
+              <%= link_to item_path(item) do %>
                 <%= image_tag item.image_url, class: "w-100 h-100 object-fit-cover" %>
-                <div class="cat-overlay position-absolute bottom-0 start-0 w-100 text-center p-3">
-                  <span class="badge rounded-pill px-3 py-2 d-inline-block fw-semibold cat-title"><%= item.title %></span>
-                  <p class="small mt-2 mb-1 text-white"><%= item.description %></p>
-                </div>
+              <% end %>
+
+              <!-- Add/Remove cart button -->
+              <div class="position-absolute top-0 end-0 m-2">
+                <% if current_user && already_in_cart?(item) %>
+                  <%= button_to cart_cart_item_path(current_user.cart.cart_items.find_by(item_id: item.id)),
+                                method: :delete,
+                                data: { turbo_method: :delete },
+                                class: "btn btn-sm btn-danger rounded-circle" do %>
+                    <i class="bi bi-cart-x"></i>
+                  <% end %>
+                <% else %>
+                  <%= button_to cart_cart_items_path(item_id: item.id),
+                                method: :post,
+                                class: "btn btn-sm btn-light rounded-circle" do %>
+                    <i class="bi bi-cart-plus"></i>
+                  <% end %>
+                <% end %>
               </div>
-            <% end %>
+
+              <!-- Overlay -->
+              <div class="cat-overlay position-absolute bottom-0 start-0 w-100 text-center p-3">
+                <span class="badge rounded-pill px-3 py-2 d-inline-block fw-semibold cat-title"><%= item.title %></span>
+                <p class="small mt-2 mb-1 text-white"><%= item.description %></p>
+              </div>
+
+            </div>
           </div>
         <% end %>
       </div>
