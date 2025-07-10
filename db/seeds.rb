@@ -59,16 +59,23 @@ puts "#{User.count} users created (1 admin, 5 regular users)"
 # --- 2. Items ---
 puts "Creating items from local images..."
 
-image_paths = Dir.glob(Rails.root.join("app/assets/images/photos/*.{jpg,jpeg,png}"))
+image_urls = [
+  "https://res.cloudinary.com/dugjbzyca/image/upload/kitten1_gokh1l.jpg",
+  "https://res.cloudinary.com/dugjbzyca/image/upload/kitten2_alsbqn.jpg",
+  "https://res.cloudinary.com/dugjbzyca/image/upload/kitten3_pi2gyh.jpg",
+  "https://res.cloudinary.com/dugjbzyca/image/upload/kitten4_b1rrzz.jpg",
+  "https://res.cloudinary.com/dugjbzyca/image/upload/kitten5_shls53.jpg",
+  "https://res.cloudinary.com/dugjbzyca/image/upload/kitten6_icihlt.jpg"
+]
 
-image_paths.each do |path|
-  filename = File.basename(path)
+
+image_urls.each do |url|  
 
   Item.create!(
     title: Faker::Creature::Cat.name,
     description: Faker::Lorem.sentence,
     price: rand(5.0..30.0).round(2),
-    image_url: "photos/#{filename}"
+    image_url: url
   )
 end
 
