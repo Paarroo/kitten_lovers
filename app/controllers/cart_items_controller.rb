@@ -9,13 +9,20 @@ class CartItemsController < ApplicationController
     respond_to do |format|
       if @cart_item.save
         format.turbo_stream
-        format.html { redirect_back fallback_location: items_path, notice: "Ajouté au panier." }
+        format.html do
+          if params[:redirect_to_cart]
+            redirect_to cart_path, notice: "Ajouté au panier."
+          else
+            redirect_back fallback_location: items_path, notice: "Ajouté au panier."
+          end
+        end
       else
         format.turbo_stream
         format.html { redirect_back fallback_location: items_path, alert: "Déjà dans le panier." }
       end
     end
   end
+
 
   def destroy
     @cart_item = current_user.cart.cart_items.find_by(id: params[:id])

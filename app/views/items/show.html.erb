@@ -24,12 +24,10 @@
       <% elsif already_in_cart?(@item) %>
         <%= button_to "Retirer du panier", cart_cart_item_path(current_user.cart.cart_items.find_by(item_id: @item.id)), method: :delete, data: {turbo_method: :delete}, class: "btn btn-primary btn-custom " %>
       <% else %>
-        <% if user_signed_in? %>
           <div class="d-flex gap-3">
-            <%= button_to "Achetez maintenant", purchased_items_path(item_id: @item.id), method: :post, class: "btn btn-secondary btn-custom" %>
+            <%= button_to "Achetez maintenant", cart_cart_items_path(item_id: @item.id, redirect_to_cart: true), method: :post, class: "btn btn-secondary btn-custom" %>
             <%= button_to "Ajouter au panier", cart_cart_items_path(item_id: @item.id), method: :post, class: "btn btn-primary btn-custom " %>
           </div>
-        <% end %>
       <% end %>
     </div>
 
