@@ -33,26 +33,14 @@
                 <%= image_tag item.image_url, class: "w-100 h-100 object-fit-cover" %>
               <% end %>
 
-              <!-- Add/Remove cart button -->
+              <!-- Add/Remove cart button via Turbo -->
               <% if user_signed_in? %>
                 <div class="position-absolute top-0 end-0 m-2">
-                  <% if current_user && already_in_cart?(item) %>
-                    <%= button_to cart_cart_item_path(current_user.cart.cart_items.find_by(item_id: item.id)),
-                                  method: :delete,
-                                  data: { turbo_method: :delete },
-                                  class: "btn btn-sm btn-danger rounded-circle" do %>
-                      <i class="bi bi-cart-x"></i>
-                    <% end %>
-                  <% else %>
-                    <%= button_to cart_cart_items_path(item_id: item.id),
-                                  method: :post,
-                                  class: "btn btn-sm btn-light rounded-circle" do %>
-                      <i class="bi bi-cart-plus"></i>
-                    <% end %>
+                  <%= turbo_frame_tag "cart_button_#{item.id}" do %>
+                    <%= render partial: "items/cart_button", locals: { item: item } %>
                   <% end %>
                 </div>
               <% end %>
-              
 
               <!-- Overlay -->
               <div class="cat-overlay position-absolute bottom-0 start-0 w-100 text-center p-3">

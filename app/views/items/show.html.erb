@@ -22,7 +22,7 @@
       <% if current_user&.has_purchased?(@item) %>
         <p class="text-success fw-semibold mb-4">Déjà acheté.</p>
       <% elsif already_in_cart?(@item) %>
-        <p class="text-success fw-semibold mb-4">Déjà dans le panier</p>
+        <%= button_to "Retirer du panier", cart_cart_item_path(current_user.cart.cart_items.find_by(item_id: @item.id)), method: :delete, data: {turbo_method: :delete}, class: "btn btn-primary btn-custom " %>
       <% else %>
         <% if user_signed_in? %>
           <div class="d-flex gap-3">
