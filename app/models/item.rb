@@ -1,4 +1,5 @@
 class Item < ApplicationRecord
+   has_one_attached :image
   has_many :cart_items, dependent: :destroy
   has_many :order_items, dependent: :destroy
   has_many :purchased_items, dependent: :destroy
@@ -12,4 +13,11 @@ class Item < ApplicationRecord
   scope :not_purchased_by, ->(user) {
      where.not(id: PurchasedItem.where(user: user).select(:item_id))
    }
+  def display_price
+      "#{price} €"
+    end
+
+    def available?
+      available == true
+    end
 end
