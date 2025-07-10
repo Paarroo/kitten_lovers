@@ -34,10 +34,10 @@
         
           <!-- user not connected -->
           <%= link_to profile_path(current_user), class: "d-inline-block" do %>
-            <%= image_tag "user_icon.png", alt: "Profil", height: 40, class: "rounded-circle" %>
+            <%= image_tag "user_icon3.png", alt: "Profil", height: 60, class: "rounded-circle" %>
           <% end %>
           <%= link_to destroy_user_session_path, method: :delete, class: "nav-link small fw-semibold text-dark", data: { turbo: false } do %>
-            Déconnexion
+            <%= image_tag "logout.png", alt: "Profil", height: 38, class: "rounded-circle" %>
           <% end %>
         <% else %>
           <!-- User connected -->
