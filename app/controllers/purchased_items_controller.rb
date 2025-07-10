@@ -8,4 +8,20 @@ class PurchasedItemsController < ApplicationController
   def show
     @purchased_item = current_user.purchased_items.includes(:item).find(params[:id])
   end
+
+  def create
+    @purchased_item = current_user.purchased_items.new(purchased_item_params)
+
+    if @purchased_item.save
+      redirect_to @purchased_item, notice: 'Votre achat à bien été effectué'
+    else
+      render :new
+    end
+  end
+
+  private
+
+  def purchased_item_params
+    params.require(:purchased_item).permit(:item_id)
+  end
 end
