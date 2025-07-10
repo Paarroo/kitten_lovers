@@ -1,0 +1,61 @@
+<!-- Background banner -->
+<div class="banner-wrapper" style="background-image: url('<%= asset_path("banner_bg.png") %>');">
+
+  <!-- Navbar included in banner -->
+  <nav class="navbar navbar-expand-lg px-4 py-3">
+    <div class="container-fluid justify-content-between align-items-center">
+
+      <!-- Left logo -->
+      <%= link_to root_path, class: "navbar-brand d-flex align-items-center gap-2" do %>
+        <%= image_tag "logo_cat.png", alt: "Logo", height: 60 %>
+      <% end %>
+
+      <!-- Centered Links -->
+      <div class="d-none d-lg-flex mx-auto gap-4 navbar-center">
+        <%= link_to "Accueil", root_path, class: "nav-link fw-semibold text-dark links" %>
+        <%= link_to "FAQ", pages_faq_path, class: "nav-link fw-semibold text-dark links" %>
+        <%= link_to "Nous contacter", pages_contact_path, class: "nav-link fw-semibold text-dark links" %>
+      </div>
+
+      <!-- Right icons -->
+      <div class="d-flex align-items-center gap-3 navbar-right">
+        <!-- Cart -->
+        <% if user_signed_in? %>
+        <%= link_to cart_path, class: "position-relative" do %>
+          <%= image_tag "cart_icon.png", alt: "Panier", height: 24 %>
+          <% if current_user&.cart&.cart_items&.any? %>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+              <%= current_user.cart.cart_items.count %>
+            </span>
+          <% end %>
+        <% end %>
+
+        <!-- Authentification -->
+
+          <!-- user not connected -->
+          <%= link_to profile_path(current_user), class: "d-inline-block" do %>
+            <%= image_tag "user_icon3.png", alt: "Profil", height: 60, class: "rounded-circle" %>
+          <% end %>
+          <%= link_to destroy_user_session_path, method: :delete, class: "nav-link small fw-semibold text-dark", data: { turbo: false } do %>
+            <%= image_tag "logout.png", alt: "Profil", height: 38, class: "rounded-circle" %>
+          <% end %>
+        <% else %>
+          <!-- User connected -->
+          <%= link_to new_user_registration_path, class: "nav-link small fw-semibold text-dark" do %>
+            S'inscrire
+          <% end %>
+          <%= link_to new_user_session_path, class: "nav-link small fw-semibold text-dark" do %>
+            Connexion
+          <% end %>
+        <% end %>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- Centered  -->
+  <div class="banner-content text-center text-dark">
+    <h1 class="display-4 fw-bold">Bienvenue du côté chat</h1>
+    <p class="lead">Entrez dans un monde de moustaches douces et de ronrons apaisants.</p>
+  </div>
+</div>

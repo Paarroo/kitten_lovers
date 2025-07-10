@@ -1,0 +1,57 @@
+<!-- global white background -->
+<div class="page-wrapper d-flex flex-column align-items-center min-vh-100">
+
+  <!-- Title -->
+  <div class="container-fluid text-center">
+    <div class="index-title ms-5">
+      <h2 class="display-5 fw-bold mb-3">Nos offres miaougnifiques</h2>
+      <p class="text-muted mb-5">
+        Découvrez nos collections exclusives de chats irrésistibles, prêts à réchauffer le cœur.<br>
+        Souhaitez-vous plusieurs variantes (plus fun, plus posées, plus prestigieuses) ?
+      </p>
+    </div>
+  </div>
+
+  <!-- Background band color -->
+  <div class="beige-section w-100 py-5">
+    <div class="container">
+
+      <!-- Filters -->
+      <div class="d-flex justify-content-center gap-3 mb-5">
+        <%= button_tag "Race", class: "btn btn-secondary filter-btn" %>
+        <%= button_tag "Prix", class: "btn btn-primary filter-btn" %>
+      </div>
+
+      <!-- Cards grid -->
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-5">
+        <% @items.each do |item| %>
+          <div class="col">
+            <div class="cat-card position-relative overflow-hidden shadow-sm rounded-4">
+
+              <!-- Picture (link to item) -->
+              <%= link_to item_path(item) do %>
+                <%= image_tag item.image_url, class: "w-100 h-100 object-fit-cover" %>
+              <% end %>
+
+              <!-- Add/Remove cart button via Turbo -->
+              <% if user_signed_in? %>
+                <div class="position-absolute top-0 end-0 m-2">
+                  <%= turbo_frame_tag "cart_button_#{item.id}" do %>
+                    <%= render partial: "items/cart_button", locals: { item: item } %>
+                  <% end %>
+                </div>
+              <% end %>
+
+              <!-- Overlay -->
+              <div class="cat-overlay position-absolute bottom-0 start-0 w-100 text-center p-3">
+                <span class="badge rounded-pill px-3 py-2 d-inline-block fw-semibold cat-title"><%= item.title %></span>
+                <p class="small mt-2 mb-1 text-white"><%= item.description %></p>
+              </div>
+
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

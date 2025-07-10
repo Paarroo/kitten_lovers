@@ -1,0 +1,39 @@
+<div class="container pb-5">
+  <!-- Introduction -->
+  <p class="text-center fs-5 mb-5">
+    Un chaton suffit...<br>
+    Chaque image en capture la magie, entre innocence fragile et mystère silencieux
+  </p>
+
+  <!-- Main block -->
+  <div class="row align-items-center bg-light rounded-4 p-4 bg-item">
+    
+    <!-- Text to the left -->
+    <div class="col-md-6 ">
+      <h1 class="display-6 fw-bold mb-3"><%= @item.title %></h1>
+
+      <p class="mb-4 text-muted"><%= @item.description %></p>
+
+      <p class="fs-5 fw-semibold mb-4">
+        Prix : <%= number_to_currency(@item.price, unit: "€", format: "%n %u", separator: ",", delimiter: " ") %>
+      </p>
+
+      
+      <% if current_user&.has_purchased?(@item) %>
+        <p class="text-success fw-semibold mb-4">Déjà acheté.</p>
+      <% elsif already_in_cart?(@item) %>
+        <%= button_to "Retirer du panier", cart_cart_item_path(current_user.cart.cart_items.find_by(item_id: @item.id)), method: :delete, data: {turbo_method: :delete}, class: "btn btn-primary btn-custom " %>
+      <% else %>
+          <div class="d-flex gap-3">
+            <%= button_to "Achetez maintenant", cart_cart_items_path(item_id: @item.id, redirect_to_cart: true), method: :post, class: "btn btn-secondary btn-custom" %>
+            <%= button_to "Ajouter au panier", cart_cart_items_path(item_id: @item.id), method: :post, class: "btn btn-primary btn-custom " %>
+          </div>
+      <% end %>
+    </div>
+
+    <!-- Picture to the right -->
+    <div class="col-md-6 text-center mt-4 mt-md-0">
+      <%= image_tag @item.image_url, class: "img-fluid rounded-4 shadow-sm", style: "max-height: 400px;" %>
+    </div>
+  </div>
+</div>

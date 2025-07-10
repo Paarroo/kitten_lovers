@@ -1,0 +1,402 @@
+/* Breakpoints */
+$breakpoint-tablet: 768px;
+$breakpoint-mobile: 480px;
+$breakpoint-small: 320px;
+
+/* Colors  auth */
+$auth-green: #48bb78;
+$auth-green-dark: #38a169;
+$auth-red: #f5c6cb;
+$auth-red-bg: #f8d7da;
+$auth-red-text: #721c24;
+$auth-beige: #e6e3dd;
+$auth-beige-dark: #ddd8d1;
+$auth-orange: #d2691e;
+$auth-orange-dark: #b8601a;
+$auth-bg: #f8f6f3;
+
+/* mixin */
+
+/* Responsive breakpoints mixins */
+@mixin tablet {
+  @media (max-width: #{$breakpoint-tablet}) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: #{$breakpoint-mobile}) {
+    @content;
+  }
+}
+
+@mixin small-mobile {
+  @media (max-width: #{$breakpoint-small}) {
+    @content;
+  }
+}
+
+/* class */
+
+/* Responsive container auth */
+.auth-container-responsive {
+  min-height: 100vh;
+  background: $auth-bg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
+  @include tablet {
+    padding: 1.5rem 1rem;
+  }
+
+  @include mobile {
+    padding: 1rem 0.5rem;
+  }
+
+  @include small-mobile {
+    padding: 0.5rem 0.25rem;
+  }
+}
+
+/* Responsive card auth */
+.auth-card-responsive {
+  background: transparent;
+  border-radius: 0;
+  padding: 2rem 1.5rem;
+  box-shadow: none;
+  backdrop-filter: none;
+  border: none;
+  width: 100%;
+  max-width: 380px;
+  position: relative;
+  overflow: visible;
+  margin: 0 auto;
+
+  @include tablet {
+    max-width: 90%;
+    padding: 1.5rem 1rem;
+  }
+
+  @include mobile {
+    padding: 1.5rem 1rem;
+    max-width: 100%;
+  }
+
+  @include small-mobile {
+    padding: 1rem 0.75rem;
+  }
+}
+
+/* Header responsive */
+.auth-header-responsive {
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+
+  .auth-emoji {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 1rem;
+    filter: none;
+
+    @include tablet {
+      font-size: 3rem;
+    }
+
+    @include mobile {
+      font-size: 2.5rem;
+    }
+
+    @include small-mobile {
+      font-size: 2rem;
+    }
+  }
+
+  .auth-title {
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.3px;
+
+    @include tablet {
+      font-size: 1.6rem;
+    }
+
+    @include mobile {
+      font-size: 1.4rem;
+    }
+
+    @include small-mobile {
+      font-size: 1.2rem;
+    }
+  }
+
+  .auth-subtitle {
+    color: #718096;
+    font-size: 0.95rem;
+    margin: 0;
+    font-weight: 400;
+
+    @include mobile {
+      font-size: 0.85rem;
+    }
+  }
+}
+
+/* Input border green */
+.auth-input-responsive {
+  width: 100%;
+  padding: 1rem 1.2rem;
+  font-size: 0.95rem;
+  border: 2px solid $auth-green !important;
+  border-radius: 8px;
+  background: $auth-beige !important;
+  transition: all 0.2s ease;
+  margin-bottom: 0.8rem;
+  font-weight: 400;
+  color: #333;
+  text-align: center;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: #666;
+    font-weight: 400;
+    text-align: center;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $auth-green-dark !important;
+    background: $auth-beige-dark !important;
+    transform: none;
+    box-shadow: none;
+  }
+
+  &:valid {
+    background: $auth-beige !important;
+    border-color: $auth-green !important;
+  }
+
+  &.is-invalid {
+    background: $auth-red-bg !important;
+    color: $auth-red-text !important;
+    border-color: $auth-red !important;
+  }
+
+  &.is-valid {
+    background: $auth-beige !important;
+    border-color: $auth-green !important;
+  }
+
+  @include mobile {
+    padding: 0.9rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  @include small-mobile {
+    padding: 0.8rem 0.9rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Button responsive */
+.auth-button-responsive {
+  width: 100%;
+  padding: 1rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: white;
+  background: $auth-orange;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 1rem 0;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    background: $auth-orange-dark;
+    transform: none;
+    box-shadow: none;
+  }
+
+  &:active {
+    transform: none;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &.loading {
+    color: transparent;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      margin-top: -10px;
+      margin-left: -10px;
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 0.8s linear infinite;
+    }
+  }
+
+  @include mobile {
+    padding: 0.9rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  @include small-mobile {
+    padding: 0.8rem 0.9rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Checkbox responsive */
+.auth-checkbox-responsive {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.8rem 0;
+  gap: 0.5rem;
+
+  .auth-checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: $auth-orange;
+  }
+
+  .auth-checkbox-label {
+    color: #4a5568;
+    font-size: 0.9rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  @include mobile {
+    flex-direction: column;
+    gap: 0.3rem;
+    text-align: center;
+  }
+}
+
+/* Back button responsive */
+.auth-back-button-responsive {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background: $auth-beige;
+  color: #666;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  border: 2px solid $auth-green;
+
+  &:hover {
+    background: $auth-beige-dark;
+    color: #333;
+    transform: none;
+  }
+
+  @include mobile {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Alert responsive */
+.alert-responsive {
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  border: none;
+  position: relative;
+  z-index: 1;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  padding: 0.8rem 1rem;
+
+  &.alert-success {
+    background: rgba(72, 187, 120, 0.1);
+    color: #22543d;
+    border-left: 3px solid #48bb78;
+  }
+
+  &.alert-danger {
+    background: rgba(245, 101, 101, 0.1);
+    color: #742a2a;
+    border-left: 3px solid #f56565;
+  }
+
+  &.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+/* Animation keyframes */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* spacement*/
+
+.responsive-mb-sm {
+  margin-bottom: 0.5rem;
+  @include mobile {
+    margin-bottom: 0.3rem;
+  }
+}
+
+.responsive-mb-md {
+  margin-bottom: 1rem;
+  @include mobile {
+    margin-bottom: 0.7rem;
+  }
+}
+
+.responsive-mb-lg {
+  margin-bottom: 1.5rem;
+  @include mobile {
+    margin-bottom: 1rem;
+  }
+}
+
+.responsive-p-sm {
+  padding: 0.5rem;
+  @include mobile {
+    padding: 0.3rem;
+  }
+}
+
+.responsive-p-md {
+  padding: 1rem;
+  @include mobile {
+    padding: 0.7rem;
+  }
+}
+
+.responsive-p-lg {
+  padding: 1.5rem;
+  @include mobile {
+    padding: 1rem;
+  }
+}

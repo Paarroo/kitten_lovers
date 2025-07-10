@@ -1,0 +1,32 @@
+.btn-custom {
+  padding: 0.6rem 1.4rem;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.btn-primary.btn-custom {
+  background-color: #f4a261;
+  color: #000;
+  border: none;
+}
+
+.btn-primary.btn-custom:hover {
+  background-color: #e8963d;
+  color: #000;
+}
+
+.btn-secondary.btn-custom {
+  background-color: #eedebf;
+  color: #000;
+  border: none;
+}
+
+.btn-secondary.btn-custom:hover {
+  background-color: #e4d2aa;
+  color: #000;
+}
+
+.bg-item {
+  background-color: #fbf5ec !important;
+}

@@ -1,0 +1,46 @@
+<div class="container my-5">
+
+  <h1 class="mb-4">Contacte-nous 🐱</h1>
+
+  <p class="lead">
+    Une question sur nos photos ? Une idée de collaboration féline ? Ou simplement envie de miauler un petit bonjour ? Nous sommes toujours ravis de recevoir des messages (surtout quand ils viennent d’amoureux des chats) !
+  </p>
+
+  <h2 class="mt-5">Nos coordonnées</h2>
+  <ul>
+    <li><strong>Email :</strong> contact@kittenlovers.com</li>
+    <li><strong>Téléphone :</strong> +33 6 12 34 56 78</li>
+    <li><strong>Adresse :</strong> 123 Rue des Ronrons, 75000 Paris</li>
+  </ul>
+
+  <h2 class="mt-5">Horaires d'ouverture</h2>
+  <p>
+    Nous répondons à vos messages du <strong>lundi au vendredi</strong>, entre <strong>10h et 17h</strong>. Le week-end, on fait des câlins à nos chats (et on espère que vous aussi).
+  </p>
+
+  <h2 class="mt-5">Formulaire de contact</h2>
+  <p>
+    Tu peux aussi nous écrire directement via le formulaire ci-dessous. On te répondra aussi vite qu’un chat bondit sur un carton vide 🐾
+  </p>
+
+  <!-- Exemple de formulaire (factice pour l’instant) -->
+  <%= form_with url: contact_path, method: :post, local: true do |form| %>
+    <div class="mb-3">
+      <%= form.label :name, "Ton prénom", class: "form-label" %>
+      <%= form.text_field :name, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :email, "Ton email", class: "form-label" %>
+      <%= form.email_field :email, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :message, "Ton message", class: "form-label" %>
+      <%= form.text_area :message, rows: 5, class: "form-control" %>
+    </div>
+
+    <%= form.submit "Envoyer le message", class: "btn btn-primary" %>
+  <% end %>
+
+</div>

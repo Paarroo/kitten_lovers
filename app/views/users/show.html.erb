@@ -1,0 +1,225 @@
+<% content_for :title, "Mon Profil" %>
+
+<div class="container-fluid py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+
+      <!-- Header -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h1 class="h3 mb-0">Mon Profil</h1>
+          <p class="text-muted">Gérez vos informations personnelles</p>
+        </div>
+        <%= link_to root_path, class: "btn btn-outline-secondary" do %>
+          <i class="fas fa-arrow-left me-2"></i>
+          Retour à l'accueil
+        <% end %>
+      </div>
+
+      <!-- Profile Information -->
+      <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">Informations personnelles</h5>
+          <% begin %>
+            <%= link_to edit_profile_path, class: "btn btn-sm btn-primary" do %>
+              <i class="fas fa-edit me-1"></i>
+              Modifier Profil
+            <% end %>
+          <% rescue => e %>
+            <!-- Route edit_profile_path non disponible -->
+          <% end %>
+        </div>
+
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <strong>Prénom :</strong>
+              <% begin %>
+                <%= @user.try(:first_name) || "Non renseigné" %>
+              <% rescue => e %>
+                Non disponible
+              <% end %>
+            </div>
+            <div class="col-md-6">
+              <strong>Nom :</strong>
+              <% begin %>
+                <%= @user.try(:last_name) || "Non renseigné" %>
+              <% rescue => e %>
+                Non disponible
+              <% end %>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <strong>Email :</strong>
+              <% begin %>
+                <%= @user.try(:email) || "Non disponible" %>
+              <% rescue => e %>
+                Non disponible
+              <% end %>
+            </div>
+            <div class="col-md-6">
+              <strong>Téléphone :</strong>
+              <% begin %>
+                <%= @user.try(:phone) || "Non renseigné" %>
+              <% rescue => e %>
+                Non renseigné
+              <% end %>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <strong>Date d'inscription :</strong>
+              <% begin %>
+                <%= @user.try(:created_at)&.strftime("%d/%m/%Y") || "Non disponible" %>
+              <% rescue => e %>
+                Non disponible
+              <% end %>
+            </div>
+            <div class="col-md-6">
+              <strong>Statut :</strong>
+              <% begin %>
+                <%= @user.try(:is_admin) ? "Administrateur" : "Utilisateur" %>
+              <% rescue => e %>
+                Utilisateur
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Statistics -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Statistiques</h5>
+        </div>
+        <div class="card-body">
+          <div class="row text-center">
+            <div class="col-4">
+              <h4 class="text-primary mb-0">
+                <% begin %>
+                  <%= @orders_count || 0 %>
+                <% rescue => e %>
+                  0
+                <% end %>
+              </h4>
+              <small class="text-muted">Commandes</small>
+            </div>
+            <div class="col-4">
+              <h4 class="text-success mb-0">
+                <% begin %>
+                  <%= @purchased_items_count || 0 %>
+                <% rescue => e %>
+                  0
+                <% end %>
+              </h4>
+              <small class="text-muted">Achats</small>
+            </div>
+            <div class="col-4">
+              <h4 class="text-warning mb-0">
+                <% begin %>
+                  <%= @cart_items_count || 0 %>
+                <% rescue => e %>
+                  0
+                <% end %>
+              </h4>
+              <small class="text-muted">Panier</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Purchase History -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Historique d'achat</h5>
+        </div>
+        <div class="card-body">
+          <% begin %>
+            <% if @recent_purchases.present? && @recent_purchases.any? %>
+              <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                Vous avez <%= @recent_purchases.count %> achat(s) récent(s).
+              </div>
+              <!-- Simplified purchase display to avoid item errors -->
+              <% @recent_purchases.each_with_index do |purchase, index| %>
+                <div class="border rounded p-3 mb-2">
+                  <strong>Achat #<%= index + 1 %></strong>
+                  <% if purchase.try(:created_at) %>
+                    - <%= purchase.created_at.strftime("%d/%m/%Y") %>
+                  <% end %>
+                </div>
+              <% end %>
+            <% else %>
+              <div class="text-center py-4">
+                <i class="fas fa-shopping-bag fa-3x text-muted mb-3"></i>
+                <p class="text-muted">Aucun achat pour le moment</p>
+                <% begin %>
+                  <%= link_to items_path, class: "btn btn-primary" do %>
+                    Découvrir nos produits
+                  <% end %>
+                <% rescue => e %>
+                  <!-- Route items_path non disponible -->
+                <% end %>
+              </div>
+            <% end %>
+          <% rescue => e %>
+            <div class="alert alert-warning">
+              <i class="fas fa-exclamation-triangle me-2"></i>
+              Impossible de charger l'historique d'achat pour le moment.
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Actions</h5>
+        </div>
+        <div class="card-body">
+          <div class="d-grid gap-2">
+            <% begin %>
+              <%= link_to orders_path, class: "btn btn-outline-primary" do %>
+                <i class="fas fa-list me-2"></i>
+                Mes commandes
+              <% end %>
+            <% rescue => e %>
+              <button class="btn btn-outline-primary" disabled>
+                <i class="fas fa-list me-2"></i>
+                Mes commandes (non disponible)
+              </button>
+            <% end %>
+
+            <% begin %>
+              <%= link_to cart_path, class: "btn btn-outline-success" do %>
+                <i class="fas fa-shopping-cart me-2"></i>
+                Mon panier
+              <% end %>
+            <% rescue => e %>
+              <button class="btn btn-outline-success" disabled>
+                <i class="fas fa-shopping-cart me-2"></i>
+                Mon panier (non disponible)
+              </button>
+            <% end %>
+
+            <% begin %>
+              <%= link_to edit_user_registration_path, class: "btn btn-outline-warning" do %>
+                <i class="fas fa-key me-2"></i>
+                Changer mot de passe
+              <% end %>
+            <% rescue => e %>
+              <button class="btn btn-outline-warning" disabled>
+                <i class="fas fa-key me-2"></i>
+                Changer mot de passe (non disponible)
+              </button>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

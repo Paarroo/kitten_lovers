@@ -1,0 +1,4 @@
+<%= form_with(model: [current_user, current_user.purchased_items.build], url: purchased_items_path, method: :post) do |form| %>
+  <%= form.hidden_field :item_id, value: @item.id %>
+  <%= form.submit 'Confirm Purchase', class: 'btn btn-primary' %>
+<% end %>
