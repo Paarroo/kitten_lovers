@@ -53,9 +53,16 @@ Rails.application.configure do
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :queue } }
 
+  config.action_mailer.delivery_method = :mailjet_api
+    config.action_mailer.mailjet_api_settings = {
+      api_key: Rails.application.credentials.mailjet[:api_key],
+      secret_key: Rails.application.credentials.mailjet[:secret_key],
+      default_from: 'noreply@kitten-lovers.com'
+    }
+
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = {
-    host: ENV.fetch("APP_HOST", "your-app.herokuapp.com"),
+    host: ENV.fetch("APP_HOST", "https://kitten-lovers-d41eb669d13c.herokuapp.com"),
     protocol: 'https'
   }
 
@@ -71,7 +78,10 @@ Rails.application.configure do
 
   # CORRECTION: Hosts autorisés pour Heroku
   config.hosts = [
-    ENV.fetch("APP_HOST", "your-app.herokuapp.com"),
+    ENV.fetch("APP_HOST", "https://kitten-lovers-d41eb669d13c.herokuapp.com"),
     /.*\.herokuapp\.com/
   ]
+
+  config.action_mailer.perform_deliveries = true
+    config.action_mailer.raise_delivery_errors = true
 end

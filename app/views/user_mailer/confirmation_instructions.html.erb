@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmez votre compte - <%= @app_name %></title>
+</head>
+<body>
+  <div style="<%= email_wrapper_style %>">
+    <div style="<%= email_container_style %>">
+
+      <!-- Header Section -->
+      <div style="<%= email_header_style('primary') %>">
+        <div style="<%= email_logo_style %>">📧</div>
+        <h1 style="<%= email_header_title_style %>">Confirmez votre compte</h1>
+        <p style="<%= email_header_subtitle_style %>">Une dernière étape avant de rejoindre <%= @app_name %></p>
+      </div>
+
+      <!-- Main Content -->
+      <div style="<%= email_content_style %>">
+        <h2 style="<%= email_content_title_style %>">
+          Bonjour <%= @user.first_name || @user.email.split('@').first %>,
+        </h2>
+
+        <p style="<%= email_content_text_style %>">
+          <strong>Bienvenue chez <%= @app_name %> ! 🎉</strong>
+        </p>
+
+        <p style="<%= email_content_text_style %>">
+          Pour finaliser la création de votre compte et accéder à notre magnifique collection de photos de chats,
+          veuillez confirmer votre adresse email en cliquant sur le bouton ci-dessous :
+        </p>
+
+        <!-- Confirmation Button -->
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="<%= @confirmation_url %>" style="<%= email_button_style('primary') %>">
+            Confirmer mon compte 📧
+          </a>
+        </div>
+
+        <!-- Alternative Link -->
+        <p style="font-size: 14px; color: #6c757d; text-align: center;">
+          Ou copiez ce lien dans votre navigateur :<br>
+          <a href="<%= @confirmation_url %>" style="<%= email_link_style %>; word-break: break-all;">
+            <%= @confirmation_url %>
+          </a>
+        </p>
+
+        <!-- Benefits Box -->
+        <div style="<%= email_info_box_style('info') %>">
+          <h4 style="margin: 0 0 10px 0; font-size: 18px;">
+            🐾 Ce qui vous attend
+          </h4>
+          <ul style="margin: 0; padding-left: 20px;">
+            <li>Accès à des milliers de photos de chats adorables</li>
+            <li>Téléchargements haute qualité</li>
+            <li>Nouvelles collections chaque semaine</li>
+            <li>Support client dédié</li>
+          </ul>
+        </div>
+
+        <!-- Important Info -->
+        <div style="<%= email_info_box_style('warning') %>">
+          <h4 style="margin: 0 0 10px 0; font-size: 18px;">
+            ⏰ Important
+          </h4>
+          <p style="margin: 0;">
+            Ce lien de confirmation est valide pendant <strong>24 heures</strong>.
+            Après ce délai, vous devrez demander un nouveau lien de confirmation.
+          </p>
+        </div>
+
+        <p style="<%= email_content_text_style %>">
+          Une fois votre compte confirmé, vous pourrez :
+        </p>
+
+        <ul style="<%= email_list_style %>">
+          <li>Explorer notre galerie complète</li>
+          <li>Créer des collections personnalisées</li>
+          <li>Bénéficier d'offres exclusives</li>
+          <li>Recevoir nos newsletters avec les dernières nouveautés</li>
+        </ul>
+
+        <p style="<%= email_content_text_style %>">
+          Si vous avez des questions, n'hésitez pas à nous contacter à
+          <a href="mailto:support@kittenlovers.com" style="<%= email_link_style %>">support@kittenlovers.com</a>
+        </p>
+
+        <p style="<%= email_content_text_style %>">
+          À très bientôt sur <%= @app_name %> !<br>
+          <strong>L'équipe <%= @app_name %></strong> 🐱
+        </p>
+      </div>
+
+      <!-- Footer -->
+      <div style="<%= email_footer_style %>">
+        <p style="<%= email_footer_text_style %>">
+          <strong><%= @app_name %></strong> - La plus belle collection de photos de chats
+        </p>
+        <p style="<%= email_footer_text_style %>">
+          <a href="<%= root_url %>" style="<%= email_footer_link_style %>">Accueil</a> |
+          <a href="<%= root_url %>about" style="<%= email_footer_link_style %>">À propos</a> |
+          <a href="mailto:support@kittenlovers.com" style="<%= email_footer_link_style %>">Support</a>
+        </p>
+        <p style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">
+          Email de confirmation envoyé à <%= @user.email %>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
