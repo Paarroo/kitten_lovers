@@ -1,0 +1,176 @@
+<% content_for :title, "Mon Profil" %>
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Profile Header -->
+    <div class="col-12">
+      <div class="profile-header mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h1 class="h3 mb-0">Mon Profil</h1>
+            <p class="text-muted">Gérez vos informations personnelles</p>
+          </div>
+          <%= link_to root_path, class: "btn btn-outline-secondary" do %>
+            <i class="fas fa-arrow-left me-2"></i>
+            Retour à l'accueil
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Profile Information -->
+    <div class="col-md-8">
+      <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">Informations personnelles</h5>
+          <%= link_to edit_profile_path, class: "btn btn-sm btn-primary" do %>
+            <i class="fas fa-edit me-1"></i>
+            Modifier Profil
+          <% end %>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Prénom et Nom</label>
+                <p class="form-control-plaintext">
+                  <%= @user.first_name.presence || "Non renseigné" %>
+                  <%= @user.last_name.presence || "" %>
+                </p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Email</label>
+                <p class="form-control-plaintext"><%= @user.email %></p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Téléphone</label>
+                <p class="form-control-plaintext">
+                  <%= @user.phone.presence || "Non renseigné" %>
+                </p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Date d'inscription</label>
+                <p class="form-control-plaintext">
+                  <%= @user.created_at.strftime("%d/%m/%Y") %>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Purchase History -->
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Historique d'achat</h5>
+        </div>
+        <div class="card-body">
+          <% if @recent_purchases.any? %>
+            <div class="row">
+              <% @recent_purchases.each do |purchase| %>
+                <div class="col-md-6 mb-3">
+                  <div class="d-flex align-items-center p-3 border rounded">
+                    <div class="me-3">
+                      <%= image_tag purchase.item.image.attached? ? purchase.item.image : "placeholder.jpg",
+                                    alt: purchase.item.name,
+                                    class: "rounded",
+                                    style: "width: 60px; height: 60px; object-fit: cover;" %>
+                    </div>
+                    <div class="flex-grow-1">
+                      <h6 class="mb-1"><%= purchase.item.name %></h6>
+                      <p class="text-muted mb-0">
+                        <%= purchase.created_at.strftime("%d/%m/%Y") %>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+            <%= link_to purchased_items_path, class: "btn btn-outline-primary" do %>
+              Voir tout l'historique
+            <% end %>
+          <% else %>
+            <div class="text-center py-4">
+              <i class="fas fa-shopping-bag fa-3x text-muted mb-3"></i>
+              <p class="text-muted">Aucun achat pour le moment</p>
+              <%= link_to items_path, class: "btn btn-primary" do %>
+                Découvrir nos produits
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats and Actions -->
+    <div class="col-md-4">
+      <!-- Stats -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Statistiques</h5>
+        </div>
+        <div class="card-body">
+          <div class="row text-center">
+            <div class="col-4">
+              <div class="stat-item">
+                <div class="stat-number h4 mb-0 text-primary">
+                  <%= @orders_count %>
+                </div>
+                <div class="stat-label small text-muted">Commandes</div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="stat-item">
+                <div class="stat-number h4 mb-0 text-success">
+                  <%= @purchased_items_count %>
+                </div>
+                <div class="stat-label small text-muted">Achats</div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="stat-item">
+                <div class="stat-number h4 mb-0 text-warning">
+                  <%= @cart_items_count %>
+                </div>
+                <div class="stat-label small text-muted">Panier</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Actions</h5>
+        </div>
+        <div class="card-body">
+          <div class="d-grid gap-2">
+            <%= link_to orders_path, class: "btn btn-outline-primary" do %>
+              <i class="fas fa-list me-2"></i>
+              Mes commandes
+            <% end %>
+            <%= link_to cart_path, class: "btn btn-outline-success" do %>
+              <i class="fas fa-shopping-cart me-2"></i>
+              Mon panier
+            <% end %>
+            <%= link_to edit_user_registration_path, class: "btn btn-outline-warning" do %>
+              <i class="fas fa-key me-2"></i>
+              Changer mot de passe
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

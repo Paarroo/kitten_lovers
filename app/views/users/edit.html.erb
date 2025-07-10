@@ -1,0 +1,106 @@
+<% content_for :title, "Modifier mon profil" %>
+
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">Modifier mon profil</h5>
+          <%= link_to profile_path, class: "btn btn-sm btn-outline-secondary" do %>
+            <i class="fas fa-arrow-left me-1"></i>
+            Retour
+          <% end %>
+        </div>
+        <div class="card-body">
+          <%= form_with model: @user, url: profile_path, method: :patch, local: true,
+                        data: { controller: "form-validation" } do |form| %>
+
+            <% if @user.errors.any? %>
+              <div class="alert alert-danger">
+                <h6>Erreurs dans le formulaire :</h6>
+                <ul class="mb-0">
+                  <% @user.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <%= form.label :first_name, "Prénom", class: "form-label" %>
+                  <%= form.text_field :first_name, class: "form-control",
+                                      placeholder: "Votre prénom" %>
+                  <% if @user.errors[:first_name].any? %>
+                    <div class="text-danger small mt-1">
+                      <%= @user.errors[:first_name].first %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <%= form.label :last_name, "Nom", class: "form-label" %>
+                  <%= form.text_field :last_name, class: "form-control",
+                                      placeholder: "Votre nom" %>
+                  <% if @user.errors[:last_name].any? %>
+                    <div class="text-danger small mt-1">
+                      <%= @user.errors[:last_name].first %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <%= form.label :email, "Email", class: "form-label" %>
+                  <%= form.email_field :email, class: "form-control",
+                                       placeholder: "votre@email.com" %>
+                  <% if @user.errors[:email].any? %>
+                    <div class="text-danger small mt-1">
+                      <%= @user.errors[:email].first %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <%= form.label :phone, "Téléphone", class: "form-label" %>
+                  <%= form.tel_field :phone, class: "form-control",
+                                     placeholder: "0123456789" %>
+                  <% if @user.errors[:phone].any? %>
+                    <div class="text-danger small mt-1">
+                      <%= @user.errors[:phone].first %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :description, "Description", class: "form-label" %>
+              <%= form.text_area :description, class: "form-control",
+                                 rows: 4,
+                                 placeholder: "Parlez-nous de vous..." %>
+              <% if @user.errors[:description].any? %>
+                <div class="text-danger small mt-1">
+                  <%= @user.errors[:description].first %>
+                </div>
+              <% end %>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <%= form.submit "Mettre à jour", class: "btn btn-primary" %>
+              <%= link_to profile_path, class: "btn btn-secondary" do %>
+                Annuler
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
