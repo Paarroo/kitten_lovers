@@ -16,6 +16,16 @@ Rails.application.configure do
   config.action_controller.perform_caching = true
 
   # Cache assets for far-future expiry since they are all digest stamped.
+  # Enable serving of static files from the `/public` folder
+  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present? || ENV['RENDER'].present?
+
+  # Compress CSS using a preprocessor
+  config.assets.css_compressor = :sass
+
+  # Do not fallback to assets pipeline if a precompiled asset is missed
+  config.assets.compile = false
+
+  # Cache assets for far-future expiry since they are all digest stamped
   config.public_file_server.headers = { "cache-control" => "public, max-age=#{1.year.to_i}" }
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
