@@ -45,7 +45,13 @@ class UsersController < ApplicationController
   end
 
   def ensure_correct_user
+    unless params[:id].present?
+      redirect_to root_path, alert: "L'ID de l'utilisateur est manquant."
+      return
+    end
+
     @user = User.find(params[:id])
+
     unless @user == current_user
       redirect_to root_path, alert: "Vous n'êtes pas autorisé à accéder à cette page."
     end

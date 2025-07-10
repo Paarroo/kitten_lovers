@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   get '/terms', to: 'pages#terms'
 
   authenticate :user do
-    resource :profile, controller: 'users', only: [ :show, :edit, :update ]
+    resource :profile, controller: 'users'
 
     resource :cart, only: [ :show, :update ] do
       resources :cart_items, only: [ :create, :update, :destroy ]
