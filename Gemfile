@@ -38,11 +38,10 @@ group :development, :test do
   gem "pry-byebug"
   gem "rspec-rails"
   gem "factory_bot_rails"
+  gem "faker"
   gem 'dotenv-rails', groups: [ :development, :test ]
   gem "table_print"
 end
-
-gem "faker"
 
 group :development do
   gem "web-console"
