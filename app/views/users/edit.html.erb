@@ -69,7 +69,7 @@
               <div class="col-md-6">
                 <div class="mb-3">
                   <%= form.label :phone, "Téléphone", class: "form-label" %>
-                  <%= form.tel_field :phone, class: "form-control",
+                  <%= form.text_field :phone, class: "form-control",
                                      placeholder: "0123456789" %>
                   <% if @user.errors[:phone].any? %>
                     <div class="text-danger small mt-1">
