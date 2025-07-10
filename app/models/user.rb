@@ -15,10 +15,9 @@ class User < ApplicationRecord
     is_admin
   end
 
-  def has_purchased?(photo)
-    purchased_items.exists?(item: photo)
+  def has_purchased?(item)
+    purchased_items.exists?(item: item)
   end
-
   def full_name
     "#{first_name} #{last_name}".strip
   end
