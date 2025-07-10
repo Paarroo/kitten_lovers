@@ -1,0 +1,19 @@
+<h1>Purchase Item</h1>
+
+<p>Are you sure you want to purchase this item?</p>
+
+<!-- Display item details -->
+<div>
+  <h2><%= @item.name %></h2>
+  <p><%= @item.description %></p>
+  <p>Price: <%= number_to_currency(@item.price) %></p>
+</div>
+
+<!-- Form to purchase the item -->
+<%= form_with(model: [current_user, current_user.purchased_items.build], url: purchased_items_path, method: :post) do |form| %>
+  <%= form.hidden_field :item_id, value: @item.id %>
+  <%= form.submit 'Confirm Purchase', class: 'btn btn-primary' %>
+<% end %>
+
+<!-- Link to go back to the item details page -->
+<%= link_to 'Back', @item, class: 'btn btn-secondary' %>

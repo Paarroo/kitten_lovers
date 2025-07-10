@@ -2,12 +2,18 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_correct_user, only: [ :show, :edit, :update, :delete_account ]
 
+
   def show
-    # Display the user's profile
+    @orders_count = @user.orders.count
+    @purchased_items_count = @user.purchased_items.count
+    @cart_items_count = @user.cart&.cart_items&.count || 0
+    @recent_orders = @user.orders.includes(:order_items).order(created_at: :desc).limit(3)
+    @recent_purchases = @user.purchased_items.includes(:item).order(created_at: :desc).limit(5)
   end
 
   def edit
-    # Render the edit profile form
+    # @user define by ensure_correct_user (user security)
+    # Do edition formulaire
   end
 
   def update

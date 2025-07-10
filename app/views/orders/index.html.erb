@@ -1,12 +1,42 @@
-<h1 class="text-xl font-bold mb-4">Mes commandes</h1>
+<div class="page-wrapper d-flex flex-column min-vh-100">
+  <div class="d-flex justify-content-center align-items-center flex-grow-1 py-5">
+    <div class="beige-section p-5 rounded-4 shadow" style="background-color: #fdf7f0; max-width: 900px; width: 100%;">
+      <h1 class="text-center mb-5 fw-bold">Mes commandes</h1>
 
-<% @orders.each do |order| %>
-  <div class="bg-white p-4 rounded-lg shadow mb-4 border">
-    <p><strong>Commande n°</strong><%= order.id %></p>
-    <p><strong>Montant :</strong> <%= number_to_currency(order.total_price, unit: "€") %></p>
-    <p><strong>Status :</strong> <%= order.status.capitalize %></p>
-    <p><strong>Passée le :</strong> <%= order.created_at.strftime("%d/%m/%Y à %H:%M") %></p>
-    
-    <%= link_to "Voir le détail", order_path(order), class: "inline-block mt-2 text-blue-600 hover:underline" %>
+      <% if @orders.any? %>
+        <div class="d-flex flex-column align-items-center gap-4">
+          <% @orders.each do |order| %>
+            <div class="card shadow-sm border rounded p-3 w-100" style="max-width: 700px;">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title fw-bold mb-3">Commande n°<%= order.id %></h5>
+                <p class="card-text"><strong>Montant :</strong> <%= number_to_currency(order.total_price, unit: "€") %></p>
+                <p class="card-text"><strong>Status :</strong> <%= order.status.capitalize %></p>
+                <p class="card-text"><strong>Passée le :</strong> <%= l(order.created_at, format: :long) %></p>
+
+                <% if order.order_items.any? %>
+                  <p class="fw-semibold mt-3 mb-2">Articles :</p>
+                  <ul class="list-unstyled mb-0">
+                    <% order.order_items.each do |order_item| %>
+                      <li class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="me-2 flex-grow-1 text-truncate">• <%= order_item.item.title %></span>
+                        <% if order_item.item.image_url.present? %>
+                          <%= image_tag order_item.item.image_url,
+                                class: "rounded",
+                                style: "width: 50px; height: 50px; object-fit: cover;" %>
+                        <% end %>
+                      </li>
+                    <% end %>
+                  </ul>
+                <% end %>
+
+                <%= link_to "Voir le détail", order_path(order), class: "btn btn-primary mt-3 w-100" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-muted text-center">Aucune commande enregistrée.</p>
+      <% end %>
+    </div>
   </div>
-<% end %>
+</div>
