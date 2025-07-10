@@ -22,7 +22,6 @@ Rails.application.routes.draw do
   get '/terms', to: 'pages#terms'
 
   authenticate :user do
-    # Profile routes - simplified approach
     get '/profile', to: 'users#show', as: :profile
     get '/profile/edit', to: 'users#edit', as: :edit_profile
     patch '/profile', to: 'users#update'
