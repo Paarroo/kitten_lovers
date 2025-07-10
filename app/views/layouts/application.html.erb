@@ -26,15 +26,17 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <% unless content_for?(:no_navbar) %>
-      <%= render "shared/navbar" %>
-    <% end %>
+ <body class="d-flex flex-column min-vh-100">
+  <% unless content_for?(:no_navbar) %>
+    <%= render "shared/navbar" %>
+  <% end %>
 
+  <main class="flex-grow-1">
     <%= yield %>
+  </main>
 
-    <% unless content_for?(:no_footer) %>
-      <%= render "shared/footer" %>
-    <% end %>
-  </body>
+  <% unless content_for?(:no_footer) %>
+    <%= render "shared/footer" %>
+  <% end %>
+</body>
 </html>
