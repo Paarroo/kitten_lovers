@@ -1,0 +1,43 @@
+<div class="page-wrapper d-flex flex-column min-vh-100">
+
+  <div class="beige-section py-5 w-100" style="margin-top: 15rem;">
+    <div class="container">
+      <h1 class="text-center mb-5 fw-bold">Mes Achats</h1>
+
+      <% if @purchased_items.any? %>
+        <div class="d-flex justify-content-center">
+          <div class="grid-responsive">
+            <% @purchased_items.each do |purchased_item| %>
+              <div class="card shadow-sm p-3 rounded text-center" style="width: 300px;">
+                <% if purchased_item.item.image_url.present? %>
+                  <%= image_tag(purchased_item.item.image_url, alt: purchased_item.item.title, class: "card-img-top mb-3", style: "object-fit: cover; height: 200px;") %>
+                <% end %>
+
+                <div class="card-body p-0">
+                  <h5 class="card-title mb-2"><%= purchased_item.item.title %></h5>
+                  <p class="card-text mb-2"><%= purchased_item.item.description %></p>
+                  <p class="fw-semibold">Prix payé : <%= number_to_currency(purchased_item.price_paid || purchased_item.item.price, unit: "€") %></p>
+                  <p class="text-muted small">Acheté le <%= purchased_item.created_at.strftime("%d/%m/%Y à %H:%M") %></p>
+
+                  <%= link_to "Voir détails", purchased_item_path(purchased_item), class: "btn btn-primary mt-2" %>
+                  <%= link_to "Télécharger", purchased_item.item.image_url, class: "btn btn-secondary mt-2", target: "_blank", download: "#{purchased_item.item.title}.jpg" %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="mt-5 text-center">
+          <p class="fw-bold">Total de vos achats : <%= @purchased_items.count %> photo<%= 's' if @purchased_items.count > 1 %></p>
+          <p class="text-muted">Montant total dépensé : <%= number_to_currency(@purchased_items.sum { |pi| pi.price_paid || pi.item.price }, unit: "€") %></p>
+        </div>
+      <% else %>
+        <div class="text-center">
+          <h3 class="text-muted mb-4">Aucun achat pour le moment</h3>
+          <p class="text-muted mb-4">Découvrez notre collection de photos de chats adorables !</p>
+          <%= link_to "Parcourir les photos", items_path, class: "btn btn-primary btn-lg" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

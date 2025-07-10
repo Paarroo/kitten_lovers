@@ -43,7 +43,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :purchased_items, only: [ :index, :show ]
+    resources :purchased_items, only: [ :index, :show, :create ]
   end
 
   authenticate :user, ->(user) { user.admin? } do
