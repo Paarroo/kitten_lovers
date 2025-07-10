@@ -1,29 +1,29 @@
 .banner-wrapper {
-    background-image: url('<%= asset_path("banner_bg.png") %>');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 420px;
-    position: relative;
-    color: #000;
-  }
+  background-image: url('<%= asset_path("banner_bg.png") %>');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 420px;
+  position: relative;
+  color: #000;
+}
 
-  .banner-content {
-    position: absolute;
-    bottom: 40px; /* distance from the bottom */
-    left: 160px;   /* distance from the left */
-    max-width: 500px;
-    text-align: left;
-  }
+.banner-content {
+  position: absolute;
+  bottom: 40px; /* distance from the bottom */
+  left: 160px; /* distance from the left */
+  max-width: 500px;
+  text-align: left;
+}
 
-  .navbar-right {
-    padding-right: 300px;
-  }
+.navbar-right {
+  padding-right: 300px;
+}
 
-  .navbar-center {
-    padding-left: 300px
-  }
+.navbar-center {
+  padding-left: 300px;
+}
 
-  .nav-link:hover {
-    color: #f4a261 !important; 
-  }
+.nav-link:hover {
+  color: #f4a261 !important;
+}
