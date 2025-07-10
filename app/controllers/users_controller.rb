@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :ensure_correct_user, only: [ :show, :edit, :update, :delete_account ]
-
+  before_action :set_current_user, only: [ :show, :edit, :update, :delete_account ]
 
   def show
     @orders_count = @user.orders.count
@@ -12,15 +11,14 @@ class UsersController < ApplicationController
   end
 
   def edit
-    # @user define by ensure_correct_user (user security)
-    # Do edition formulaire
+    # @user is set by set_current_user callback
   end
 
   def update
     if @user.update(user_params)
       redirect_to profile_path, notice: "Profil mis à jour avec succès."
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -41,13 +39,10 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :description)
+    params.require(:user).permit(:first_name, :last_name, :description, :email, :phone)
   end
 
-  def ensure_correct_user
-    @user = User.find(params[:id])
-    unless @user == current_user
-      redirect_to root_path, alert: "Vous n'êtes pas autorisé à accéder à cette page."
-    end
+  def set_current_user
+    @user = current_user
   end
 end

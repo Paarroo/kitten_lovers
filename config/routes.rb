@@ -15,7 +15,6 @@ Rails.application.routes.draw do
   end
 
   resources :items, only: [ :index, :show ]
-
   get '/about', to: 'pages#about'
   get '/contact', to: 'pages#contact'
   post '/contact', to: 'pages#create_contact'
@@ -23,7 +22,10 @@ Rails.application.routes.draw do
   get '/terms', to: 'pages#terms'
 
   authenticate :user do
-    resource :profile, controller: 'users', only: [ :show, :edit, :update ]
+    get '/profile', to: 'users#show', as: :profile
+    get '/profile/edit', to: 'users#edit', as: :edit_profile
+    patch '/profile', to: 'users#update'
+    delete '/profile', to: 'users#delete_account', as: :delete_account
 
     resource :cart, only: [ :show, :update ] do
       resources :cart_items, only: [ :create, :update, :destroy ]
@@ -35,27 +37,23 @@ Rails.application.routes.draw do
     post "/checkout", to: "orders#checkout", as: :checkout
     get "/orders/success", to: "orders#success", as: :order_success
     get "/orders/cancel", to: "orders#cancel", as: :order_cancel
-
     resources :orders, only: [ :index, :show, :create ] do
       resources :order_items, only: [ :show ]
       member do
         patch :cancel
       end
     end
-
     resources :purchased_items, only: [ :index, :show, :create ]
   end
 
   authenticate :user, ->(user) { user.admin? } do
     namespace :admin do
       root 'dashboard#index'
-
       resources :users do
         member do
           patch :toggle_admin
         end
       end
-
       resources :items
       resources :carts
       resources :orders
@@ -68,5 +66,6 @@ Rails.application.routes.draw do
   match '/500', to: 'errors#internal_server_error', via: :all
 
   get "up" => "rails/health#show", as: :rails_health_check
+
   root "items#index"
 end
