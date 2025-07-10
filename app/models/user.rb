@@ -2,6 +2,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+
   has_one :cart, dependent: :destroy
   has_many :orders, dependent: :destroy
   has_many :purchased_items, dependent: :destroy
@@ -18,8 +19,18 @@ class User < ApplicationRecord
   def has_purchased?(item)
     purchased_items.exists?(item: item)
   end
+
+
+  def already_purchased?(item)
+    has_purchased?(item)
+  end
+
   def full_name
     "#{first_name} #{last_name}".strip
+  end
+
+  def display_name
+    full_name.present? ? full_name : email.split('@').first.humanize
   end
 
   private
