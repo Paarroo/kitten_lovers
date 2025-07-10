@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get "pages/contact"
   get "pages/privacy"
   get "pages/terms"
+  get "pages/faq"
   devise_for :users
   devise_scope :user do
     get '/users/sign_out', to: 'devise/sessions#destroy'
@@ -24,6 +25,7 @@ Rails.application.routes.draw do
   post '/contact', to: 'pages#create_contact'
   get '/privacy', to: 'pages#privacy'
   get '/terms', to: 'pages#terms'
+  get '/faq', to: 'pages#faq'
 
   authenticate :user do
     get '/profile', to: 'users#show', as: :profile
