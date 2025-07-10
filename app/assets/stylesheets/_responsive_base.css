@@ -1,29 +1,9 @@
-/* Global reset for responsive design */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* Breakpoints */
+$breakpoint-tablet: 768px;
+$breakpoint-mobile: 480px;
+$breakpoint-small: 320px;
 
-html {
-  font-size: 100%;
-  overflow-x: hidden;
-}
-
-body {
-  overflow-x: hidden;
-  width: 100%;
-  max-width: 100vw;
-}
-
-/* Breakpoints variables */
-$breakpoint-xl: 1200px;
-$breakpoint-lg: 992px;
-$breakpoint-md: 768px;
-$breakpoint-sm: 576px;
-$breakpoint-xs: 320px;
-
-/* Colors auth */
+/* Colors  auth */
 $auth-green: #48bb78;
 $auth-green-dark: #38a169;
 $auth-red: #f5c6cb;
@@ -35,136 +15,30 @@ $auth-orange: #d2691e;
 $auth-orange-dark: #b8601a;
 $auth-bg: #f8f6f3;
 
+/* mixin */
+
 /* Responsive breakpoints mixins */
-@mixin xl {
-  @media (max-width: #{$breakpoint-xl}) {
+@mixin tablet {
+  @media (max-width: #{$breakpoint-tablet}) {
     @content;
   }
 }
 
-@mixin lg {
-  @media (max-width: #{$breakpoint-lg}) {
+@mixin mobile {
+  @media (max-width: #{$breakpoint-mobile}) {
     @content;
   }
 }
 
-@mixin md {
-  @media (max-width: #{$breakpoint-md}) {
+@mixin small-mobile {
+  @media (max-width: #{$breakpoint-small}) {
     @content;
   }
 }
 
-@mixin sm {
-  @media (max-width: #{$breakpoint-sm}) {
-    @content;
-  }
-}
+/* class */
 
-@mixin xs {
-  @media (max-width: #{$breakpoint-xs}) {
-    @content;
-  }
-}
-
-/* Min-width mixins for mobile-first approach */
-@mixin min-sm {
-  @media (min-width: #{$breakpoint-sm + 1}) {
-    @content;
-  }
-}
-
-@mixin min-md {
-  @media (min-width: #{$breakpoint-md + 1}) {
-    @content;
-  }
-}
-
-@mixin min-lg {
-  @media (min-width: #{$breakpoint-lg + 1}) {
-    @content;
-  }
-}
-
-/* Responsive container system */
-.container-fluid-responsive {
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0 1rem;
-
-  @include xs {
-    padding: 0 0.5rem;
-  }
-}
-
-.container-responsive {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-
-  @include xl {
-    max-width: 1140px;
-  }
-
-  @include lg {
-    max-width: 960px;
-    padding: 0 0.75rem;
-  }
-
-  @include md {
-    max-width: 720px;
-    padding: 0 0.5rem;
-  }
-
-  @include sm {
-    max-width: 540px;
-    padding: 0 0.5rem;
-  }
-
-  @include xs {
-    padding: 0 0.25rem;
-  }
-}
-
-/* Grid system responsive */
-.row-responsive {
-  display: flex;
-  flex-wrap: wrap;
-  margin: -0.5rem;
-  width: 100%;
-
-  @include md {
-    margin: -0.25rem;
-  }
-}
-
-.col-responsive {
-  flex: 1;
-  padding: 0.5rem;
-  min-width: 0;
-
-  @include md {
-    padding: 0.25rem;
-  }
-}
-
-/* Column sizes */
-@for $i from 1 through 12 {
-  .col-#{$i} {
-    flex: 0 0 percentage($i / 12);
-    max-width: percentage($i / 12);
-    padding: 0.5rem;
-
-    @include md {
-      flex: 0 0 100%;
-      max-width: 100%;
-      padding: 0.25rem;
-    }
-  }
-}
-
-/* Auth container responsive */
+/* Responsive container auth */
 .auth-container-responsive {
   min-height: 100vh;
   background: $auth-bg;
@@ -173,28 +47,21 @@ $auth-bg: #f8f6f3;
   justify-content: center;
   padding: 2rem 1rem;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  width: 100%;
-  max-width: 100vw;
-  overflow-x: hidden;
 
-  @include lg {
-    padding: 1.5rem 0.75rem;
+  @include tablet {
+    padding: 1.5rem 1rem;
   }
 
-  @include md {
+  @include mobile {
     padding: 1rem 0.5rem;
   }
 
-  @include sm {
-    padding: 0.75rem 0.25rem;
-  }
-
-  @include xs {
-    padding: 0.5rem 0.125rem;
+  @include small-mobile {
+    padding: 0.5rem 0.25rem;
   }
 }
 
-/* Auth card responsive */
+/* Responsive card auth */
 .auth-card-responsive {
   background: transparent;
   border-radius: 0;
@@ -203,27 +70,23 @@ $auth-bg: #f8f6f3;
   backdrop-filter: none;
   border: none;
   width: 100%;
-  max-width: 400px;
+  max-width: 380px;
   position: relative;
   overflow: visible;
   margin: 0 auto;
 
-  @include lg {
-    max-width: 380px;
-    padding: 1.75rem 1.25rem;
-  }
-
-  @include md {
-    max-width: 100%;
+  @include tablet {
+    max-width: 90%;
     padding: 1.5rem 1rem;
   }
 
-  @include sm {
-    padding: 1.25rem 0.75rem;
+  @include mobile {
+    padding: 1.5rem 1rem;
+    max-width: 100%;
   }
 
-  @include xs {
-    padding: 1rem 0.5rem;
+  @include small-mobile {
+    padding: 1rem 0.75rem;
   }
 }
 
@@ -240,19 +103,15 @@ $auth-bg: #f8f6f3;
     margin-bottom: 1rem;
     filter: none;
 
-    @include lg {
-      font-size: 3.2rem;
+    @include tablet {
+      font-size: 3rem;
     }
 
-    @include md {
-      font-size: 2.8rem;
+    @include mobile {
+      font-size: 2.5rem;
     }
 
-    @include sm {
-      font-size: 2.4rem;
-    }
-
-    @include xs {
+    @include small-mobile {
       font-size: 2rem;
     }
   }
@@ -263,22 +122,17 @@ $auth-bg: #f8f6f3;
     color: #2d3748;
     margin-bottom: 0.5rem;
     letter-spacing: 0.3px;
-    line-height: 1.2;
 
-    @include lg {
-      font-size: 1.7rem;
+    @include tablet {
+      font-size: 1.6rem;
     }
 
-    @include md {
-      font-size: 1.5rem;
+    @include mobile {
+      font-size: 1.4rem;
     }
 
-    @include sm {
-      font-size: 1.3rem;
-    }
-
-    @include xs {
-      font-size: 1.1rem;
+    @include small-mobile {
+      font-size: 1.2rem;
     }
   }
 
@@ -287,19 +141,14 @@ $auth-bg: #f8f6f3;
     font-size: 0.95rem;
     margin: 0;
     font-weight: 400;
-    line-height: 1.4;
 
-    @include md {
-      font-size: 0.9rem;
-    }
-
-    @include sm {
+    @include mobile {
       font-size: 0.85rem;
     }
   }
 }
 
-/* Input responsive */
+/* Input border green */
 .auth-input-responsive {
   width: 100%;
   padding: 1rem 1.2rem;
@@ -344,12 +193,12 @@ $auth-bg: #f8f6f3;
     border-color: $auth-green !important;
   }
 
-  @include md {
+  @include mobile {
     padding: 0.9rem 1rem;
     font-size: 0.9rem;
   }
 
-  @include sm {
+  @include small-mobile {
     padding: 0.8rem 0.9rem;
     font-size: 0.85rem;
   }
@@ -405,68 +254,70 @@ $auth-bg: #f8f6f3;
     }
   }
 
-  @include md {
+  @include mobile {
     padding: 0.9rem 1rem;
     font-size: 0.9rem;
   }
 
-  @include sm {
+  @include small-mobile {
     padding: 0.8rem 0.9rem;
     font-size: 0.85rem;
   }
 }
 
-/* Cards grid responsive */
-.cards-grid-responsive {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  width: 100%;
-  padding: 0;
-  margin: 0;
+/* Checkbox responsive */
+.auth-checkbox-responsive {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.8rem 0;
+  gap: 0.5rem;
 
-  @include lg {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.25rem;
+  .auth-checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: $auth-orange;
   }
 
-  @include md {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
+  .auth-checkbox-label {
+    color: #4a5568;
+    font-size: 0.9rem;
+    cursor: pointer;
+    user-select: none;
   }
 
-  @include sm {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
+  @include mobile {
+    flex-direction: column;
+    gap: 0.3rem;
+    text-align: center;
   }
 }
 
-/* Card responsive */
-.card-responsive {
-  width: 100%;
-  max-width: 100%;
-  border-radius: 12px;
-  overflow: hidden;
-  background: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+/* Back button responsive */
+.auth-back-button-responsive {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background: $auth-beige;
+  color: #666;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  border: 2px solid $auth-green;
 
   &:hover {
-    transform: translateY(-2px);
+    background: $auth-beige-dark;
+    color: #333;
+    transform: none;
   }
 
-  @include sm {
-    border-radius: 8px;
+  @include mobile {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
   }
-}
-
-/* Image responsive */
-.img-responsive {
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  object-fit: cover;
-  display: block;
 }
 
 /* Alert responsive */
@@ -476,7 +327,9 @@ $auth-bg: #f8f6f3;
   border: none;
   position: relative;
   z-index: 1;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
   padding: 0.8rem 1rem;
 
   &.alert-success {
@@ -495,66 +348,6 @@ $auth-bg: #f8f6f3;
     opacity: 0;
     transform: translateY(-10px);
   }
-
-  @include sm {
-    padding: 0.6rem 0.8rem;
-    font-size: 0.9rem;
-  }
-}
-
-/* Typography responsive */
-.text-responsive {
-  font-size: 1rem;
-  line-height: 1.5;
-
-  @include lg {
-    font-size: 0.95rem;
-  }
-
-  @include md {
-    font-size: 0.9rem;
-  }
-
-  @include sm {
-    font-size: 0.85rem;
-  }
-}
-
-.title-responsive {
-  font-size: 2.5rem;
-  line-height: 1.2;
-
-  @include lg {
-    font-size: 2.2rem;
-  }
-
-  @include md {
-    font-size: 2rem;
-  }
-
-  @include sm {
-    font-size: 1.75rem;
-  }
-
-  @include xs {
-    font-size: 1.5rem;
-  }
-}
-
-/* Spacing utilities responsive */
-.spacing-responsive {
-  margin: 1rem;
-  padding: 1rem;
-
-  @include md {
-    margin: 0.75rem;
-    padding: 0.75rem;
-  }
-
-  @include sm {
-    margin: 0.5rem;
-    padding: 0.5rem;
-  }
 }
 
 /* Animation keyframes */
@@ -564,42 +357,46 @@ $auth-bg: #f8f6f3;
   }
 }
 
-/* Visibility utilities */
-.hidden-xs {
-  @include xs {
-    display: none !important;
+/* spacement*/
+
+.responsive-mb-sm {
+  margin-bottom: 0.5rem;
+  @include mobile {
+    margin-bottom: 0.3rem;
   }
 }
 
-.hidden-sm {
-  @include sm {
-    display: none !important;
+.responsive-mb-md {
+  margin-bottom: 1rem;
+  @include mobile {
+    margin-bottom: 0.7rem;
   }
 }
 
-.hidden-md {
-  @include md {
-    display: none !important;
+.responsive-mb-lg {
+  margin-bottom: 1.5rem;
+  @include mobile {
+    margin-bottom: 1rem;
   }
 }
 
-.visible-xs {
-  display: none !important;
-  @include xs {
-    display: block !important;
+.responsive-p-sm {
+  padding: 0.5rem;
+  @include mobile {
+    padding: 0.3rem;
   }
 }
 
-.visible-sm {
-  display: none !important;
-  @include sm {
-    display: block !important;
+.responsive-p-md {
+  padding: 1rem;
+  @include mobile {
+    padding: 0.7rem;
   }
 }
 
-.visible-md {
-  display: none !important;
-  @include md {
-    display: block !important;
+.responsive-p-lg {
+  padding: 1.5rem;
+  @include mobile {
+    padding: 1rem;
   }
 }
