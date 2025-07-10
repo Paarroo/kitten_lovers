@@ -4,24 +4,30 @@ class CartItemsController < ApplicationController
   def create
     @cart = current_user.cart
     @item = Item.find(params[:item_id])
-    
     @cart_item = @cart.cart_items.new(item: @item)
 
-    if @cart_item.save
-      redirect_to cart_path, notice: "Article ajouté à votre panier."
-    else
-      redirect_to items_path, alert: "Cet article est déjà dans votre panier."
+    respond_to do |format|
+      if @cart_item.save
+        format.turbo_stream
+        format.html { redirect_back fallback_location: items_path, notice: "Ajouté au panier." }
+      else
+        format.turbo_stream
+        format.html { redirect_back fallback_location: items_path, alert: "Déjà dans le panier." }
+      end
     end
   end
 
   def destroy
     @cart_item = current_user.cart.cart_items.find_by(id: params[:id])
 
-    if @cart_item
-      @cart_item.destroy
-      redirect_to cart_path, notice: "Article retiré du panier."
-    else
-      redirect_to cart_path, alert: "Action non autorisée."
+    respond_to do |format|
+      if @cart_item&.destroy
+        format.turbo_stream
+        format.html { redirect_back fallback_location: items_path, notice: "Retiré du panier." }
+      else
+        format.turbo_stream
+        format.html { redirect_back fallback_location: items_path, alert: "Erreur." }
+      end
     end
   end
 end
