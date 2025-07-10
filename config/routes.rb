@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get "pages/about"
+  get "pages/contact"
+  get "pages/privacy"
+  get "pages/terms"
   devise_for :users
   devise_scope :user do
     get '/users/sign_out', to: 'devise/sessions#destroy'
