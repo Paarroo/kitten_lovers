@@ -86,6 +86,6 @@ group :test do
 end
 
 group :production do
-  gem "pg", "~> 1.1"
+  gem "pg", "~> 1.6"
   gem "rails_12factor"
 end
